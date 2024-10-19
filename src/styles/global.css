@@ -1,0 +1,7 @@
+/* /styles: 스타일 및 테마 관련 파일을 저장하는 폴더 */
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #f0f0f0;
+}
