@@ -1,3 +1,4 @@
+import { textStyles } from '@/styles/textStyle';
 import { defineConfig } from '@pandacss/dev';
 
 export default defineConfig({
@@ -5,22 +6,23 @@ export default defineConfig({
   preflight: true,
 
   // Where to look for your css declarations
-  include: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
+  include: ['./src/**/*.{ts,tsx}'],
 
   // Files to exclude
   exclude: [],
 
   // Useful for theme customization
   theme: {
+    extend: {
+      textStyles: textStyles,
+    },
     tokens: {
       colors: {
         main: {
           base: { value: '#7C0DE4' },
           dark: { value: '#5B0CA6' },
-          light: {
-            1: { value: '#DFD0FF' },
-            2: { value: '#F6F1FF' },
-          },
+          light1: { value: '#DFD0FF' },
+          light2: { value: '#F6F1FF' },
         },
         gray: {
           50: { value: '#F6F6F6' },
