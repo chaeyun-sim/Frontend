@@ -1,5 +1,7 @@
 /* /styles: 스타일 및 테마 관련 파일을 저장하는 폴더 */
 
+@layer reset, base, tokens, recipes, utilities;
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
