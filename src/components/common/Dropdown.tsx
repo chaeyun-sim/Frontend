@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { css, cx } from '../../../styled-system/css';
 
 const Dropdown = () => {
-  const [isFocused, setIsFocused] = useState('');
+  const [focusedItem, setFocusedItem] = useState('');
 
   return (
     <div className={styles.dropdown_container}>
@@ -11,10 +11,10 @@ const Dropdown = () => {
           className={cx(
             styles.dropdown_item,
             css({
-              backgroundColor: isFocused === item ? 'main.light2' : 'white',
+              backgroundColor: focusedItem === item ? 'main.light2' : 'white',
             })
           )}
-          onClick={() => setIsFocused(item)}
+          onClick={() => setFocusedItem(item)}
         >
           {item}
         </button>
