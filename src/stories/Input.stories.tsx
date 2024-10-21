@@ -1,7 +1,9 @@
+import { useState } from 'react';
+
 import Icon from '@/components/common/Icon';
 import Input from '@/components/common/Input';
+
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 
 const meta = {
   title: 'Common/Input',
@@ -15,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     value: '',
-    onSetValue: () => {},
+    onSetValue: () => null,
     hasError: false,
     disabled: false,
   },
@@ -29,7 +31,7 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     value: '',
-    onSetValue: () => {},
+    onSetValue: () => null,
     hasError: false,
     disabled: true,
   },
@@ -43,7 +45,7 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     value: '',
-    onSetValue: () => {},
+    onSetValue: () => null,
     hasError: true,
     disabled: false,
   },
@@ -57,7 +59,7 @@ export const Error: Story = {
 export const Placholder: Story = {
   args: {
     value: '',
-    onSetValue: () => {},
+    onSetValue: () => null,
     hasError: false,
     disabled: false,
   },
@@ -78,7 +80,7 @@ export const Placholder: Story = {
 export const RightIcon: Story = {
   args: {
     value: '',
-    onSetValue: () => {},
+    onSetValue: () => null,
     hasError: false,
     disabled: false,
   },

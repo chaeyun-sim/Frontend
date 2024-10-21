@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { css, cx } from '../../../styled-system/css';
+
 import Icon from './Icon';
+import { css, cx } from '../../../styled-system/css';
 
 const ProfileImage = () => {
   const inputRef = useRef<HTMLInputElement>(null);

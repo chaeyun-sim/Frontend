@@ -7,8 +7,9 @@ import React, {
   forwardRef,
   ForwardedRef,
 } from 'react';
-import { css, cx } from '../../../styled-system/css';
+
 import Icon from './Icon';
+import { css, cx } from '../../../styled-system/css';
 
 export interface IProps {
   isEditing: boolean;

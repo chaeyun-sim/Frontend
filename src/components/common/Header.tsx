@@ -1,7 +1,8 @@
-import React from 'react';
-import { css } from '../../../styled-system/css';
 import Link from 'next/link';
+import React from 'react';
+
 import Icon from './Icon';
+import { css } from '../../../styled-system/css';
 
 const Header = () => {
   return (

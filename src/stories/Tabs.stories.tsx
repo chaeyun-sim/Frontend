@@ -1,4 +1,5 @@
 import Tabs from '@/components/common/Tabs';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

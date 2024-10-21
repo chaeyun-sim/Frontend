@@ -1,4 +1,5 @@
 import JoinProcess from '@/components/JoinProcess';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {

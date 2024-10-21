@@ -1,14 +1,15 @@
 // /components: 재사용 가능한 UI 컴포넌트를 저장
 
+import { ReactNode } from 'react';
+
 import { css, cx } from '../../../styled-system/css';
-import { MouseEvent, ReactNode } from 'react';
 
 interface IProps {
   variant?: 'contained' | 'outlined';
   size?: 'large' | 'small';
   type?: 'submit' | 'reset' | 'button';
   text: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: () => void;
   disabled?: boolean;
   postfix?: ReactNode;
   prefix?: ReactNode;

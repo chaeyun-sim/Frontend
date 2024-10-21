@@ -1,6 +1,7 @@
 import React from 'react';
-import { css, cx } from '../../styled-system/css';
+
 import Icon from './common/Icon';
+import { css, cx } from '../../styled-system/css';
 
 interface IProps {
   processSteps: {

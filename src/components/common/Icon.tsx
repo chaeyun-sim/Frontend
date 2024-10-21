@@ -1,9 +1,9 @@
 import React from 'react';
 
-type IProps = {
+interface IProps {
   name: string;
   className?: string;
-};
+}
 
 const Icon = ({ name, className }: IProps) => {
   const iconPath = `/icons/${name}.svg`;

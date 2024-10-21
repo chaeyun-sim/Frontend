@@ -1,4 +1,5 @@
 import ProfileImage from '@/components/common/ProfileImage';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
