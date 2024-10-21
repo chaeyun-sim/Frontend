@@ -13,7 +13,7 @@ const Tabs = ({ tabList }: IProps) => {
       <div className={styles.tabs_container}>
         {tabList.map((tab, idx) => (
           <button
-            key={idx}
+            key={tab}
             className={cx(styles.tab, selected === idx && styles.selected_tab)}
             onClick={() => setSelected(idx)}
           >

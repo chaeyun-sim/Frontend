@@ -14,7 +14,7 @@ const JoinProcess = ({ processSteps, currentStep }: IProps) => {
   return (
     <div className={styles.process_container}>
       {processSteps.map((process, idx) => (
-        <div key={idx} className={styles.process_item}>
+        <div key={process.title} className={styles.process_item}>
           <div className={styles.process_box}>
             <div
               className={cx(
