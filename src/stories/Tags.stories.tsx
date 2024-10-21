@@ -1,6 +1,6 @@
-import Tags from '../components/common/Tags/Tags';
+import Tags from '../components/common/Tags';
 import type { Meta, StoryObj } from '@storybook/react';
-import TagInput from '@/components/common/Tags/TagInput';
+import TagInput from '@/components/TagInput';
 import { useRef } from 'react';
 
 const meta = {

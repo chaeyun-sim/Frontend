@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import Tags from './Tags';
+import Tags from './common/Tags';
 
 const TagInput = () => {
   const editTagRef = useRef<HTMLInputElement>(null);
