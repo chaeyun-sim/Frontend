@@ -1,7 +1,28 @@
 /* /styles: 스타일 및 테마 관련 파일을 저장하는 폴더 */
 
-body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background-color: #f0f0f0;
+@layer reset, base, tokens, recipes, utilities;
+
+@layer reset {
+  body,
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+@layer base {
+  body {
+    line-height: 1.3;
+    font-family: 'Pretendard Variable', sans-serif;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  /* 재사용할 유틸리티 */
 }

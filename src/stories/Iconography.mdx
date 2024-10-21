@@ -1,0 +1,136 @@
+import { Meta, IconGallery, IconItem } from '@storybook/blocks';
+
+import Icon from '../components/common/Icon';
+
+<Meta title="Iconography" />
+
+export const DarkIconItem = ({ name, children }) => {
+  return (
+    <IconItem name={name}>
+      <div
+        style={{
+          backgroundColor: 'black',
+          width: '100%',
+          height: '100%',
+          padding: '11px',
+          borderRadius: '4px',
+          display: 'inline-block',
+        }}
+      >
+        {children}
+      </div>
+    </IconItem>
+  );
+};
+
+# Iconography
+
+SVG 아이콘을 위한 아이콘 갤러리
+
+<br />
+
+<IconGallery>
+  <IconItem name="camera-dark">
+    <Icon name="camera-dark" />
+  </IconItem>
+  <DarkIconItem name="camera-white">
+    <Icon name="camera-white" />
+  </DarkIconItem>
+  <IconItem name="agree-beige">
+    <Icon name="agree-beige" />
+  </IconItem>
+  <DarkIconItem name="agree-white">
+    <Icon name="agree-white" />
+  </DarkIconItem>
+</IconGallery>
+<IconGallery>
+  <IconItem name="celebrate-beige">
+    <Icon name="celebrate-beige" />
+  </IconItem>
+  <IconItem name="celebrate-lg">
+    <Icon name="celebrate-lg" />
+  </IconItem>
+  <DarkIconItem name="celebrate-white">
+    <Icon name="celebrate-white" />
+  </DarkIconItem>
+  <IconItem name="profile-beige">
+    <Icon name="profile-beige" />
+  </IconItem>
+  <DarkIconItem name="profile-white">
+    <Icon name="profile-white" />
+  </DarkIconItem>
+</IconGallery>
+
+### Navigation Icons
+
+<IconGallery>
+  <IconItem name="left">
+    <Icon name="left" />
+  </IconItem>
+  <IconItem name="right">
+    <Icon name="right" />
+  </IconItem>
+  <IconItem name="top">
+    <Icon name="top" />
+  </IconItem>
+  <IconItem name="down1">
+    <Icon name="down1" />
+  </IconItem>
+  <IconItem name="go">
+    <Icon name="go" />
+  </IconItem>
+</IconGallery>
+
+### Action Icons
+
+<IconGallery>
+  <IconItem name="add">
+    <Icon name="add" />
+  </IconItem>
+  <IconItem name="close">
+    <Icon name="close" />
+  </IconItem>
+  <DarkIconItem name="close-sm">
+    <Icon name="close-sm" />
+  </DarkIconItem>
+  <IconItem name="search">
+    <Icon name="search" />
+  </IconItem>
+</IconGallery>
+
+### Check Icons
+
+<IconGallery>
+  <IconItem name="check-sm-checked">
+    <Icon name="check-sm-checked" />
+  </IconItem>
+  <IconItem name="check-sm-red">
+    <Icon name="check-sm-red" />
+  </IconItem>
+  <IconItem name="check-sm">
+    <Icon name="check-sm" />
+  </IconItem>
+  <IconItem name="check1">
+    <Icon name="check1" />
+  </IconItem>
+</IconGallery>
+<IconGallery>
+  <IconItem name="check2-checked">
+    <Icon name="check2-checked" />
+  </IconItem>
+  <IconItem name="check2-unchecked">
+    <Icon name="check2-unchecked" />
+  </IconItem>
+</IconGallery>
+
+<br />
+
+## Usage
+
+```jsx
+import Icon from '../components/common/Icon';
+
+function MyComponent() {
+  return <Icon name="add" className="custom-className" />;
+}
+```
