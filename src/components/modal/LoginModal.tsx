@@ -4,6 +4,26 @@ import { css, cx } from '../../../styled-system/css';
 import { flex } from '../../../styled-system/patterns';
 
 const LoginModal = () => {
+  const loginProviders = {
+    kakao: {
+      url: 'https://kauth.kakao.com/oauth/authorize',
+      clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
+    },
+    google: {
+      url: 'https://accounts.google.com/o/oauth2/v2/auth',
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    },
+    naver: {
+      url: 'https://nid.naver.com/oauth2.0/authorize',
+      clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
+    },
+  };
+
+  const handleLogin = (provider: 'kakao' | 'google' | 'naver') => {
+    const { url, clientId } = loginProviders[provider];
+    window.location.href = `${url}?client_id=${clientId}&redirec_url=${process.env.NEXT_PUBLIC_REDIRECT_URL}/${provider}&response_type=code`;
+  };
+
   return (
     <div className={styles.modal}>
       <h3 className={styles.modal_title}>SNS로 로그인</h3>
@@ -17,6 +37,7 @@ const LoginModal = () => {
               borderWidth: '1px',
             })
           )}
+          onClick={() => handleLogin('google')}
         >
           <img src="/icons/login-logo/google.svg" />
         </button>
@@ -27,6 +48,7 @@ const LoginModal = () => {
               backgroundColor: '#03C75A',
             })
           )}
+          onClick={() => handleLogin('naver')}
         >
           <img src="/icons/login-logo/naver.svg" />
         </button>
@@ -37,6 +59,7 @@ const LoginModal = () => {
               backgroundColor: '#FEE500',
             })
           )}
+          onClick={() => handleLogin('kakao')}
         >
           <img src="/icons/login-logo/kakao.svg" />
         </button>
