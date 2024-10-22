@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 import { css, cx } from '../../../styled-system/css';
@@ -39,7 +40,12 @@ const LoginModal = () => {
           )}
           onClick={() => handleLogin('google')}
         >
-          <img src="/icons/login-logo/google.svg" />
+          <Image
+            src="/icons/login-logo/google.svg"
+            alt="google login"
+            width={28}
+            height={28}
+          />
         </button>
         <button
           className={cx(
@@ -50,7 +56,12 @@ const LoginModal = () => {
           )}
           onClick={() => handleLogin('naver')}
         >
-          <img src="/icons/login-logo/naver.svg" />
+          <Image
+            src="/icons/login-logo/naver.svg"
+            alt="naver login"
+            width={22}
+            height={22}
+          />
         </button>
         <button
           className={cx(
@@ -61,7 +72,12 @@ const LoginModal = () => {
           )}
           onClick={() => handleLogin('kakao')}
         >
-          <img src="/icons/login-logo/kakao.svg" />
+          <Image
+            src="/icons/login-logo/kakao.svg"
+            alt="kakao login"
+            width={27}
+            height={24}
+          />
         </button>
       </div>
     </div>
