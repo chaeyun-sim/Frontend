@@ -22,7 +22,10 @@ const LoginModal = () => {
 
   const handleLogin = (provider: 'kakao' | 'google' | 'naver') => {
     const { url, clientId } = loginProviders[provider];
-    window.location.href = `${url}?client_id=${clientId}&redirec_url=${process.env.NEXT_PUBLIC_REDIRECT_URL}/${provider}&response_type=code`;
+    const redirectUrl = encodeURIComponent(
+      `${process.env.NEXT_PUBLIC_REDIRECT_URL}/${provider}`
+    );
+    window.location.href = `${url}?client_id=${clientId}&redirect_uri=${redirectUrl}&response_type=code`;
   };
 
   return (
