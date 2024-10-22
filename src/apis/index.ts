@@ -20,32 +20,27 @@ axiosInstance.interceptors.response.use(
     const origin = error.config;
     const token = String(getItem('@token'));
 
-    if (
-      error.response?.status === 401 &&
-      token &&
-      origin.url !== '/members/reissue'
-    ) {
+    if (error.response?.status === 401 && origin.url !== '/members/reissue') {
+      if (!token) {
+        // 401 에러 & 토큰이 없음 => 첫 방문
+        window.location.href = '/';
+      } else if (error.response?.data.code === 'NOT_SIGNUP_MEMBER')
+        // 401에러 & 토큰 없음 & 코드 => 토큰 만료
+        window.location.href = '/join';
+    } else {
+      // 401에러 & 그 외 => 토큰 갱신 로직
       try {
         const originRefreshToken = String(getItem('@refresh'));
-
         const response = await getRefresh(originRefreshToken);
         const { accessToken, refreshToken } = response.data;
-
         origin.headers.Authorization = `Bearer ${accessToken}`;
         axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
         setItem('@token', accessToken);
         setItem('@refresh', refreshToken);
-
         return axiosInstance(origin);
       } catch (error) {
         console.error(error);
       }
-    } else if (
-      error.response?.status === 401 &&
-      error.response?.data.code === 'NOT_SIGNUP_MEMBER' &&
-      !token
-    ) {
-      window.location.href = '/';
     }
     return Promise.reject(error);
   }
