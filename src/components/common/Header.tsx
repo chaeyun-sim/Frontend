@@ -24,14 +24,15 @@ export default Header;
 
 const styles = {
   header_container: css({
-    minWidth: '1920px',
     height: '70px',
   }),
   inner: css({
     width: '940px',
+    height: '70px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    margin: '0 auto',
   }),
   menu: css({
     width: '138px',
