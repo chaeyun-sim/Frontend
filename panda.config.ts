@@ -41,6 +41,15 @@ export default defineConfig({
         black: { value: '#0F0F0F' },
         red: { value: '#FC1456' },
       },
+      shadows: {
+        shadow1: { value: '2px 2px 24px rgba(62, 62, 62, 0.1)' },
+        shadow2: {
+          value: '2px 2px 12px rgba(62, 62, 62, 0.05)',
+        },
+        headerShadow: {
+          value: '0px 4px 20px rgba(124,124,124, 0.05)',
+        },
+      },
     },
   },
 
