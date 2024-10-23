@@ -1,5 +1,6 @@
-import { textStyles } from '@/styles/textStyle';
 import { defineConfig } from '@pandacss/dev';
+
+import { textStyles } from '@/styles/textStyle';
 
 export default defineConfig({
   // Whether to use css reset
@@ -39,6 +40,15 @@ export default defineConfig({
         white: { value: '#FFFFFF' },
         black: { value: '#0F0F0F' },
         red: { value: '#FC1456' },
+      },
+      shadows: {
+        shadow1: { value: '2px 2px 24px rgba(62, 62, 62, 0.1)' },
+        shadow2: {
+          value: '2px 2px 12px rgba(62, 62, 62, 0.05)',
+        },
+        headerShadow: {
+          value: '0px 4px 20px rgba(124,124,124, 0.05)',
+        },
       },
     },
   },

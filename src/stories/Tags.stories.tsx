@@ -1,7 +1,5 @@
 import { useRef } from 'react';
 
-import TagInput from '@/components/TagInput';
-
 import Tags from '../components/common/Tags';
 
 import type { Meta, StoryObj } from '@storybook/react';
@@ -31,11 +29,4 @@ export const Editing: Story = {
     const ref = useRef(null);
     return <Tags {...args} ref={ref} />;
   },
-};
-
-export const TagWithInput: Story = {
-  args: {
-    isEditing: false,
-  },
-  render: (args) => <TagInput {...args} />,
 };
