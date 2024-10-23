@@ -1,4 +1,7 @@
+import { useState } from 'react';
+
 import Tabs from '@/components/common/Tabs';
+import { SIGNUP_TABS } from '@/constants/signup';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -13,6 +16,19 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    tabList: ['이용 약관', '개인 정보 수집 및 저장', '회원 탈퇴 시 처리 방안'],
+    tabList: SIGNUP_TABS,
+    selected: 'service',
+    handleSelect: () => null,
+  },
+  render: (args) => {
+    const [selectedValue, setSelectedValue] = useState('service');
+
+    return (
+      <Tabs
+        {...args}
+        selected={selectedValue}
+        handleSelect={(value: string) => setSelectedValue(value)}
+      />
+    );
   },
 };
