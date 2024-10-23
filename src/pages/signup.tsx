@@ -9,7 +9,7 @@ import { SIGNUP_PROCESS_STEPS } from '@/constants/signup';
 import { css } from '../../styled-system/css';
 
 const SignupPage = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(2);
 
   const handleChangeStep = (step: number) => {
     setCurrentStep(step);
@@ -23,19 +23,21 @@ const SignupPage = () => {
           currentStep={currentStep}
         />
       </div>
-      <div className={styles.title_container}>
-        <h2 className={styles.title}>회원가입</h2>
-        <h3 className={styles.subTitle}>
-          가입을 통해 다양한 서비스를 이용해보세요!
-        </h3>
-      </div>
+      {currentStep !== 2 && (
+        <div className={styles.title_container}>
+          <h2 className={styles.title}>회원가입</h2>
+          <h3 className={styles.subTitle}>
+            가입을 통해 다양한 서비스를 이용해보세요!
+          </h3>
+        </div>
+      )}
       {currentStep === 0 ? (
         <SignupStep1 handleChangeStep={handleChangeStep} />
       ) : currentStep === 1 ? (
         <SignupStep2 />
-      ) : currentStep === 2 ? (
+      ) : (
         <SignupStep3 />
-      ) : null}
+      )}
     </div>
   );
 };
