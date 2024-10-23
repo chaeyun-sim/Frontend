@@ -1,1 +1,1 @@
-type TTerm = 'service' | 'privacy' | 'withdrawal';
+type TSignupTerm = 'service' | 'privacy' | 'withdrawal';

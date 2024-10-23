@@ -1,5 +1,5 @@
-const Step2 = () => {
+const SignupStep2 = () => {
   return <div>step2</div>;
 };
 
-export default Step2;
+export default SignupStep2;

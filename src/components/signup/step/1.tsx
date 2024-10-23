@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from '@/components/common/Button';
 import CheckBox from '@/components/common/CheckBox';
 import Tabs from '@/components/common/Tabs';
-import { SIGNUP_TABS, SIGNUP_TERMS } from '@/constants/signup';
+import { SIGNUP_TERMS, SIGNUP_TERMS_CONTENT } from '@/constants/signup';
 
 import { css } from '../../../../styled-system/css';
 
@@ -11,26 +11,26 @@ interface IProps {
   handleChangeStep: (step: number) => void;
 }
 
-const Step1 = ({ handleChangeStep }: IProps) => {
-  const [selectedTerm, setSelectedTerm] = useState<TTerm>('service');
-  const [isAgreedTerm, setIsAgreedTerm] = useState<{ [key in TTerm]: boolean }>(
-    {
-      service: false,
-      privacy: false,
-      withdrawal: false,
-    }
-  );
+const SignupStep1 = ({ handleChangeStep }: IProps) => {
+  const [selectedTerm, setSelectedTerm] = useState<TSignupTerm>('service');
+  const [isAgreedTerm, setIsAgreedTerm] = useState<{
+    [key in TSignupTerm]: boolean;
+  }>({
+    service: false,
+    privacy: false,
+    withdrawal: false,
+  });
 
   const isEnabledNextButton =
     isAgreedTerm['service'] &&
     isAgreedTerm['privacy'] &&
     isAgreedTerm['withdrawal'];
 
-  const handleSelectTab = (tab: TTerm) => {
+  const handleSelectTab = (tab: TSignupTerm) => {
     setSelectedTerm(tab);
   };
 
-  const handleAgreeTerm = (term: TTerm) => {
+  const handleAgreeTerm = (term: TSignupTerm) => {
     setIsAgreedTerm({ ...isAgreedTerm, [term]: !isAgreedTerm[term] });
   };
 
@@ -41,7 +41,7 @@ const Step1 = ({ handleChangeStep }: IProps) => {
   return (
     <div>
       <Tabs
-        tabList={SIGNUP_TABS}
+        tabList={SIGNUP_TERMS}
         selected={selectedTerm}
         handleSelect={handleSelectTab}
       />
@@ -59,7 +59,7 @@ const Step1 = ({ handleChangeStep }: IProps) => {
           />
         </div>
         <div className={styles.devider}></div>
-        <div>{SIGNUP_TERMS[selectedTerm]}</div>
+        <div>{SIGNUP_TERMS_CONTENT[selectedTerm]}</div>
       </div>
       <div className={styles.button_container}>
         <Button
@@ -72,7 +72,7 @@ const Step1 = ({ handleChangeStep }: IProps) => {
   );
 };
 
-export default Step1;
+export default SignupStep1;
 
 const styles = {
   terms_container: css({

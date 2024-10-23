@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 import JoinProcess from '@/components/JoinProcess';
-import Step1 from '@/components/signup/step/1';
-import Step2 from '@/components/signup/step/2';
-import Step3 from '@/components/signup/step/3';
+import SignupStep1 from '@/components/signup/step/1';
+import SignupStep2 from '@/components/signup/step/2';
+import SignupStep3 from '@/components/signup/step/3';
 import { SIGNUP_PROCESS_STEPS } from '@/constants/signup';
 
 import { css } from '../../styled-system/css';
@@ -30,11 +30,11 @@ const SignupPage = () => {
         </h3>
       </div>
       {currentStep === 0 ? (
-        <Step1 handleChangeStep={handleChangeStep} />
+        <SignupStep1 handleChangeStep={handleChangeStep} />
       ) : currentStep === 1 ? (
-        <Step2 />
+        <SignupStep2 />
       ) : currentStep === 2 ? (
-        <Step3 />
+        <SignupStep3 />
       ) : null}
     </div>
   );
