@@ -32,7 +32,7 @@ const TagInput = () => {
         alignItems: 'center',
         borderBottomColor: '#7C0DE4',
         borderBottomWidth: '1px',
-        width: '423px',
+        // width: '423px',
         display: 'flex',
         flexWrap: 'wrap',
         padding: '0 12px',
