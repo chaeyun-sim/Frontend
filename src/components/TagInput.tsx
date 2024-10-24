@@ -2,9 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 
 import Tags from './common/Tags';
 
-const TagInput = () => {
+interface IProps {
+  tagList: string[];
+  setTagList: (value: string[]) => void;
+}
+
+const TagInput = ({ tagList, setTagList }: IProps) => {
   const editTagRef = useRef<HTMLInputElement>(null);
-  const [tagList, setTagList] = useState<string[]>([]);
   const [addTag, setAddTag] = useState(false);
 
   useEffect(() => {
