@@ -37,6 +37,8 @@ axiosInstance.interceptors.response.use(
         }
       } else {
         // api가 reissue가 아니고 & 401 에러 & 토큰 없음 -> 토큰 문제
+        console.error(error);
+        window.location.href = '/';
         return Promise.reject(error);
       }
     } else if (
