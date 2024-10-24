@@ -3,10 +3,14 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import { css, cx } from '../../../styled-system/css';
 
-const ProfileImage = () => {
+interface IProps {
+  image: string;
+  setImage: (value: string) => void;
+}
+
+const ProfileImage = ({ image, setImage }: IProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isHovering, setIsHovering] = useState(false);
-  const [image, setImage] = useState('');
 
   useEffect(() => {
     return () => {
