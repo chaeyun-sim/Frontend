@@ -34,8 +34,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     isDuplicatedNickname &&
     isValidatedNickname[1] &&
     isValidatedNickname[2] &&
-    isValidatedNickname[3] &&
-    interests.length;
+    isValidatedNickname[3];
 
   // 중복 확인
   const { refetch: refetchCheckNickname } = useQuery({
@@ -99,13 +98,19 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     <div>
       <div className={styles.box}>
         <div className={styles.inner_box}>
-          <p className={styles.title}>프로필 이미지</p>
+          <div className={styles.title_box}>
+            <p>프로필 이미지</p>
+            <span className={styles.required}>*</span>
+          </div>
           <div className={styles.image_box}>
             <ProfileImage setImage={setImage} />
           </div>
         </div>
         <div className={styles.inner_box}>
-          <p className={styles.title}>닉네임</p>
+          <div className={styles.title_box}>
+            <p>닉네임</p>
+            <span className={styles.required}>*</span>
+          </div>
           <div className={styles.input_box}>
             <Input value={nickname} onSetValue={setNickname} />
             <Button
@@ -127,7 +132,9 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
           />
         </div>
         <div className={styles.inner_box}>
-          <p className={styles.title}>관심 분야</p>
+          <div className={styles.title_box}>
+            <p>관심 분야</p>
+          </div>
           <TagInput tagList={interests} setTagList={setInterests} />
         </div>
       </div>
@@ -159,8 +166,13 @@ const styles = {
     flexDirection: 'column',
     gap: '12px',
   }),
-  title: css({
+  title_box: css({
+    display: 'flex',
+    gap: '0.25em',
     textStyle: 'body1',
+  }),
+  required: css({
+    color: 'red',
   }),
   image_box: css({
     display: 'flex',
