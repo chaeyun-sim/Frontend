@@ -103,7 +103,6 @@ const styles = {
   }),
   text: css({
     textStyle: 'caption1',
-    fontWeight: '500',
     marginTop: '8px',
   }),
 };
