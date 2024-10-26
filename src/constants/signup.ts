@@ -15,3 +15,9 @@ export const SIGNUP_TERMS_CONTENT: { [key in TSignupTerm]: string } = {
   privacy: '개인 정보 수집 및 저장 내용',
   withdrawal: '회원 탈퇴 시 처리 방안 내용',
 };
+
+export const SIGNUP_NICKNAME_VALIDATIONS = [
+  { id: 1, value: '12자 이하' },
+  { id: 2, value: '한글, 영문, 숫자, 특수문자 사용 가능' },
+  { id: 3, value: '특수문자 (  )   -   _   : 사용 가능' },
+];

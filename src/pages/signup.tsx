@@ -9,7 +9,7 @@ import { SIGNUP_PROCESS_STEPS } from '@/constants/signup';
 import { css } from '../../styled-system/css';
 
 const SignupPage = () => {
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const handleChangeStep = (step: number) => {
     setCurrentStep(step);
@@ -34,7 +34,7 @@ const SignupPage = () => {
       {currentStep === 0 ? (
         <SignupStep1 handleChangeStep={handleChangeStep} />
       ) : currentStep === 1 ? (
-        <SignupStep2 />
+        <SignupStep2 handleChangeStep={handleChangeStep} />
       ) : (
         <SignupStep3 />
       )}
