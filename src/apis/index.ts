@@ -22,7 +22,7 @@ axiosInstance.interceptors.response.use(
 
     if (error.response?.status === 401 && origin.url !== '/members/reissue') {
       if (token) {
-        // api가 reissue가 아니고 & 401 에러 & 토큰 있음 -> 토큰 refresh 새로 받기
+        // 401 에러 & 토큰 있음 -> 토큰 refresh 새로 받기
         try {
           const originRefreshToken = String(getItem('@refresh'));
           const response = await getRefresh(originRefreshToken);
@@ -36,19 +36,14 @@ axiosInstance.interceptors.response.use(
           console.error(error);
         }
       } else {
-        // api가 reissue가 아니고 & 401 에러 & 토큰 없음 -> 토큰 문제
-        console.error(error);
+        // 401 에러 & 토큰 없음 -> 토큰 문제
+        alert(error);
         window.location.href = '/';
         return Promise.reject(error);
       }
-    } else if (
-      error.response?.status === 400 &&
-      origin.url !== '/members/reissue'
-    ) {
-      // api가 reissue가 아니고 & 400 에러 -> 회원가입으로 이동
-      window.location.href = '/join';
     }
 
+    // 그 외 에러 -> api에서 개별 관리
     return Promise.reject(error);
   }
 );
