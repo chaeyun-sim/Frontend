@@ -88,15 +88,11 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     const regex2 = /^[a-zA-Z0-9가-힣!@#$%^&*()\-_+={}[\];:',.<>/?\\|`~"·]*$/; // 한글, 영문, 숫자, 특수문자 사용 가능
     const regex3 = /^[a-zA-Z0-9가-힣()\-_:]*$/; // 특수문자 (  )   -   _   : 사용 가능
 
-    if (nickname) {
-      setIsValidatedNickname({
-        1: regex1,
-        2: regex2.test(nickname),
-        3: regex3.test(nickname),
-      });
-    } else {
-      setIsValidatedNickname({ 1: false, 2: false, 3: false });
-    }
+    setIsValidatedNickname({
+      1: regex1,
+      2: regex2.test(nickname),
+      3: regex3.test(nickname),
+    });
   }, [nickname]);
 
   return (
@@ -127,6 +123,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
           <Validations
             validationList={SIGNUP_NICKNAME_VALIDATIONS}
             validated={isValidatedNickname}
+            isInitial={!nickname}
           />
         </div>
         <div className={styles.inner_box}>

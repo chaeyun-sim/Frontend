@@ -4,9 +4,10 @@ import { css, cx } from '../../styled-system/css';
 interface IProps {
   validationList: { id: number; value: string }[];
   validated: { [key: number]: boolean };
+  isInitial: boolean;
 }
 
-const Validations = ({ validationList, validated }: IProps) => {
+const Validations = ({ validationList, validated, isInitial }: IProps) => {
   return (
     <ul className={styles.list}>
       {validationList.map(({ id, value }) => (
@@ -14,10 +15,17 @@ const Validations = ({ validationList, validated }: IProps) => {
           key={id}
           className={cx(
             styles.item,
-            validated[id] ? styles.validated_item : styles.default_item
+            isInitial
+              ? styles.default_item
+              : validated[id]
+                ? styles.validated_item
+                : styles.error_item
           )}
         >
-          <Icon name={`check-sm${validated[id] ? '-checked' : ''}`} /> {value}
+          <Icon
+            name={`check-sm${isInitial ? '' : validated[id] ? '-checked' : '-red'}`}
+          />
+          {value}
         </li>
       ))}
     </ul>
@@ -39,6 +47,9 @@ const styles = {
   }),
   default_item: css({
     color: 'gray.300',
+  }),
+  error_item: css({
+    color: 'red',
   }),
   validated_item: css({
     color: 'main.base',
