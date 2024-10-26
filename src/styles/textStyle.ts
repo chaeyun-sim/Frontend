@@ -47,7 +47,7 @@ export const textStyles = defineTextStyles({
     description: 'button text - medium',
     value: {
       fontSize: '15px',
-      fontWeight: 'medium',
+      fontWeight: 500,
     },
   },
   button2: {
