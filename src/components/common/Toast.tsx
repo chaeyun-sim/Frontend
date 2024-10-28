@@ -3,16 +3,16 @@ import { useEffect } from 'react';
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
-  open: boolean;
+  isOpen: boolean;
   onClose: () => void;
   text: string;
-  error?: boolean;
+  isError?: boolean;
   duration?: number;
 }
 
-const Toast = ({ open, onClose, text, error, duration = 3000 }: IProps) => {
+const Toast = ({ isOpen, onClose, text, isError, duration = 3000 }: IProps) => {
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       const timer = setTimeout(() => {
         onClose();
       }, duration);
@@ -21,14 +21,14 @@ const Toast = ({ open, onClose, text, error, duration = 3000 }: IProps) => {
         clearTimeout(timer);
       };
     }
-  }, [open]);
+  }, [isOpen]);
 
   return (
     <div
       className={cx(
         styles.container,
-        open ? styles.open : styles.close,
-        error ? styles.error : styles.default
+        isOpen ? styles.open : styles.close,
+        isError ? styles.error : styles.default
       )}
     >
       {text}
