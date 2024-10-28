@@ -32,7 +32,10 @@ const Input = ({
     }
 
     return css({
-      borderBottomColor: 'main.base',
+      borderBottomColor: 'gray.300',
+      _focus: {
+        borderBottomColor: 'main.base',
+      },
     });
   };
 
