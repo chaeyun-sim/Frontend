@@ -1,33 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
+  open: boolean;
+  onClose: () => void;
   text: string;
   error?: boolean;
   duration?: number;
 }
 
-const Toast = ({ text, error, duration = 3000 }: IProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const Toast = ({ open, onClose, text, error, duration = 3000 }: IProps) => {
   useEffect(() => {
-    setIsOpen(true);
+    if (open) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, duration);
 
-    const timer = setTimeout(() => {
-      setIsOpen(false);
-    }, duration);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [open]);
 
   return (
     <div
       className={cx(
         styles.container,
-        isOpen ? styles.open : styles.close,
+        open ? styles.open : styles.close,
         error ? styles.error : styles.default
       )}
     >
@@ -42,7 +42,8 @@ const styles = {
   container: css({
     position: 'fixed',
     bottom: '40px',
-    left: 'calc(50% - 230px)',
+    left: '50%',
+    transform: 'translateX(-50%)',
     width: '460px',
     padding: '12px 20px',
     borderRadius: '4px',
