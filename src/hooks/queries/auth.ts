@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { login } from '@/apis/auth';
-import { IRes } from '@/types/common';
 
 const useSocialLogin = ({
   successCallback,

@@ -5,6 +5,7 @@ import { getCheckNickname, getServeNickname, postUser } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import ProfileImage from '@/components/common/ProfileImage';
+import Toast from '@/components/common/Toast';
 import TagInput from '@/components/TagInput';
 import Validations from '@/components/Validations';
 import { SIGNUP_NICKNAME_VALIDATIONS } from '@/constants/signup';
@@ -16,8 +17,9 @@ interface IProps {
 }
 
 const SignupStep2 = ({ handleChangeStep }: IProps) => {
-  const [image, setImage] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');
+  const [hasDuplicatedNickname, setHasDuplicatedNickname] = useState(false);
   const [isDuplicatedNickname, setIsDuplicatedNickname] = useState(false);
   const [isValidatedNickname, setIsValidatedNickname] = useState<{
     [key: number]: boolean;
@@ -27,9 +29,14 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     3: false,
   });
   const [interests, setInterests] = useState<string[]>([]);
+  const [toast, setToast] = useState({
+    isOpen: false,
+    text: '',
+    isError: false,
+  });
 
   const isEnabledSubmitButton =
-    image &&
+    file &&
     nickname &&
     isDuplicatedNickname &&
     isValidatedNickname[1] &&
@@ -40,12 +47,24 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   const { refetch: refetchCheckNickname } = useQuery({
     queryKey: ['checkNickname'],
     queryFn: async () => {
-      const { code } = await getCheckNickname(nickname);
-      if (code === 'OK') {
-        setIsDuplicatedNickname(true);
+      try {
+        const { code } = await getCheckNickname(nickname);
+        if (code === 'OK') {
+          setHasDuplicatedNickname(true);
+          setIsDuplicatedNickname(true);
+          handleOpenToast('사용 가능한 아이디입니다.', false);
+        }
+
+        return null;
+      } catch (e: any) {
+        if (e.code === 'DUPLICATED_NICKNAME_ERROR') {
+          setHasDuplicatedNickname(true);
+          setIsDuplicatedNickname(false);
+          handleOpenToast('중복된 아이디입니다.', true);
+        }
       }
     },
-    enabled: !!nickname,
+    enabled: false,
   });
 
   // 랜덤 생성
@@ -56,7 +75,9 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
       if (code === 'OK') {
         setNickname(data.nicknames[0]);
       }
+      return null;
     },
+    enabled: false,
   });
 
   // 가입 완료
@@ -69,11 +90,18 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     },
   });
 
+  const handleOpenToast = (text: string, isError: boolean) => {
+    setToast({ isOpen: true, text, isError });
+  };
+  const handleCloseToast = () => {
+    setToast({ isOpen: false, text: '', isError: false });
+  };
+
   const handleSubmit = () => {
     if (!isEnabledSubmitButton) return;
 
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('file', file);
     formData.append('nickname', nickname);
     interests.forEach((interest) => {
       formData.append('interests', interest);
@@ -92,10 +120,17 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
       2: regex2.test(nickname),
       3: regex3.test(nickname),
     });
+    setIsDuplicatedNickname(false);
   }, [nickname]);
 
   return (
     <div>
+      <Toast
+        isOpen={toast.isOpen}
+        onClose={handleCloseToast}
+        text={toast.text}
+        isError={toast.isError}
+      />
       <div className={styles.box}>
         <div className={styles.inner_box}>
           <div className={styles.title_box}>
@@ -103,7 +138,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
             <span className={styles.required}>*</span>
           </div>
           <div className={styles.image_box}>
-            <ProfileImage setImage={setImage} />
+            <ProfileImage setFile={setFile} />
           </div>
         </div>
         <div className={styles.inner_box}>
@@ -112,11 +147,23 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
             <span className={styles.required}>*</span>
           </div>
           <div className={styles.input_box}>
-            <Input value={nickname} onSetValue={setNickname} />
+            <Input
+              value={nickname}
+              onSetValue={setNickname}
+              hasError={hasDuplicatedNickname && !isDuplicatedNickname}
+            />
             <Button
               text="중복 확인"
               size="small"
               variant="outlined"
+              disabled={
+                !(
+                  nickname &&
+                  isValidatedNickname[1] &&
+                  isValidatedNickname[2] &&
+                  isValidatedNickname[3]
+                ) || isDuplicatedNickname
+              }
               onClick={refetchCheckNickname}
             />
             <Button
