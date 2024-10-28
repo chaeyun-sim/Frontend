@@ -4,10 +4,10 @@ import Icon from './Icon';
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
-  setImage: (value: File) => void;
+  setFile: (value: File) => void;
 }
 
-const ProfileImage = ({ setImage }: IProps) => {
+const ProfileImage = ({ setFile }: IProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
@@ -23,7 +23,7 @@ const ProfileImage = ({ setImage }: IProps) => {
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
-    setImage(file);
+    setFile(file);
     const imageUrl = URL.createObjectURL(file);
     setImageUrl(imageUrl);
   };
