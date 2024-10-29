@@ -57,13 +57,14 @@ const Button = ({
   const sizeMode = () => {
     if (size === 'large') {
       return css({
+        padding: '12px 0',
         width: '140px',
-        height: '43px',
+        textStyle: 'button1',
       });
     } else if (size === 'small') {
       return css({
-        width: '69px',
-        height: '35px',
+        padding: '8px 12px',
+        textStyle: 'button2',
       });
     }
   };
@@ -86,8 +87,6 @@ export default Button;
 
 const styles = {
   button_container: css({
-    width: '140px',
-    height: '43px',
     borderRadius: '4px',
     borderWidth: '1px',
   }),

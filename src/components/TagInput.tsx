@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Tags from './common/Tags';
+import { css, cx } from '../../styled-system/css';
 
-const TagInput = () => {
+interface IProps {
+  tagList: string[];
+  setTagList: (value: string[]) => void;
+}
+
+const TagInput = ({ tagList, setTagList }: IProps) => {
   const editTagRef = useRef<HTMLInputElement>(null);
-  const [tagList, setTagList] = useState<string[]>([]);
   const [addTag, setAddTag] = useState(false);
 
   useEffect(() => {
@@ -27,16 +32,10 @@ const TagInput = () => {
 
   return (
     <div
-      style={{
-        minHeight: '47px',
-        alignItems: 'center',
-        borderBottomColor: '#7C0DE4',
-        borderBottomWidth: '1px',
-        width: '423px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        padding: '0 12px',
-      }}
+      className={cx(
+        styles.input_container,
+        addTag ? styles.focus : styles.default
+      )}
       onClick={() => (tagList.length < 5 && !addTag ? setAddTag(true) : null)}
     >
       {tagList.map((tag) => (
@@ -61,3 +60,21 @@ const TagInput = () => {
 };
 
 export default TagInput;
+
+const styles = {
+  input_container: css({
+    minHeight: '47px',
+    alignItems: 'center',
+    borderBottomWidth: '1px',
+    // width: '423px',
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '0 12px',
+  }),
+  default: css({
+    borderBottomColor: 'gray.300',
+  }),
+  focus: css({
+    borderBottomColor: 'main.base',
+  }),
+};

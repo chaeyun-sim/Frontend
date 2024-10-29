@@ -13,7 +13,8 @@ type Story = StoryObj<typeof meta>;
 
 export const TagWithInput: Story = {
   args: {
-    isEditing: false,
+    tagList: ['해외 여행', '국내 여행'],
+    setTagList: () => null,
   },
   render: (args) => <TagInput {...args} />,
 };
