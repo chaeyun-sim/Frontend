@@ -12,6 +12,7 @@ import {
   useServeNickname,
   useSignup,
 } from '@/hooks/queries/auth';
+import useToast from '@/hooks/useToast';
 import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
@@ -31,11 +32,8 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     3: false,
   });
   const [interests, setInterests] = useState<string[]>([]);
-  const [toast, setToast] = useState({
-    isOpen: false,
-    text: '',
-    isError: false,
-  });
+
+  const { toast, handleOpenToast, handleCloseToast } = useToast();
 
   const isFullValidatedNickname =
     isValidatedNickname[1] && isValidatedNickname[2] && isValidatedNickname[3];
@@ -45,13 +43,6 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
 
   const isEnabledSubmitButton =
     file && nickname && isFullValidatedNickname && isDuplicatedNickname;
-
-  const handleOpenToast = (text: string, isError: boolean) => {
-    setToast({ isOpen: true, text, isError });
-  };
-  const handleCloseToast = () => {
-    setToast({ isOpen: false, text: '', isError: false });
-  };
 
   // 중복 확인
   const { refetch: checkNickname } = useCheckNickname({
