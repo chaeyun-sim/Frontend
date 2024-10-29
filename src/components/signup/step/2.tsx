@@ -12,6 +12,7 @@ import {
   useServeNickname,
   useSignup,
 } from '@/hooks/queries/auth';
+import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
 
@@ -24,9 +25,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   const [nickname, setNickname] = useState('');
   const [hasDuplicatedNickname, setHasDuplicatedNickname] = useState(false);
   const [isDuplicatedNickname, setIsDuplicatedNickname] = useState(false);
-  const [isValidatedNickname, setIsValidatedNickname] = useState<{
-    [key: number]: boolean;
-  }>({
+  const [isValidatedNickname, setIsValidatedNickname] = useState({
     1: false,
     2: false,
     3: false,
@@ -38,13 +37,14 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     isError: false,
   });
 
+  const isFullValidatedNickname =
+    isValidatedNickname[1] && isValidatedNickname[2] && isValidatedNickname[3];
+
+  const isEnabledCheckNicknameButton =
+    nickname && isFullValidatedNickname && !isDuplicatedNickname;
+
   const isEnabledSubmitButton =
-    file &&
-    nickname &&
-    isDuplicatedNickname &&
-    isValidatedNickname[1] &&
-    isValidatedNickname[2] &&
-    isValidatedNickname[3];
+    file && nickname && isFullValidatedNickname && isDuplicatedNickname;
 
   const handleOpenToast = (text: string, isError: boolean) => {
     setToast({ isOpen: true, text, isError });
@@ -83,15 +83,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   };
 
   useEffect(() => {
-    const regex1 = nickname.length < 13; // 12자 이하
-    const regex2 = /^[a-zA-Z0-9가-힣!@#$%^&*()\-_+={}[\];:',.<>/?\\|`~"·]*$/; // 한글, 영문, 숫자, 특수문자 사용 가능
-    const regex3 = /^[a-zA-Z0-9가-힣()\-_:]*$/; // 특수문자 (  )   -   _   : 사용 가능
-
-    setIsValidatedNickname({
-      1: regex1,
-      2: regex2.test(nickname),
-      3: regex3.test(nickname),
-    });
+    setIsValidatedNickname(validateNickname(nickname));
     setIsDuplicatedNickname(false);
   }, [nickname]);
 
@@ -128,14 +120,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
               text="중복 확인"
               size="small"
               variant="outlined"
-              disabled={
-                !(
-                  nickname &&
-                  isValidatedNickname[1] &&
-                  isValidatedNickname[2] &&
-                  isValidatedNickname[3]
-                ) || isDuplicatedNickname
-              }
+              disabled={!isEnabledCheckNicknameButton}
               onClick={checkNickname}
             />
             <Button text="랜덤 생성" size="small" onClick={serveNickname} />
