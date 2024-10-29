@@ -1,7 +1,5 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
-import { getCheckNickname, getServeNickname, postUser } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import ProfileImage from '@/components/common/ProfileImage';
@@ -9,6 +7,11 @@ import Toast from '@/components/common/Toast';
 import TagInput from '@/components/TagInput';
 import Validations from '@/components/Validations';
 import { SIGNUP_NICKNAME_VALIDATIONS } from '@/constants/signup';
+import {
+  useCheckNickname,
+  useServeNickname,
+  useSignup,
+} from '@/hooks/queries/auth';
 
 import { css } from '../../../../styled-system/css';
 
@@ -43,59 +46,28 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     isValidatedNickname[2] &&
     isValidatedNickname[3];
 
-  // 중복 확인
-  const { refetch: refetchCheckNickname } = useQuery({
-    queryKey: ['checkNickname'],
-    queryFn: async () => {
-      try {
-        const { code } = await getCheckNickname(nickname);
-        if (code === 'OK') {
-          setHasDuplicatedNickname(true);
-          setIsDuplicatedNickname(true);
-          handleOpenToast('사용 가능한 아이디입니다.', false);
-        }
-
-        return null;
-      } catch (e: any) {
-        if (e.code === 'DUPLICATED_NICKNAME_ERROR') {
-          setHasDuplicatedNickname(true);
-          setIsDuplicatedNickname(false);
-          handleOpenToast('중복된 아이디입니다.', true);
-        }
-      }
-    },
-    enabled: false,
-  });
-
-  // 랜덤 생성
-  const { refetch: refetchServeNickname } = useQuery({
-    queryKey: ['serveNickname'],
-    queryFn: async () => {
-      const { code, data } = await getServeNickname();
-      if (code === 'OK') {
-        setNickname(data.nicknames[0]);
-      }
-      return null;
-    },
-    enabled: false,
-  });
-
-  // 가입 완료
-  const mutation = useMutation({
-    mutationFn: (formData: FormData) => postUser('KAKAO', formData),
-    onSuccess: ({ code }) => {
-      if (code === 'OK') {
-        handleChangeStep(2);
-      }
-    },
-  });
-
   const handleOpenToast = (text: string, isError: boolean) => {
     setToast({ isOpen: true, text, isError });
   };
   const handleCloseToast = () => {
     setToast({ isOpen: false, text: '', isError: false });
   };
+
+  // 중복 확인
+  const { refetch: checkNickname } = useCheckNickname({
+    nickname,
+    setHasDuplicatedNickname,
+    setIsDuplicatedNickname,
+    handleOpenToast,
+  });
+
+  // 랜덤 생성
+  const { refetch: serveNickname } = useServeNickname({
+    setNickname,
+  });
+
+  // 가입 완료
+  const { mutate: signup } = useSignup({ handleChangeStep });
 
   const handleSubmit = () => {
     if (!isEnabledSubmitButton) return;
@@ -107,7 +79,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
       formData.append('interests', interest);
     });
 
-    mutation.mutate(formData);
+    signup(formData);
   };
 
   useEffect(() => {
@@ -164,13 +136,9 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
                   isValidatedNickname[3]
                 ) || isDuplicatedNickname
               }
-              onClick={refetchCheckNickname}
+              onClick={checkNickname}
             />
-            <Button
-              text="랜덤 생성"
-              size="small"
-              onClick={refetchServeNickname}
-            />
+            <Button text="랜덤 생성" size="small" onClick={serveNickname} />
           </div>
           <Validations
             validationList={SIGNUP_NICKNAME_VALIDATIONS}
