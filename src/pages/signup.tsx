@@ -31,13 +31,9 @@ const SignupPage = () => {
           </h3>
         </div>
       )}
-      {currentStep === 0 ? (
-        <SignupStep1 handleChangeStep={handleChangeStep} />
-      ) : currentStep === 1 ? (
-        <SignupStep2 handleChangeStep={handleChangeStep} />
-      ) : (
-        <SignupStep3 />
-      )}
+      {currentStep === 0 && <SignupStep1 handleChangeStep={handleChangeStep} />}
+      {currentStep === 1 && <SignupStep2 handleChangeStep={handleChangeStep} />}
+      {currentStep === 2 && <SignupStep3 />}
     </div>
   );
 };
