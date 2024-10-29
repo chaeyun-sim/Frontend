@@ -17,7 +17,7 @@ export const login = async (snsType: string, authCode: string) => {
       return;
     case 401:
       if (response.data.message === '가입되지 않은 회원입니다.') {
-        window.location.href = '/join';
+        window.location.href = '/signup';
       }
       return;
     case 500:
