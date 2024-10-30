@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
-
 import { css, cx } from '../../../styled-system/css';
 
-interface IProps {
-  tabList: string[];
+interface IProps<T extends string> {
+  tabList: { id: string; value: string }[];
+  selected: T;
+  handleSelect: (id: T) => void;
 }
 
-const Tabs = ({ tabList }: IProps) => {
-  const [selected, setSelected] = useState(0);
-
+const Tabs = <T extends string>({
+  tabList,
+  selected,
+  handleSelect,
+}: IProps<T>) => {
   return (
     <div className={styles.tabs_wrapper}>
       <div className={styles.tabs_container}>
-        {tabList.map((tab, idx) => (
+        {tabList.map((tab) => (
           <button
-            key={tab}
-            className={cx(styles.tab, selected === idx && styles.selected_tab)}
-            onClick={() => setSelected(idx)}
+            key={tab.id}
+            className={cx(
+              styles.tab,
+              selected === tab.id && styles.selected_tab
+            )}
+            onClick={() => handleSelect(tab.id as T)}
           >
-            {tab}
+            {tab.value}
           </button>
         ))}
       </div>

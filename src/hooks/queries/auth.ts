@@ -1,7 +1,26 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { login } from '@/apis/auth';
-import { IRes } from '@/types/common';
+import {
+  getCheckNickname,
+  getServeNickname,
+  login,
+  postUser,
+} from '@/apis/auth';
+
+interface ICheckNicknameProps {
+  nickname: string;
+  setHasDuplicatedNickname: (value: boolean) => void;
+  setIsDuplicatedNickname: (value: boolean) => void;
+  handleOpenToast: (text: string, isError: boolean) => void;
+}
+
+interface IServeNicknameProps {
+  setNickname: (value: string) => void;
+}
+
+interface ISignupProps {
+  handleChangeStep: (step: number) => void;
+}
 
 const useSocialLogin = ({
   successCallback,
@@ -22,4 +41,58 @@ const useSocialLogin = ({
   });
 };
 
-export { useSocialLogin };
+const useCheckNickname = ({
+  nickname,
+  setHasDuplicatedNickname,
+  setIsDuplicatedNickname,
+  handleOpenToast,
+}: ICheckNicknameProps) => {
+  return useQuery({
+    queryKey: ['checkNickname', nickname],
+    queryFn: async () => {
+      try {
+        const { code } = await getCheckNickname(nickname);
+        if (code === 'OK') {
+          setHasDuplicatedNickname(true);
+          setIsDuplicatedNickname(true);
+          handleOpenToast('사용 가능한 아이디입니다.', false);
+        }
+      } catch (e: any) {
+        if (e.code === 'DUPLICATED_NICKNAME_ERROR') {
+          setHasDuplicatedNickname(true);
+          setIsDuplicatedNickname(false);
+          handleOpenToast('중복된 아이디입니다.', true);
+        }
+      }
+      return null;
+    },
+    enabled: false,
+  });
+};
+
+const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
+  return useQuery({
+    queryKey: ['serveNickname'],
+    queryFn: async () => {
+      const { code, data } = await getServeNickname();
+      if (code === 'OK') {
+        setNickname(data.nicknames[0]);
+      }
+      return null;
+    },
+    enabled: false,
+  });
+};
+
+export const useSignup = ({ handleChangeStep }: ISignupProps) => {
+  return useMutation({
+    mutationFn: (formData: FormData) => postUser('KAKAO', formData),
+    onSuccess: ({ code }) => {
+      if (code === 'OK') {
+        handleChangeStep(2);
+      }
+    },
+  });
+};
+
+export { useSocialLogin, useCheckNickname, useServeNickname };

@@ -3,24 +3,29 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Icon from './Icon';
 import { css, cx } from '../../../styled-system/css';
 
-const ProfileImage = () => {
+interface IProps {
+  setFile: (value: File) => void;
+}
+
+const ProfileImage = ({ setFile }: IProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isHovering, setIsHovering] = useState(false);
-  const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     return () => {
-      if (image) {
-        URL.revokeObjectURL(image);
+      if (imageUrl) {
+        URL.revokeObjectURL(imageUrl);
       }
     };
-  }, [image]);
+  }, [imageUrl]);
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
+    setFile(file);
     const imageUrl = URL.createObjectURL(file);
-    setImage(imageUrl);
+    setImageUrl(imageUrl);
   };
 
   const handleClick = () => {
@@ -32,24 +37,26 @@ const ProfileImage = () => {
       <button
         className={cx(
           styles.img_box,
-          css({ borderColor: image ? 'main.base' : 'gray.300' })
+          css({ borderColor: imageUrl ? 'main.base' : 'gray.300' })
         )}
         onMouseOver={() => setIsHovering(true)}
         onMouseOut={() => setIsHovering(false)}
         onClick={handleClick}
       >
-        {!image && isHovering && <img src="/dark-blur.png" alt="dark blur" />}
-        {!image && !isHovering && (
+        {!imageUrl && isHovering && (
+          <img src="/dark-blur.png" alt="dark blur" />
+        )}
+        {!imageUrl && !isHovering && (
           <img src="/light-blur.png" alt="light blur" />
         )}
-        {image && (
+        {imageUrl && (
           <img
-            src={image}
+            src={imageUrl}
             alt="Uploaded profile"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         )}
-        {!image && (
+        {!imageUrl && (
           <div className={styles.box}>
             <Icon name={isHovering ? 'camera-white' : 'camera-dark'} />
             <span
@@ -96,7 +103,6 @@ const styles = {
   }),
   text: css({
     textStyle: 'caption1',
-    fontWeight: '500',
     marginTop: '8px',
   }),
 };

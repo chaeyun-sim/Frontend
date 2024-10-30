@@ -29,6 +29,8 @@ export default [
       'prettier/prettier': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/consistent-indexed-object-style': 'off',
       'no-undef': 'off',
       'import/order': [
         'error',
