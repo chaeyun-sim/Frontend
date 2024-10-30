@@ -22,6 +22,7 @@ export default defineConfig({
         main: {
           base: { value: '#7C0DE4' },
           dark: { value: '#5B0CA6' },
+          light0: { value: '#9A47FF' },
           light1: { value: '#DFD0FF' },
           light2: { value: '#F6F1FF' },
         },
