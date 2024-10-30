@@ -51,6 +51,17 @@ export default defineConfig({
           value: '0px 4px 20px rgba(124,124,124, 0.05)',
         },
       },
+      fontWeights: {
+        thin: { value: 100 },
+        extralight: { value: 200 },
+        light: { value: 300 },
+        regular: { value: 400 },
+        medium: { value: 500 },
+        semibold: { value: 600 },
+        bold: { value: 700 },
+        extrabol: { value: 800 },
+        black: { value: 900 },
+      },
     },
   },
 
