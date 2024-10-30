@@ -1,11 +1,18 @@
-import axios from 'axios';
-
-import { axiosInstance } from '.';
+import { authInstance, publicInstance } from '.';
 
 export const login = async (snsType: string, authCode: string) => {
-  const response = await axios.post(`/members/login/${snsType}`, {
-    authCode,
-  });
+  const response = await publicInstance.post(
+    `/members/login/${snsType.toUpperCase()}`,
+    {
+      authCode,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+  );
 
   switch (response.status) {
     case 200:
@@ -29,7 +36,7 @@ export const login = async (snsType: string, authCode: string) => {
 };
 
 export const getRefresh = async (refreshToken: string) => {
-  const response = await axiosInstance.post('/members/reissue', {
+  const response = await authInstance.post('/members/reissue', {
     refreshToken,
   });
 

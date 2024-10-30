@@ -4,17 +4,23 @@ import { getItem, setItem } from '@/utils/localStorage';
 
 import { getRefresh } from './auth';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_API + '/api/v1';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+export const publicInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 const token = String(getItem('@token'));
 
-export const axiosInstance = axios.create({
+export const authInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
   withCredentials: true,
   headers: { Authorization: `Bearer ${token}` },
 });
 
-axiosInstance.interceptors.response.use(
+authInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const origin = error.config;
@@ -28,10 +34,10 @@ axiosInstance.interceptors.response.use(
           const response = await getRefresh(originRefreshToken);
           const { accessToken, refreshToken } = response.data;
           origin.headers.Authorization = `Bearer ${accessToken}`;
-          axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+          authInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
           setItem('@token', accessToken);
           setItem('@refresh', refreshToken);
-          return axiosInstance(origin);
+          return authInstance(origin);
         } catch (error) {
           console.error(error);
         }
