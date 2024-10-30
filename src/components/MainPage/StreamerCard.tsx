@@ -20,7 +20,7 @@ const StreamerCard = ({
   // description
   profileUrl,
 }: IProps) => {
-  let description = '안녕하세요 이번에 새로 시작한 스트리머입니다.';
+  const description = '안녕하세요 이번에 새로 시작한 스트리머입니다.';
   const imagesData = ['youtube', 'chzzk', 'sooplive'];
   console.log(imageUrl);
 
@@ -46,14 +46,9 @@ const StreamerCard = ({
           <p className={styles.desc}>{description}</p>
           <div className={styles.platforms_wrapper}>
             {imagesData.map((item) => (
-              <Image
-                key={item}
-                src={''}
-                alt="platform - "
-                className={styles.platforms}
-                width={24}
-                height={24}
-              />
+              <div className={styles.platform}>
+                <Image key={''} src={''} alt="" width={24} height={24} />
+              </div>
             ))}
           </div>
         </div>
@@ -96,13 +91,14 @@ const styles = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    marginTop: '8px',
   }),
   platforms_wrapper: flex({
     marginTop: '8px',
     alignItems: 'center',
     gap: '8px',
   }),
-  platforms: css({
+  platform: css({
     backgroundColor: 'tomato',
     width: '24px',
     height: '24px',

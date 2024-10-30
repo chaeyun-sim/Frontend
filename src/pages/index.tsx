@@ -1,31 +1,50 @@
+import { useState } from 'react';
+import { SwiperClass } from 'swiper/react';
+
 import Banner from '@/components/Banner';
 import Icon from '@/components/common/Icon';
 import StreamerCard from '@/components/MainPage/StreamerCard';
-import { usePromotionStreamersList } from '@/hooks/queries/promotion';
+import {
+  useGetPromotionBannerData,
+  usePromotionStreamersList,
+} from '@/hooks/queries/promotion';
 
 import { css } from '../../styled-system/css';
 import { flex, hstack } from '../../styled-system/patterns';
 
+import 'swiper/css';
+
 export default function Home() {
   const { data: streamerList, refetch } = usePromotionStreamersList();
+  const [swiperIndex, setSwiperIndex] = useState(0);
+  const [swiper, setSwiper] = useState<SwiperClass>();
+
+  const handlePrevious = () => swiper?.slidePrev();
+  const handleNext = () => swiper?.slideNext();
+
+  const { data: bannerList } = useGetPromotionBannerData();
 
   return (
     <div>
       <div className={styles.banner}>
-        <Banner />
+        <Banner
+          onSetSwiperIndex={setSwiperIndex}
+          onSetSwiper={setSwiper}
+          data={bannerList!}
+        />
       </div>
       <div className={css({ position: 'relative' })}>
         <div className={styles.navigation}>
-          <button>
+          <button onClick={handlePrevious}>
             <Icon name="left" />
           </button>
-          <span className={css({ textStyle: 'body4', color: 'gray.300' })}>
+          <span className={styles.current_slide}>
             <span className={css({ textStyle: 'body3', color: 'main.base' })}>
-              1{' '}
+              {swiperIndex + 1}{' '}
             </span>
-            / 10
+            / {bannerList?.length}
           </span>
-          <button>
+          <button onClick={handleNext}>
             <Icon name="right" />
           </button>
         </div>
@@ -91,5 +110,11 @@ const styles = {
     right: 0,
     alignItems: 'center',
     justifyContent: 'center',
+  }),
+  current_slide: css({
+    textStyle: 'body4',
+    color: 'gray.300',
+    width: '40px',
+    textAlign: 'right',
   }),
 };

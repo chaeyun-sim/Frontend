@@ -5,77 +5,77 @@ export const textStyles = defineTextStyles({
     description: 'title large',
     value: {
       fontSize: '24px',
-      fontWeight: 600,
+      fontWeight: 'semibold',
     },
   },
   title2: {
     description: 'title medium',
     value: {
       fontSize: '20px',
-      fontWeight: 600,
+      fontWeight: 'semibold',
     },
   },
   body1: {
     description: 'body large - semibold',
     value: {
       fontSize: '18px',
-      fontWeight: 600,
+      fontWeight: 'semibold',
     },
   },
   body2: {
     description: 'body large - regular',
     value: {
       fontSize: '18px',
-      fontWeight: 400,
+      fontWeight: 'regular',
     },
   },
   body3: {
     description: 'body small - semibold',
     value: {
       fontSize: '16px',
-      fontWeight: 600,
+      fontWeight: 'semibold',
     },
   },
   body4: {
     description: 'body small - regular',
     value: {
       fontSize: '16px',
-      fontWeight: 400,
+      fontWeight: 'regular',
     },
   },
   button1: {
     description: 'button text - medium',
     value: {
       fontSize: '15px',
-      fontWeight: 500,
+      fontWeight: 'medium',
     },
   },
   button2: {
     description: 'button text - regular',
     value: {
       fontSize: '15px',
-      fontWeight: 400,
+      fontWeight: 'regular',
     },
   },
   caption1: {
     description: 'caption1 - semibold',
     value: {
       fontSize: '13px',
-      fontWeight: 600,
+      fontWeight: 'semibold',
     },
   },
   caption2: {
     description: 'caption2 - regular',
     value: {
       fontSize: '13px',
-      fontWeight: 400,
+      fontWeight: 'regular',
     },
   },
   caption3: {
     description: 'caption3 - regular',
     value: {
       fontSize: '12px',
-      fontWeight: 400,
+      fontWeight: 'regular',
     },
   },
 });
