@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getPromotionStreamers } from '@/apis/promotion';
+import { getPromotionBanner, getPromotionStreamers } from '@/apis/promotion';
 
 const usePromotionStreamersList = () => {
   return useQuery({
@@ -9,4 +9,11 @@ const usePromotionStreamersList = () => {
   });
 };
 
-export { usePromotionStreamersList };
+const useGetPromotionBannerData = () => {
+  return useQuery({
+    queryKey: ['banner-list'],
+    queryFn: getPromotionBanner,
+  });
+};
+
+export { usePromotionStreamersList, useGetPromotionBannerData };
