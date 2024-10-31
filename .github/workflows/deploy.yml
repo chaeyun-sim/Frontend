@@ -26,7 +26,7 @@ jobs:
         run: yarn build
 
       - name: Deploy to Netlify
-        uses: netlify/actions/cli@v2
+        uses: netlify/actions/cli@v1
         with:
           publish-dir: out
           production-deploy: ${{ github.ref == 'refs/heads/main' }}
