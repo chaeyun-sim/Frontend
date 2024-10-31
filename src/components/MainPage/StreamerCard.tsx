@@ -3,13 +3,16 @@ import Link from 'next/link';
 
 import Tag from './Tag';
 import { css } from '../../../styled-system/css';
-import { flex } from '../../../styled-system/patterns';
+import { center, flex } from '../../../styled-system/patterns';
+import Icon from '../common/Icon';
 
 interface IProps {
   imageUrl: string;
   interestedList: { name: string; isInterested: boolean }[];
   name: string;
   // description: string;
+  // platformList: string[];
+  // notice: string;
   profileUrl: string;
 }
 
@@ -17,18 +20,32 @@ const StreamerCard = ({
   imageUrl,
   interestedList,
   name,
-  // description
+  // description,
+  // platformList,
+  // notice,
   profileUrl,
 }: IProps) => {
   const description = '안녕하세요 이번에 새로 시작한 스트리머입니다.';
   const imagesData = ['youtube', 'chzzk', 'sooplive'];
-  console.log(imageUrl);
+  const notice = '오늘의 한 마디';
 
   return (
     <Link href={profileUrl}>
       <div className={styles.container}>
+        <button className={styles.notice_box}>
+          <div style={{ position: 'absolute', left: '5px' }}>
+            <Icon name="megaphone" />
+          </div>
+          <span className={styles.notice_text}>{notice}</span>
+        </button>
         <div className={styles.profile_image}>
-          <img src={imageUrl} alt="profile" className={styles.image} />
+          <Image
+            src={imageUrl}
+            alt="profile"
+            className={styles.image}
+            width={220}
+            height={207}
+          />
         </div>
         <div className={styles.content}>
           <div className={flex({ gap: '4px' })}>
@@ -47,7 +64,14 @@ const StreamerCard = ({
           <div className={styles.platforms_wrapper}>
             {imagesData.map((item) => (
               <div className={styles.platform}>
-                <Image key={''} src={''} alt="" width={24} height={24} />
+                <Image
+                  key={''}
+                  src={''}
+                  alt=""
+                  width={24}
+                  height={24}
+                  loading="lazy"
+                />
               </div>
             ))}
           </div>
@@ -66,6 +90,7 @@ const styles = {
     borderColor: 'gray.200',
     borderWidth: '1px',
     overflow: 'hidden',
+    position: 'relative',
   }),
   profile_image: css({
     width: '220px',
@@ -105,5 +130,31 @@ const styles = {
     borderRadius: '100%',
     borderColor: 'main.base',
     borderWidth: '1px',
+  }),
+  notice_box: center({
+    position: 'absolute',
+    borderRadius: '100px',
+    backgroundColor: 'white',
+    width: '24px',
+    height: '24px',
+    top: '15px',
+    left: '15px',
+    transition: 'width 0.6s ease',
+    '& > span': {
+      visibility: 'hidden',
+      transition: 'visibility 0.1s',
+    },
+    '&:hover': {
+      width: '190px',
+      cursor: 'default',
+      '& > span': {
+        visibility: 'visible',
+        transition: 'visibility 0.1s 0.25s ease',
+      },
+    },
+  }),
+  notice_text: css({
+    textStyle: 'caption3',
+    color: 'gray.900',
   }),
 };

@@ -5,15 +5,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'www.google.co.kr',
+        hostname: '**',
         port: '',
-        pathname: '/images/**',
+        pathname: '**',
       },
       {
-        protocol: 'https',
-        hostname: 'corp-homepage-phinf.pstatic.net',
+        protocol: 'http',
+        hostname: '**',
         port: '',
-        pathname: '/**',
+        pathname: '**',
       },
     ],
   },
