@@ -25,9 +25,6 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Export
-        run: yarn export
-
       - name: Deploy to Netlify
         uses: netlify/actions/cli@v2
         with:
