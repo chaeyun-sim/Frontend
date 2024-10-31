@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 
 import Icon from './Icon';
@@ -44,16 +45,28 @@ const ProfileImage = ({ setFile }: IProps) => {
         onClick={handleClick}
       >
         {!imageUrl && isHovering && (
-          <img src="/dark-blur.png" alt="dark blur" />
+          <Image
+            src="/dark-blur.png"
+            alt="dark blur"
+            width={120}
+            height={120}
+          />
         )}
         {!imageUrl && !isHovering && (
-          <img src="/light-blur.png" alt="light blur" />
+          <Image
+            src="/light-blur.png"
+            alt="light blur"
+            width={120}
+            height={120}
+          />
         )}
         {imageUrl && (
-          <img
+          <Image
             src={imageUrl}
             alt="Uploaded profile"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            width={120}
+            height={120}
+            objectFit="cover"
           />
         )}
         {!imageUrl && (
