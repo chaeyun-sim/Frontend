@@ -5,12 +5,6 @@ export const login = async (snsType: string, authCode: string) => {
     `/members/login/${snsType.toUpperCase()}`,
     {
       authCode,
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
     }
   );
 
