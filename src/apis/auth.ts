@@ -44,7 +44,7 @@ export const getRefresh = async (refreshToken: string) => {
 };
 
 export const postUser = async (snsType: TSns, formData: FormData) => {
-  const response = await axios.post(`/members/${snsType}`, formData, {
+  const response = await publicInstance.post(`/members/${snsType}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -54,13 +54,13 @@ export const postUser = async (snsType: TSns, formData: FormData) => {
 };
 
 export const getCheckNickname = async (nickname: string) => {
-  const response = await axios.get(`/members/check/${nickname}`);
+  const response = await publicInstance.get(`/members/check/${nickname}`);
 
   return response.data;
 };
 
 export const getServeNickname = async () => {
-  const response = await axios.get(`/members/nicknames`);
+  const response = await publicInstance.get(`/members/nicknames`);
 
   return response.data;
 };
