@@ -59,7 +59,7 @@ const StreamerCard = ({
               </Tag>
             ))}
           </div>
-          <h2 className={styles.name}>{name}</h2>
+          <p className={styles.name}>{name}</p>
           <p className={styles.desc}>{description}</p>
           <div className={styles.platforms_wrapper}>
             {imagesData.map((item) => (
@@ -84,7 +84,8 @@ export default StreamerCard;
 
 const styles = {
   container: css({
-    width: '220px',
+    maxWidth: '220px',
+    width: '100%',
     height: '356px',
     borderRadius: '8px',
     borderColor: 'gray.200',
@@ -93,7 +94,7 @@ const styles = {
     position: 'relative',
   }),
   profile_image: css({
-    width: '220px',
+    width: '100%',
     height: '207px',
   }),
   content: css({

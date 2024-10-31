@@ -25,7 +25,7 @@ export default function Home() {
   const { data: bannerList } = useGetPromotionBannerData();
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <div className={styles.banner}>
         <Banner
           onSetSwiperIndex={setSwiperIndex}
@@ -82,6 +82,7 @@ const styles = {
     background: '#FFD37D',
   }),
   content: css({
+    width: '100%',
     paddingTop: '121px',
   }),
   content_head: flex({
@@ -100,9 +101,12 @@ const styles = {
     textStyle: 'button2',
     gap: '4px',
   }),
-  cards_wrapper: flex({
+  cards_wrapper: css({
+    width: '100%',
     marginTop: '28px',
     gap: '20px',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
   }),
   navigation: hstack({
     position: 'absolute',
