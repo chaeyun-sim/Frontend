@@ -15,8 +15,7 @@ interface IProps {
 const Banner = ({ onSetSwiperIndex, onSetSwiper, data }: IProps) => {
   return (
     <Swiper
-      className="mySwiper"
-      style={{ width: '100%', height: '100%' }}
+      className={styles.container}
       loop
       onSlideChange={(e) => onSetSwiperIndex(e.realIndex)}
       onSwiper={(e) => onSetSwiper(e)}
@@ -24,10 +23,6 @@ const Banner = ({ onSetSwiperIndex, onSetSwiper, data }: IProps) => {
       {data?.map((item) => (
         <SwiperSlide key={item.url} style={{ backgroundColor: item.bgColor }}>
           <div className={styles.inner_slide}>
-            <div className={styles.banner_text_box}>
-              <h1>먹고 먹고 또 먹고</h1>
-              <span>매주 금요일마다 찾아오는 먹방쇼</span>
-            </div>
             <Image
               src={item.url}
               alt="banner"
@@ -47,17 +42,21 @@ const Banner = ({ onSetSwiperIndex, onSetSwiper, data }: IProps) => {
 export default Banner;
 
 const styles = {
-  inner_slide: css({
-    maxWidth: '940px',
+  container: css({
+    width: '100%',
     height: '100%',
+    cursor: 'pointer',
+  }),
+  inner_slide: css({
+    width: '940px',
     margin: '0 auto',
+    height: '100%',
     position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   }),
   banner_img: css({
-    position: 'absolute',
-    right: 0,
-    top: '50%',
-    transform: 'translateY(-50%)',
     objectFit: 'cover',
   }),
   banner_text_box: vstack({
