@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>방방봐</title>
         <meta name="description" content="방송인을 위한 SNS" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
