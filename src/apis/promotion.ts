@@ -1,9 +1,11 @@
 import { publicInstance } from '.';
 
 interface StreamerData {
+  todayComment: string;
+  selfIntroduction: string;
   imageUrl: string;
-  profileUrl: string;
   interestedList: { isInterested: boolean; name: string }[];
+  platformList: { platform: string; imageUrl: string; profileUrl: string }[];
   name: string;
 }
 

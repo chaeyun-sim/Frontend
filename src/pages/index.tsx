@@ -119,6 +119,6 @@ const styles = {
     textStyle: 'body4',
     color: 'gray.300',
     width: '40px',
-    textAlign: 'right',
+    textAlign: 'center',
   }),
 };

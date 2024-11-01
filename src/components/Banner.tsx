@@ -26,7 +26,7 @@ const Banner = ({ onSetSwiperIndex, onSetSwiper, data }: IProps) => {
             <Image
               src={item.url}
               alt="banner"
-              width={460}
+              width={940}
               height={400}
               quality={100}
               priority

@@ -10,76 +10,69 @@ interface IProps {
   imageUrl: string;
   interestedList: { name: string; isInterested: boolean }[];
   name: string;
-  // description: string;
-  // platformList: string[];
-  // notice: string;
-  profileUrl: string;
+  todayComment: string;
+  selfIntroduction: string;
+  platformList: { platform: string; imageUrl: string; profileUrl: string }[];
 }
 
 const StreamerCard = ({
   imageUrl,
   interestedList,
   name,
-  // description,
-  // platformList,
-  // notice,
-  profileUrl,
+  todayComment,
+  selfIntroduction,
+  platformList,
 }: IProps) => {
-  const description = '안녕하세요 이번에 새로 시작한 스트리머입니다.';
-  const imagesData = ['youtube', 'chzzk', 'sooplive'];
-  const notice = '오늘의 한 마디';
-
   return (
-    <Link href={profileUrl}>
-      <div className={styles.container}>
-        <button className={styles.notice_box}>
-          <div style={{ position: 'absolute', left: '5px' }}>
-            <Icon name="megaphone" />
-          </div>
-          <span className={styles.notice_text}>{notice}</span>
-        </button>
-        <div className={styles.profile_image}>
-          <Image
-            src={imageUrl}
-            alt="profile"
-            className={styles.image}
-            width={220}
-            height={207}
-          />
+    <div className={styles.container}>
+      <button className={styles.notice_box}>
+        <div style={{ position: 'absolute', left: '5px' }}>
+          <Icon name="megaphone" />
         </div>
-        <div className={styles.content}>
-          <div className={flex({ gap: '4px' })}>
-            {interestedList.map((item) => (
-              <Tag
-                key={item.name}
-                isSelected={item.isInterested}
-                onClickTag={() => null}
-              >
-                {item.name}
-              </Tag>
-            ))}
-          </div>
-          <p className={styles.name}>{name}</p>
-          <p className={styles.desc}>{description}</p>
-          <div className={styles.platforms_wrapper}>
-            {imagesData.map((item) => (
-              <div className={styles.platform}>
-                <Image
-                  key={''}
-                  src={''}
-                  alt=""
-                  width={24}
-                  height={24}
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
+        <span className={styles.notice_text}>{todayComment}</span>
+      </button>
+      <div className={styles.profile_image}>
+        <Image
+          src={imageUrl}
+          alt="profile"
+          className={styles.image}
+          width={220}
+          height={207}
+        />
+      </div>
+      <div className={styles.content}>
+        <div className={flex({ gap: '4px' })}>
+          {interestedList.map((item) => (
+            <Tag
+              key={item.name}
+              isSelected={item.isInterested}
+              onClickTag={() => null}
+            >
+              {item.name}
+            </Tag>
+          ))}
+        </div>
+        <p className={styles.name}>{name}</p>
+        <p className={styles.desc}>{selfIntroduction}</p>
+        <div className={styles.platforms_wrapper}>
+          {platformList.map((platform) => (
+            <Link href={platform.profileUrl} className={styles.platform}>
+              <Image
+                key={platform.platform}
+                src={platform.imageUrl}
+                alt={platform.platform}
+                width={24}
+                height={24}
+                loading="lazy"
+              />
+            </Link>
+          ))}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
+
 export default StreamerCard;
 
 const styles = {
@@ -124,13 +117,13 @@ const styles = {
     alignItems: 'center',
     gap: '8px',
   }),
-  platform: css({
-    backgroundColor: 'tomato',
+  platform: center({
     width: '24px',
     height: '24px',
     borderRadius: '100%',
     borderColor: 'main.base',
     borderWidth: '1px',
+    overflow: 'hidden',
   }),
   notice_box: center({
     position: 'absolute',
