@@ -1,11 +1,12 @@
-import axios from 'axios';
-
-import { axiosInstance } from '.';
+import { authInstance, publicInstance } from '.';
 
 export const login = async (snsType: string, authCode: string) => {
-  const response = await axios.post(`/members/login/${snsType}`, {
-    authCode,
-  });
+  const response = await publicInstance.post(
+    `/members/login/${snsType.toUpperCase()}`,
+    {
+      authCode,
+    }
+  );
 
   switch (response.status) {
     case 200:
@@ -29,7 +30,7 @@ export const login = async (snsType: string, authCode: string) => {
 };
 
 export const getRefresh = async (refreshToken: string) => {
-  const response = await axiosInstance.post('/members/reissue', {
+  const response = await authInstance.post('/members/reissue', {
     refreshToken,
   });
 
@@ -37,7 +38,7 @@ export const getRefresh = async (refreshToken: string) => {
 };
 
 export const postUser = async (snsType: TSns, formData: FormData) => {
-  const response = await axios.post(`/members/${snsType}`, formData, {
+  const response = await publicInstance.post(`/members/${snsType}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -47,13 +48,13 @@ export const postUser = async (snsType: TSns, formData: FormData) => {
 };
 
 export const getCheckNickname = async (nickname: string) => {
-  const response = await axios.get(`/members/check/${nickname}`);
+  const response = await publicInstance.get(`/members/check/${nickname}`);
 
   return response.data;
 };
 
 export const getServeNickname = async () => {
-  const response = await axios.get(`/members/nicknames`);
+  const response = await publicInstance.get(`/members/nicknames`);
 
   return response.data;
 };
