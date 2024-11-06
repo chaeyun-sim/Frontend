@@ -16,7 +16,7 @@ export default RootLayout;
 
 const styles = {
   container: css({
-    width: '100dvw',
+    width: '100%',
   }),
   content: css({
     width: '940px',
