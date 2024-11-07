@@ -1,4 +1,5 @@
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import PostingFollowings from '@/components/sns/PostingFollowings';
 import Sns from '@/components/sns/Sns';
@@ -15,15 +16,22 @@ import { css } from '../../../../styled-system/css';
 const SnsNormalPage = () => {
   const snsId = Number(useParams()?.id);
 
+  const [prevSnsId, setPrevSnsId] = useState(0);
+  const [nextSnsId, setNextSnsId] = useState(0);
+
   const { data: postingFollwings } = useGetPostingFollowings();
   const { data: snsDetail } = useGetSnsDetail(snsId);
-  const { data: snsList } = useGetSnsList();
+  const { data: snsList } = useGetSnsList({
+    snsId,
+    setPrevSnsId,
+    setNextSnsId,
+  });
 
   return (
     <div className={styles.page_container}>
       <PostingFollowings followings={[postingFollwings]} />
       <div className={styles.main_container}>
-        <Sns data={snsDetail} />
+        <Sns data={snsDetail} prevSnsId={prevSnsId} nextSnsId={nextSnsId} />
         <div className={styles.aside_container}>
           <TodayWordsInput />
           <SnsList list={snsList} />

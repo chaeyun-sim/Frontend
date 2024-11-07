@@ -29,20 +29,7 @@ const SnsList = ({ list }: IProps) => {
         />
       </div>
       <ul className={styles.list}>
-        {[
-          {
-            postId: 1644,
-            title: 'ø!\u0016Ñ¤$+{Ïà%',
-          },
-          {
-            postId: 4253,
-            title: '6WLs',
-          },
-          {
-            postId: 867,
-            title: ';KWYDHCw2WJR]51_',
-          },
-        ]?.map((v) => (
+        {list?.map((v) => (
           <li key={v.postId} onClick={() => router.push(`${v.postId}`)}>
             <SnsItem title={v.title} active={v.postId === snsId} />
           </li>

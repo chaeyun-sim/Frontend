@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import useToggle from '@/hooks/useToggle';
 
@@ -10,14 +11,26 @@ import CommentWriteModal from '../modal/CommentWriteModal';
 
 interface IProps {
   data?: ISnsDetail;
+  prevSnsId: number;
+  nextSnsId: number;
 }
 
-const Sns = ({ data }: IProps) => {
+const Sns = ({ data, prevSnsId, nextSnsId }: IProps) => {
+  const router = useRouter();
+
   const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
   const {
     isOpen: isOpenCommentModal,
     handleToggle: handleToggleOpenCommentModal,
   } = useToggle(false);
+
+  const handleClickPrevSns = () => {
+    router.push(`${prevSnsId}`);
+  };
+
+  const handleClickNextSns = () => {
+    router.push(`${nextSnsId}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -75,8 +88,16 @@ const Sns = ({ data }: IProps) => {
         </div>
       </div>
       <div className={styles.controller}>
-        <IconButton icon="left" />
-        <IconButton icon="right" />
+        {prevSnsId ? (
+          <IconButton icon="left" onClick={handleClickPrevSns} />
+        ) : (
+          <div />
+        )}
+        {nextSnsId ? (
+          <IconButton icon="right" onClick={handleClickNextSns} />
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );
