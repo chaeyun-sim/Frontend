@@ -1,24 +1,22 @@
 import Icon from './common/Icon';
 
 const VisibilityOption = ({
-  isSelected,
   value,
   onClick,
   label,
 }: {
-  isSelected: boolean;
   value: boolean;
   onClick: (value: boolean) => void;
   label: string;
-}) => (
-  <>
-    <button onClick={() => onClick(value)}>
-      <Icon
-        name={isSelected === value ? 'check2-checked' : 'check2-unchecked'}
-      />
-    </button>
-    {label}
-  </>
-);
+}) => {
+  return (
+    <>
+      <button onClick={() => onClick(value)}>
+        <Icon name={value ? 'check2-checked' : 'check2-unchecked'} />
+      </button>
+      <span style={{ marginTop: '2px' }}>{label}</span>
+    </>
+  );
+};
 
 export default VisibilityOption;

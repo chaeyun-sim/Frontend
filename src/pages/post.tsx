@@ -83,9 +83,8 @@ const PostPage = () => {
           />
           <div className={styles.visibility_settings}>
             <VisibilityOption
-              isSelected={isPublic}
-              value={true}
-              onClick={setIsPublic}
+              value={isPublic}
+              onClick={() => setIsPublic(!isPublic)}
               label="공개 설정"
             />
           </div>
@@ -140,9 +139,8 @@ const PostPage = () => {
           </div>
           <div className={styles.visibility_settings}>
             <VisibilityOption
-              isSelected={isPublic}
-              value={false}
-              onClick={setIsPublic}
+              value={!isPublic}
+              onClick={() => setIsPublic(!isPublic)}
               label="비공개 설정"
             />
           </div>
