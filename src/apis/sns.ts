@@ -29,3 +29,9 @@ export const getPostingFollowings = async () => {
 
   return [];
 };
+
+export const postComment = async (data: IPostCommentReq) => {
+  const response = await publicInstance.post('sns/createComment', data);
+
+  return response.data;
+};

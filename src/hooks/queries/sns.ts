@@ -1,6 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { getPostingFollowings, getSnsDetail, getSnsList } from '@/apis/sns';
+import {
+  getPostingFollowings,
+  getSnsDetail,
+  getSnsList,
+  postComment,
+} from '@/apis/sns';
+
+interface IPostCommentProps {
+  onClose: () => void;
+}
 
 export const useGetSnsList = () => {
   return useQuery({
@@ -21,5 +30,16 @@ export const useGetPostingFollowings = () => {
   return useQuery({
     queryKey: ['postingFollowings'],
     queryFn: getPostingFollowings,
+  });
+};
+
+export const usePostComment = ({ onClose }: IPostCommentProps) => {
+  return useMutation({
+    mutationFn: (data: IPostCommentReq) => postComment(data),
+    onSuccess: ({ code }) => {
+      if (code === 'OK') {
+        onClose();
+      }
+    },
   });
 };

@@ -11,7 +11,7 @@ const PostingFollowings = ({ followings }: IProps) => {
       {/* <div className={cx(styles.box, styles.left_box)} /> */}
       <ul className={styles.list}>
         {followings.map((v) => (
-          <li key={v?.broadcasterId}>
+          <li key={v?.broadcasterId || 0}>
             <FollowingProfile
               profile={v?.profileUrl || ''}
               todayWords={v?.todaySaying}

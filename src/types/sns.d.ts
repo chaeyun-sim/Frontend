@@ -1,9 +1,16 @@
+interface IRecentSnsItem {
+  title: string;
+  content: string;
+  comment: string;
+  isFollowed: boolean;
+}
+
 interface IPostingFollowing {
-  broadcasterId?: number;
-  profileUrl?: string;
-  nickname?: string;
-  todaySaying?: string;
-  recentPostList?: [];
+  broadcasterId: number;
+  profileUrl: string;
+  nickname: string;
+  todaySaying: string;
+  recentPostList: IRecentSnsItem[];
 }
 
 type TSnsType = 'text' | 'image' | 'video' | 'imagevideo';
@@ -23,4 +30,9 @@ interface ISnsDetail {
   content: string;
   comment: string;
   isFollowed: boolean;
+}
+
+interface IPostCommentReq {
+  postId: number;
+  content: string;
 }

@@ -5,6 +5,7 @@ import PostingButton from './PostingButton';
 import { css, cx } from '../../../styled-system/css';
 import Button from '../common/Button';
 import IconButton from '../common/IconButton';
+import CommentWriteModal from '../modal/CommentWriteModal';
 
 interface IProps {
   data?: ISnsDetail;
@@ -12,13 +13,20 @@ interface IProps {
 
 const Sns = ({ data }: IProps) => {
   const [isMore, setIsMore] = useState(false);
+  const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
 
   const handleToggleMore = () => {
     setIsMore(!isMore);
   };
+  const handleToggleOpenCommentModal = () => {
+    setIsOpenCommentModal(!isOpenCommentModal);
+  };
 
   return (
     <div className={styles.container}>
+      {isOpenCommentModal && (
+        <CommentWriteModal onClose={handleToggleOpenCommentModal} />
+      )}
       <div className={styles.header}>
         <div className={styles.header_button_container}>
           <Image
@@ -34,7 +42,12 @@ const Sns = ({ data }: IProps) => {
           )}
         </div>
         <div className={styles.header_button_container}>
-          <Button text="댓글 달기" variant="outlined" size="small" />
+          <Button
+            text="댓글 달기"
+            variant="outlined"
+            size="small"
+            onClick={handleToggleOpenCommentModal}
+          />
           <IconButton icon="dot-white" />
         </div>
       </div>
