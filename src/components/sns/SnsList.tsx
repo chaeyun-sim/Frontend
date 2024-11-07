@@ -1,4 +1,3 @@
-import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -10,11 +9,11 @@ import Select from '../common/Select';
 
 interface IProps {
   list?: ISnsItem[];
+  currentSnsId: number;
 }
 
-const SnsList = ({ list }: IProps) => {
+const SnsList = ({ list, currentSnsId }: IProps) => {
   const router = useRouter();
-  const snsId = Number(useParams()?.id);
 
   const [selectedFilter, setSelectedFilter] = useState('1');
 
@@ -31,7 +30,7 @@ const SnsList = ({ list }: IProps) => {
       <ul className={styles.list}>
         {list?.map((v) => (
           <li key={v.postId} onClick={() => router.push(`${v.postId}`)}>
-            <SnsItem title={v.title} active={v.postId === snsId} />
+            <SnsItem title={v.title} active={v.postId === currentSnsId} />
           </li>
         ))}
       </ul>

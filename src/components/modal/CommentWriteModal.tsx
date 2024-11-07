@@ -10,11 +10,10 @@ import Textarea from '../common/Textarea';
 
 interface IProps {
   onClose: () => void;
+  currentSnsId: number;
 }
 
-const CommentWriteModal = ({ onClose }: IProps) => {
-  const snsId = Number(useParams()?.id);
-
+const CommentWriteModal = ({ onClose, currentSnsId }: IProps) => {
   const [content, setContent] = useState('');
 
   const { mutate: postComment } = usePostComment({ onClose });
@@ -22,7 +21,7 @@ const CommentWriteModal = ({ onClose }: IProps) => {
   const handleSubmit = () => {
     if (!content) return;
 
-    postComment({ postId: snsId, content });
+    postComment({ postId: currentSnsId, content });
   };
 
   return (

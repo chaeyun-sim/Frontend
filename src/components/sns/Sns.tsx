@@ -13,9 +13,10 @@ interface IProps {
   data?: ISnsDetail;
   prevSnsId: number;
   nextSnsId: number;
+  currentSnsId: number;
 }
 
-const Sns = ({ data, prevSnsId, nextSnsId }: IProps) => {
+const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
   const router = useRouter();
 
   const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
@@ -35,7 +36,10 @@ const Sns = ({ data, prevSnsId, nextSnsId }: IProps) => {
   return (
     <div className={styles.container}>
       {isOpenCommentModal && (
-        <CommentWriteModal onClose={handleToggleOpenCommentModal} />
+        <CommentWriteModal
+          onClose={handleToggleOpenCommentModal}
+          currentSnsId={currentSnsId}
+        />
       )}
       <div className={styles.header}>
         <div className={styles.header_button_container}>

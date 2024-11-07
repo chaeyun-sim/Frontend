@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import PostingFollowings from '@/components/sns/PostingFollowings';
 import Sns from '@/components/sns/Sns';
@@ -31,10 +31,15 @@ const SnsNormalPage = () => {
     <div className={styles.page_container}>
       <PostingFollowings followings={[postingFollwings]} />
       <div className={styles.main_container}>
-        <Sns data={snsDetail} prevSnsId={prevSnsId} nextSnsId={nextSnsId} />
+        <Sns
+          data={snsDetail}
+          prevSnsId={prevSnsId}
+          nextSnsId={nextSnsId}
+          currentSnsId={snsId}
+        />
         <div className={styles.aside_container}>
           <TodayWordsInput />
-          <SnsList list={snsList} />
+          <SnsList list={snsList} currentSnsId={snsId} />
         </div>
       </div>
     </div>
