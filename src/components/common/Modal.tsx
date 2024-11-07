@@ -20,7 +20,7 @@ const Modal = ({
       <div
         className={cx(
           styles.modal_content,
-          css({ width: width || 380, height: height || 240, margin: 'auto' })
+          css({ width: width || 380, height: height || 'auto', margin: 'auto' })
         )}
       >
         {children}
