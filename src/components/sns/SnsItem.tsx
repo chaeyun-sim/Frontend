@@ -10,7 +10,9 @@ interface IProps {
 
 const SnsItem = ({ title, type = 'text', active }: IProps) => {
   return (
-    <div className={cx(styles.container, active && styles.active)}>
+    <div
+      className={cx(styles.container, active ? styles.active : styles.default)}
+    >
       <p>{title}</p>
       {type !== 'text' && (
         <Image src={`/icons/${type}.svg`} alt={type} width={20} height={20} />
@@ -27,13 +29,16 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    border: '1px solid',
+  }),
+  default: css({
+    borderColor: 'transparent',
     _hover: {
       backgroundColor: 'main.light2',
     },
   }),
   active: css({
-    backgroundColor: 'main.light1 !important',
-    border: '1px solid',
     borderColor: 'main.base',
+    backgroundColor: 'main.light1 !important',
   }),
 };

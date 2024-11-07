@@ -40,22 +40,22 @@ export const POSTING_FOLLOWINGS_SAMPLE_DATA = [
 
 export const SNS_LIST_SAMPLE_DATE: ISnsItem[] = [
   {
-    id: 1,
+    postId: 1,
     title: '제목',
     type: 'text',
   },
   {
-    id: 2,
+    postId: 2,
     title: '제목',
     type: 'image',
   },
   {
-    id: 3,
+    postId: 3,
     title: '제목',
     type: 'video',
   },
   {
-    id: 4,
+    postId: 4,
     title: '제목',
     type: 'imagevideo',
   },

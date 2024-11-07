@@ -7,7 +7,7 @@ import Button from '../common/Button';
 import IconButton from '../common/IconButton';
 
 interface IProps {
-  data: ISns;
+  data?: ISnsDetail;
 }
 
 const Sns = ({ data }: IProps) => {
@@ -22,14 +22,14 @@ const Sns = ({ data }: IProps) => {
       <div className={styles.header}>
         <div className={styles.header_button_container}>
           <Image
-            src={data.profileUrl}
+            src={data?.profileUrl || ''}
             alt="profile"
             width={36}
             height={36}
             className={styles.profile}
           />
-          <div className={styles.name}>{data.nickname}</div>
-          {!data.isFollowed && (
+          <div className={styles.name}>{data?.nickname}</div>
+          {!data?.isFollowed && (
             <Button text="팔로우" variant="outlined" size="small" />
           )}
         </div>
@@ -45,8 +45,8 @@ const Sns = ({ data }: IProps) => {
         )}
       >
         <div className={styles.main}>
-          <p className={styles.title}>{data.title}</p>
-          <p className={styles.content}>{data.content} </p>
+          <p className={styles.title}>{data?.title}</p>
+          <p className={styles.content}>{data?.content} </p>
         </div>
         <div
           className={cx(

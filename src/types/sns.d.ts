@@ -1,20 +1,21 @@
 interface IPostingFollowing {
-  id: number;
-  profile: string;
-  todayWords?: string;
-  isViewed?: boolean;
+  broadcasterId?: number;
+  profileUrl?: string;
+  nickname?: string;
+  todaySaying?: string;
+  recentPostList?: [];
 }
 
 type TSnsType = 'text' | 'image' | 'video' | 'imagevideo';
 
 interface ISnsItem {
-  id: number;
+  postId: number;
   title: string;
-  type: TSnsType;
+  type: TSnsType; // 추가
 }
 
-interface ISns {
-  id: number;
+interface ISnsDetail {
+  id: number; // 추가
   writerId: number;
   profileUrl: string;
   nickname: string;

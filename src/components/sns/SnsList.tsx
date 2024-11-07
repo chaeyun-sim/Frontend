@@ -1,3 +1,5 @@
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { SNS_FILTER_OPTIONS } from '@/constants/sns';
@@ -7,10 +9,13 @@ import { css } from '../../../styled-system/css';
 import Select from '../common/Select';
 
 interface IProps {
-  list: ISnsItem[];
+  list?: ISnsItem[];
 }
 
 const SnsList = ({ list }: IProps) => {
+  const router = useRouter();
+  const snsId = Number(useParams()?.id);
+
   const [selectedFilter, setSelectedFilter] = useState('1');
 
   return (
@@ -24,9 +29,22 @@ const SnsList = ({ list }: IProps) => {
         />
       </div>
       <ul className={styles.list}>
-        {list.map((v) => (
-          <li key={v.id}>
-            <SnsItem title={v.title} type={v.type} active={v.id === 1} />
+        {[
+          {
+            postId: 1644,
+            title: 'ø!\u0016Ñ¤$+{Ïà%',
+          },
+          {
+            postId: 4253,
+            title: '6WLs',
+          },
+          {
+            postId: 867,
+            title: ';KWYDHCw2WJR]51_',
+          },
+        ]?.map((v) => (
+          <li key={v.postId} onClick={() => router.push(`${v.postId}`)}>
+            <SnsItem title={v.title} active={v.postId === snsId} />
           </li>
         ))}
       </ul>
@@ -56,6 +74,9 @@ const styles = {
     flexDirection: 'column',
     maxHeight: '424px',
     overflowY: 'auto',
+    '& > li': {
+      cursor: 'pointer',
+    },
     '& > li:not(:last-of-type)': {
       borderBottom: '1px solid',
       borderColor: 'gray.100',

@@ -1,28 +1,32 @@
+import { useParams } from 'next/navigation';
+
 import PostingFollowings from '@/components/sns/PostingFollowings';
 import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
 import TodayWordsInput from '@/components/sns/TodaywordsInput';
 import {
-  POSTING_FOLLOWINGS_SAMPLE_DATA,
-  SNS_LIST_SAMPLE_DATE,
-  SNS_SAMPLE_DATA,
-} from '@/constants/sampleData';
+  useGetPostingFollowings,
+  useGetSnsDetail,
+  useGetSnsList,
+} from '@/hooks/queries/sns';
 
-import { css } from '../../../styled-system/css';
+import { css } from '../../../../styled-system/css';
 
 const SnsNormalPage = () => {
-  // TODO. GET 포스팅한 팔로잉 리스트
-  // TODO. GET SNS
-  // TODO. GET SNS 리스트
+  const snsId = Number(useParams()?.id);
+
+  const { data: postingFollwings } = useGetPostingFollowings();
+  const { data: snsDetail } = useGetSnsDetail(snsId);
+  const { data: snsList } = useGetSnsList();
 
   return (
     <div className={styles.page_container}>
-      <PostingFollowings followings={POSTING_FOLLOWINGS_SAMPLE_DATA} />
+      <PostingFollowings followings={[postingFollwings]} />
       <div className={styles.main_container}>
-        <Sns data={SNS_SAMPLE_DATA} />
+        <Sns data={snsDetail} />
         <div className={styles.aside_container}>
           <TodayWordsInput />
-          <SnsList list={SNS_LIST_SAMPLE_DATE} />
+          <SnsList list={snsList} />
         </div>
       </div>
     </div>
