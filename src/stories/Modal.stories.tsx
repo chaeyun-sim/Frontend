@@ -4,6 +4,8 @@ import Button from '@/components/common/Button';
 import Header from '@/components/common/Header';
 import Modal from '@/components/common/Modal';
 
+import { css } from '../../styled-system/css';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
@@ -25,7 +27,10 @@ export const Default: Story = {
     return (
       <>
         {isOpen && (
-          <Modal onClose={() => setIsOpen(false)}>
+          <Modal
+            onClose={() => setIsOpen(false)}
+            className={css({ width: 380, height: 240 })}
+          >
             <div>test</div>
           </Modal>
         )}

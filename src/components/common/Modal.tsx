@@ -4,7 +4,7 @@ import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
   onClose: () => void;
-  className: string;
+  className?: string;
 }
 
 const Modal = ({ onClose, className, children }: PropsWithChildren<IProps>) => {
