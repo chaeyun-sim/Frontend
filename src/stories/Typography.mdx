@@ -1,0 +1,75 @@
+{/* Typography.mdx */}
+
+import { Meta, Typeset } from '@storybook/blocks';
+
+<Meta title="Typography" />
+
+export const typography = {
+  type: {
+    primary: 'Pretendard',
+  },
+  weight: {
+    regular: '400',
+    medium: '500',
+    semibold: '600',
+  },
+  size: {
+    caption3: '12px',
+    caption1: '13px',
+    caption2: '13px',
+    button1: '15px',
+    button2: '15px',
+    body3: '16px',
+    body4: '16px',
+    body1: '18px',
+    body2: '18px',
+    title2: '20px',
+    title1: '24px',
+  },
+};
+
+export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+# Typography
+
+**Font:** Pretendard
+
+**Weights:** 400(regular), 500(medium), 600(semibold)
+
+<br />
+
+## Title Styles
+<Typeset
+  fontSizes={['24px', '20px']}
+  fontWeight={typography.weight.semibold}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+## Body Styles
+font-weight: 'semibold' | 'medium' | 'regular'
+<Typeset
+  fontSizes={['18px', '16px']}
+  fontWeight={typography.weight.regular}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+## Button Styles
+font-weight: 'medium' | 'regular'
+<Typeset
+  fontSizes={['15px']}
+  fontWeight={typography.weight.medium}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+
+## Caption Styles
+font-weight: 'semibold' | 'regular'
+<Typeset
+  fontSizes={['13px', '12px']}
+  fontWeight={typography.weight.regular}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
