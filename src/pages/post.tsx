@@ -89,59 +89,55 @@ const PostPage = () => {
               label="공개 설정"
             />
           </div>
-          {isPublic && (
-            <>
-              <div style={{ padding: '0 16px' }}>
-                <Input
-                  value={searchText}
-                  onSetValue={setSearchText}
-                  onClick={() => setIsPublic(true)}
-                  placeholder="사용자를 입력해주세요."
-                />
-                <SelectPeopleDropdown
-                  keyword={searchText}
-                  onClickItem={handleClickDropdown}
-                  onCloseDropdown={() => setIsDropdownOpen(false)}
-                  isDropdownOpen={isDropdownOpen}
-                />
-              </div>
-              <div className={styles.selected_list}>
-                <div className={styles.selected_box}>
-                  {/* TODO: User 데이터가 없어서 임시로 인덱스 전달 */}
-                  {showPublicList.slice(0, 4).map((item, i) => (
-                    <button
-                      key={i}
-                      className={styles.profile_box_wrapper}
-                      onClick={() => handleDeleteSelected(i)}
-                    >
-                      <div className={styles.profile_box}>
-                        <Image
-                          src={
-                            'https://images.unsplash.com/photo-1730343464315-a9ca01f9f1c6?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                          }
-                          alt="selected profile"
-                          width={36}
-                          height={36}
-                          objectFit="cover"
-                        />
-                      </div>
-                      <div className={styles.delete_btn}>
-                        <Icon
-                          name="delete-btn-red"
-                          className={css({ width: 12, height: 12 })}
-                        />
-                      </div>
-                    </button>
-                  ))}
-                  {showPublicList.length > 4 && (
-                    <div className={cx(styles.profile_box_wrapper, center())}>
-                      + {showPublicList.length - 4}
-                    </div>
-                  )}
+          <div style={{ padding: '0 16px' }}>
+            <Input
+              value={searchText}
+              onSetValue={setSearchText}
+              onClick={() => setIsPublic(true)}
+              placeholder="사용자를 입력해주세요."
+            />
+            <SelectPeopleDropdown
+              keyword={searchText}
+              onClickItem={handleClickDropdown}
+              onCloseDropdown={() => setIsDropdownOpen(false)}
+              isDropdownOpen={isDropdownOpen}
+            />
+          </div>
+          <div className={styles.selected_list}>
+            <div className={styles.selected_box}>
+              {/* TODO: User 데이터가 없어서 임시로 인덱스 전달 */}
+              {showPublicList.slice(0, 4).map((item, i) => (
+                <button
+                  key={i}
+                  className={styles.profile_box_wrapper}
+                  onClick={() => handleDeleteSelected(i)}
+                >
+                  <div className={styles.profile_box}>
+                    <Image
+                      src={
+                        'https://images.unsplash.com/photo-1730343464315-a9ca01f9f1c6?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                      }
+                      alt="selected profile"
+                      width={36}
+                      height={36}
+                      objectFit="cover"
+                    />
+                  </div>
+                  <div className={styles.delete_btn}>
+                    <Icon
+                      name="delete-btn-red"
+                      className={css({ width: 12, height: 12 })}
+                    />
+                  </div>
+                </button>
+              ))}
+              {showPublicList.length > 4 && (
+                <div className={cx(styles.profile_box_wrapper, center())}>
+                  + {showPublicList.length - 4}
                 </div>
-              </div>
-            </>
-          )}
+              )}
+            </div>
+          </div>
           <div className={styles.visibility_settings}>
             <VisibilityOption
               isSelected={isPublic}
