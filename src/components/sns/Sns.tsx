@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { useState } from 'react';
+
+import useToggle from '@/hooks/useToggle';
 
 import PostingButton from './PostingButton';
 import { css, cx } from '../../../styled-system/css';
@@ -12,15 +13,11 @@ interface IProps {
 }
 
 const Sns = ({ data }: IProps) => {
-  const [isMore, setIsMore] = useState(false);
-  const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
-
-  const handleToggleMore = () => {
-    setIsMore(!isMore);
-  };
-  const handleToggleOpenCommentModal = () => {
-    setIsOpenCommentModal(!isOpenCommentModal);
-  };
+  const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
+  const {
+    isOpen: isOpenCommentModal,
+    handleToggle: handleToggleOpenCommentModal,
+  } = useToggle(false);
 
   return (
     <div className={styles.container}>
