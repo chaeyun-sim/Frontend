@@ -112,6 +112,9 @@ const styles = {
     position: 'relative',
     borderBottomColor: 'gray.100',
     borderBottomWidth: '1px',
+    '&:last-child': {
+      borderBottom: 'none',
+    },
   }),
   image: css({
     width: '36px',
