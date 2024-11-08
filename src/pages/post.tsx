@@ -10,6 +10,7 @@ import Tabs from '@/components/common/Tabs';
 import GoToStreamerModal from '@/components/modal/GoToStreamerModal';
 import SelectPeopleDropdown from '@/components/SelectPeopleDropdown';
 import VisibilityOption from '@/components/VisibilityOption';
+import { useCreatePost } from '@/hooks/queries/sns';
 
 import { css, cx } from '../../styled-system/css';
 import { center } from '../../styled-system/patterns';
@@ -28,6 +29,8 @@ const PostPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState<string>('');
 
+  const { mutate: createPost } = useCreatePost({ successCallback: () => null });
+
   useEffect(() => {
     setIsDropdownOpen(!!searchText);
   }, [searchText]);
@@ -43,7 +46,14 @@ const PostPage = () => {
 
   const handleEditorChange = (value: string) => setContent(value);
 
-  const handleSubmit = () => null;
+  const handleSubmit = () =>
+    createPost({
+      postType: 'MEMBER',
+      title,
+      content,
+      publicMembers: showPublicList,
+      privateMembers: [],
+    });
 
   return (
     <div className={styles.container}>
