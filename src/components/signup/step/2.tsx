@@ -13,6 +13,7 @@ import {
   useSignup,
 } from '@/hooks/queries/auth';
 import useToast from '@/hooks/useToast';
+import { getItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
@@ -66,9 +67,10 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('nickname', nickname);
-    interests.forEach((interest) => {
-      formData.append('interests', interest);
-    });
+    formData.append('oauthToken', getItem('@oauthToken')!);
+    // interests.forEach((interest) => {
+    //   formData.append('interests', interest);
+    // });
 
     signup(formData);
   };
