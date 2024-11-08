@@ -7,6 +7,7 @@ import {
   login,
   postUser,
 } from '@/apis/auth';
+import { setItem } from '@/utils/localStorage';
 
 interface ICheckNicknameProps {
   nickname: string;
@@ -52,11 +53,13 @@ const useSocialLogin = ({
             console.error(error);
             router.push('/');
             break;
-          case 401:
+          case 401: {
             console.error('가입되지 않은 회원입니다');
-            console.error(error);
+            const oauthToken = axiosError.response?.data?.data;
+            setItem('@oauthToken', oauthToken);
             router.push('/signup');
             break;
+          }
           case 500:
             console.error('서버 오류가 발생했습니다');
             console.error(error);
