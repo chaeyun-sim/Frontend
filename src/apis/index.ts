@@ -7,9 +7,6 @@ import { getRefresh } from './auth';
 export const publicInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
   withCredentials: true,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 const token = String(getItem('@token'));

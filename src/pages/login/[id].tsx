@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { useSocialLogin } from '@/hooks/queries/auth';
 import { setItem } from '@/utils/localStorage';
 
+import { center } from '../../../styled-system/patterns';
+
 const Login = () => {
   const router = useRouter();
   const navigation = useNavigation();
@@ -12,7 +14,7 @@ const Login = () => {
 
   const { mutate, isError, error } = useSocialLogin({
     successCallback: (data) => {
-      if (data.code === 'OK') {
+      if (data?.code === 'OK') {
         setItem('@token', data.data.accessToken);
         setItem('@refresh', data.data.refreshToken);
         navigation.push('/');
@@ -34,9 +36,14 @@ const Login = () => {
   }
 
   if (isError) {
+    const errorMessage =
+      error instanceof Error && (error as any).status === 401
+        ? '회원가입 페이지로 넘어가는 중...'
+        : '에러가 발생했습니다';
+
     return (
-      <div>
-        <span>에러가 발생했습니다</span>
+      <div className={center({ width: '100%', height: '100%' })}>
+        <span>{errorMessage}</span>
         <br />
         <span>{(error as Error).message}</span>
       </div>
