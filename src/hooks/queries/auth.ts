@@ -42,7 +42,7 @@ const useSocialLogin = ({
       authCode: string;
     }) => await login(snsType, authCode),
     onSuccess: successCallback,
-    onError: (error: unknown) => {
+    onError: (error: unknown, { snsType }) => {
       if (error instanceof Error && 'response' in error) {
         const axiosError = error as any;
         const status = axiosError.response?.status;
@@ -57,7 +57,7 @@ const useSocialLogin = ({
             console.error('가입되지 않은 회원입니다');
             const oauthToken = axiosError.response?.data?.data;
             setItem('@oauthToken', oauthToken);
-            router.push('/signup');
+            router.push(`/signup/${snsType}`);
             break;
           }
           case 500:
