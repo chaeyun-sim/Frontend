@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
@@ -23,6 +24,9 @@ interface IProps {
 }
 
 const SignupStep2 = ({ handleChangeStep }: IProps) => {
+  const router = useRouter();
+  const { id } = router.query;
+
   const [file, setFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');
   const [hasDuplicatedNickname, setHasDuplicatedNickname] = useState(false);
@@ -59,7 +63,10 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   });
 
   // 가입 완료
-  const { mutate: signup } = useSignup({ handleChangeStep });
+  const { mutate: signup } = useSignup({
+    snsType: id as TSns,
+    handleChangeStep,
+  });
 
   const handleSubmit = () => {
     if (!isEnabledSubmitButton) return;

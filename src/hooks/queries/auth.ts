@@ -21,6 +21,7 @@ interface IServeNicknameProps {
 }
 
 interface ISignupProps {
+  snsType: TSns;
   handleChangeStep: (step: number) => void;
 }
 
@@ -118,9 +119,9 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   });
 };
 
-export const useSignup = ({ handleChangeStep }: ISignupProps) => {
+export const useSignup = ({ snsType, handleChangeStep }: ISignupProps) => {
   return useMutation({
-    mutationFn: (formData: FormData) => postUser('KAKAO', formData),
+    mutationFn: (formData: FormData) => postUser(snsType, formData),
     onSuccess: ({ code }) => {
       if (code === 'OK') {
         handleChangeStep(2);
