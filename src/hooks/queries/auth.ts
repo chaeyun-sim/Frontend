@@ -21,6 +21,7 @@ interface IServeNicknameProps {
 }
 
 interface ISignupProps {
+  snsType: TSns;
   handleChangeStep: (step: number) => void;
 }
 
@@ -42,7 +43,7 @@ const useSocialLogin = ({
       authCode: string;
     }) => await login(snsType, authCode),
     onSuccess: successCallback,
-    onError: (error: unknown) => {
+    onError: (error: unknown, { snsType }) => {
       if (error instanceof Error && 'response' in error) {
         const axiosError = error as any;
         const status = axiosError.response?.status;
@@ -57,7 +58,7 @@ const useSocialLogin = ({
             console.error('가입되지 않은 회원입니다');
             const oauthToken = axiosError.response?.data?.data;
             setItem('@oauthToken', oauthToken);
-            router.push('/signup');
+            router.push(`/signup/${snsType}`);
             break;
           }
           case 500:
@@ -118,9 +119,9 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   });
 };
 
-export const useSignup = ({ handleChangeStep }: ISignupProps) => {
+export const useSignup = ({ snsType, handleChangeStep }: ISignupProps) => {
   return useMutation({
-    mutationFn: (formData: FormData) => postUser('KAKAO', formData),
+    mutationFn: (formData: FormData) => postUser(snsType, formData),
     onSuccess: ({ code }) => {
       if (code === 'OK') {
         handleChangeStep(2);
