@@ -5,6 +5,9 @@ import { useEffect } from 'react';
 import { useSocialLogin } from '@/hooks/queries/auth';
 import { setItem } from '@/utils/localStorage';
 
+import { css } from '../../../styled-system/css';
+import { center } from '../../../styled-system/patterns';
+
 const Login = () => {
   const router = useRouter();
   const navigation = useNavigation();
@@ -12,7 +15,7 @@ const Login = () => {
 
   const { mutate, isError, error } = useSocialLogin({
     successCallback: (data) => {
-      if (data.code === 'OK') {
+      if (data?.code === 'OK') {
         setItem('@token', data.data.accessToken);
         setItem('@refresh', data.data.refreshToken);
         navigation.push('/');
@@ -30,15 +33,31 @@ const Login = () => {
     !['kakao', 'google', 'naver'].includes(String(id)) ||
     code === undefined
   ) {
-    return <div>잘못된 접근입니다.</div>;
+    return (
+      <div className={styles.container}>
+        <span className={css({ textStyle: 'body1' })}>
+          에러가 발생했습니다.
+        </span>
+        <br />
+      </div>
+    );
   }
 
   if (isError) {
+    if (error instanceof Error && (error as any).status === 401) {
+      return (
+        <div className={styles.container}>
+          <span>회원가입 페이지로 이동 중...</span>
+        </div>
+      );
+    }
+
     return (
-      <div>
-        <span>에러가 발생했습니다</span>
+      <div className={styles.container}>
+        <span className={css({ textStyle: 'body1' })}>
+          에러가 발생했습니다.
+        </span>
         <br />
-        <span>{(error as Error).message}</span>
       </div>
     );
   }
@@ -47,3 +66,10 @@ const Login = () => {
 };
 
 export default Login;
+
+const styles = {
+  container: center({
+    width: '100%',
+    height: 'calc(100dvh - 200px)',
+  }),
+};
