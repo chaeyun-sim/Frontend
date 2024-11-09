@@ -71,10 +71,14 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   const handleSubmit = () => {
     if (!isEnabledSubmitButton) return;
 
+    const request = {
+      nickname,
+      oauthToken: getItem('@oauthToken'),
+    };
+
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('nickname', nickname);
-    formData.append('oauthToken', getItem('@oauthToken')!);
+    formData.append('request', JSON.stringify(request));
     // interests.forEach((interest) => {
     //   formData.append('interests', interest);
     // });

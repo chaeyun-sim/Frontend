@@ -31,11 +31,15 @@ export const getRefresh = async (refreshToken: string) => {
 };
 
 export const postUser = async (snsType: TSns, formData: FormData) => {
-  const response = await publicInstance.post(`/members/${snsType}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  const response = await publicInstance.post(
+    `/members/${snsType.toUpperCase()}`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
 
   return response.data;
 };
