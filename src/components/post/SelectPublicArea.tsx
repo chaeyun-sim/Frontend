@@ -85,6 +85,13 @@ const SelectPublicArea = ({
           label="공개 설정"
         />
       </div>
+      <div className={styles.visibility_settings}>
+        <CheckBox
+          checked={!isPublic}
+          handleCheck={togglePublic}
+          label="비공개 설정"
+        />
+      </div>
       <div style={{ padding: '0 16px' }}>
         <Input
           value={searchText}
@@ -93,7 +100,8 @@ const SelectPublicArea = ({
             setIsPublic(true);
             onOpenDropdown();
           }}
-          placeholder="사용자를 입력해주세요."
+          hidePlaceholderOnFocus
+          placeholder="사용자 이름을 입력해주세요."
         />
         <SelectPeopleDropdown
           keyword={searchText}
@@ -114,13 +122,6 @@ const SelectPublicArea = ({
             </div>
           )}
         </div>
-      </div>
-      <div className={styles.visibility_settings}>
-        <CheckBox
-          checked={!isPublic}
-          handleCheck={togglePublic}
-          label="비공개 설정"
-        />
       </div>
       <div className={styles.save_btn}>
         <Button

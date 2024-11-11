@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
