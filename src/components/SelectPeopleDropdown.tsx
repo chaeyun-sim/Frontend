@@ -23,7 +23,7 @@ const SelectPeopleDropdown = ({
   const [data, setData] = useState<string[]>(peoples);
 
   useEffect(() => {
-    const filtered = peoples.filter((p) => p.startsWith(keyword));
+    const filtered = peoples.filter((p) => p.includes(keyword));
     setData(filtered);
   }, [keyword]);
 
@@ -46,6 +46,27 @@ const SelectPeopleDropdown = ({
     setData(data.filter((item) => item !== value));
   };
 
+  const highlightText = (text: string) => {
+    if (!keyword.trim()) return text;
+
+    const regex = new RegExp(`(${keyword})`, 'gi');
+    const parts = text.split(regex);
+
+    return (
+      <span className={styles.name}>
+        {parts.map((part, i) =>
+          regex.test(part) ? (
+            <span key={i} className={css({ color: 'main.base' })}>
+              {part}
+            </span>
+          ) : (
+            part
+          )
+        )}
+      </span>
+    );
+  };
+
   return (
     <>
       {isDropdownOpen && data.length > 0 && (
@@ -63,10 +84,11 @@ const SelectPeopleDropdown = ({
                   style={{ objectFit: 'cover' }}
                 />
               </div>
-              <span className={styles.name}>
-                <span className={css({ color: 'main.base' })}>{keyword}</span>
-                {p.split(keyword)[1]}
-              </span>
+              {keyword === '' ? (
+                <span className={styles.name}>{p}</span>
+              ) : (
+                <span className={styles.name}>{highlightText(p)}</span>
+              )}
               <button
                 className={styles.add_btn}
                 onClick={() => handleClickItem(p)}
