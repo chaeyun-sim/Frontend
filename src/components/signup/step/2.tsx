@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
@@ -13,6 +14,7 @@ import {
   useSignup,
 } from '@/hooks/queries/auth';
 import useToast from '@/hooks/useToast';
+import { getItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
@@ -22,6 +24,9 @@ interface IProps {
 }
 
 const SignupStep2 = ({ handleChangeStep }: IProps) => {
+  const router = useRouter();
+  const { id } = router.query;
+
   const [file, setFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');
   const [hasDuplicatedNickname, setHasDuplicatedNickname] = useState(false);
@@ -58,17 +63,25 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   });
 
   // 가입 완료
-  const { mutate: signup } = useSignup({ handleChangeStep });
+  const { mutate: signup } = useSignup({
+    snsType: id as TSns,
+    handleChangeStep,
+  });
 
   const handleSubmit = () => {
     if (!isEnabledSubmitButton) return;
 
+    const request = {
+      nickname,
+      oauthToken: getItem('@oauthToken'),
+    };
+
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('nickname', nickname);
-    interests.forEach((interest) => {
-      formData.append('interests', interest);
-    });
+    formData.append('request', JSON.stringify(request));
+    // interests.forEach((interest) => {
+    //   formData.append('interests', interest);
+    // });
 
     signup(formData);
   };

@@ -6,7 +6,7 @@ import SignupStep2 from '@/components/signup/step/2';
 import SignupStep3 from '@/components/signup/step/3';
 import { SIGNUP_PROCESS_STEPS } from '@/constants/signup';
 
-import { css } from '../../styled-system/css';
+import { css } from '../../../styled-system/css';
 
 const SignupPage = () => {
   const [currentStep, setCurrentStep] = useState(0);

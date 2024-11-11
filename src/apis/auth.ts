@@ -1,32 +1,25 @@
 import { authInstance, publicInstance } from '.';
 
 export const login = async (snsType: string, authCode: string) => {
+  const type = snsType.toUpperCase();
+  console.log(
+    'Request URL:',
+    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/members/login/${type}`
+  );
+  console.log('Request Body:', { authCode });
+
   const response = await publicInstance.post(
-    `/members/login/${snsType.toUpperCase()}`,
+    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/members/login/${type}`,
     {
       authCode,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }
   );
-
-  switch (response.status) {
-    case 200:
-      return response.data;
-    case 400:
-      console.error(response.data.message);
-      alert(response.data.authCode);
-      window.location.href = '/';
-      return;
-    case 401:
-      if (response.data.message === '가입되지 않은 회원입니다.') {
-        window.location.href = '/signup';
-      }
-      return;
-    case 500:
-      console.error(response.data.message);
-      return;
-    default:
-      throw new Error('알 수 없는 문제가 발생했습니다.');
-  }
+  return response.data;
 };
 
 export const getRefresh = async (refreshToken: string) => {
@@ -38,11 +31,15 @@ export const getRefresh = async (refreshToken: string) => {
 };
 
 export const postUser = async (snsType: TSns, formData: FormData) => {
-  const response = await publicInstance.post(`/members/${snsType}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  const response = await publicInstance.post(
+    `/members/${snsType.toUpperCase()}`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
 
   return response.data;
 };
