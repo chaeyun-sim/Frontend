@@ -37,17 +37,17 @@ const SelectPublicArea = ({
   onOpenDropdown,
 }: IProps) => {
   const [isPublic, setIsPublic] = useState(true);
-  const [showPublicList, setShowPublicList] = useState<string[]>([]); // TODO: 추후 User[]로 변경
+  const [members, setMemberrs] = useState<string[]>([]); // TODO: 추후 User[]로 변경
 
   const { mutate: createPost } = useCreatePost({ successCallback: () => null });
 
   const handleAddPublicPeople = (person: string) => {
-    setShowPublicList([...showPublicList, person]);
+    setMemberrs([...members, person]);
   };
 
   // TODO: User 데이터가 없어 index로 대신함
   const handleRemovePublicPeople = (index: number) => {
-    setShowPublicList(showPublicList.filter((_, i) => i !== index));
+    setMemberrs(members.filter((_, i) => i !== index));
   };
 
   const togglePublic = () => setIsPublic(!isPublic);
@@ -57,7 +57,7 @@ const SelectPublicArea = ({
       postType: 'MEMBER',
       title,
       content,
-      publicMembers: showPublicList,
+      publicMembers: members,
       privateMembers: [],
     });
 
@@ -113,12 +113,12 @@ const SelectPublicArea = ({
       <div className={styles.selected_list}>
         <div className={styles.selected_box}>
           {/* TODO: User 데이터가 없어서 임시로 인덱스 전달 */}
-          {showPublicList.slice(0, 4).map((item, i) => (
+          {members.slice(0, 4).map((item, i) => (
             <Avatar key={item} onClick={() => handleRemovePublicPeople(i)} />
           ))}
-          {showPublicList.length > 4 && (
+          {members.length > 4 && (
             <div className={cx(styles.profile_box_wrapper, center())}>
-              + {showPublicList.length - 4}
+              + {members.length - 4}
             </div>
           )}
         </div>
