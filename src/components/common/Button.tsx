@@ -6,13 +6,14 @@ import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
   variant?: 'contained' | 'outlined';
-  size?: 'large' | 'small';
+  size?: 'large' | 'small' | 'fullWidth';
   type?: 'submit' | 'reset' | 'button';
   text: string;
   onClick?: () => void;
   disabled?: boolean;
   postfix?: ReactNode;
   prefix?: ReactNode;
+  className?: string;
 }
 
 const Button = ({
@@ -23,6 +24,7 @@ const Button = ({
   postfix,
   prefix,
   onClick,
+  className,
   text,
 }: IProps) => {
   const colorMode = () => {
@@ -66,13 +68,24 @@ const Button = ({
         padding: '8px 12px',
         textStyle: 'button2',
       });
+    } else if (size === 'fullWidth') {
+      return css({
+        width: 'calc(100% - 32px)',
+        margin: '0 16px',
+        height: '43px',
+      });
     }
   };
 
   return (
     <button
       type={type}
-      className={cx(colorMode(), sizeMode(), styles.button_container)}
+      className={cx(
+        colorMode(),
+        sizeMode(),
+        styles.button_container,
+        className
+      )}
       onClick={onClick}
       disabled={disabled}
     >

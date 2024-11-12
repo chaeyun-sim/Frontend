@@ -15,7 +15,10 @@ const Header = () => {
   return (
     <>
       {isLoginModalOpen && (
-        <Modal onClose={closeModal}>
+        <Modal
+          onClose={closeModal}
+          className={css({ width: 380, height: 240 })}
+        >
           <LoginModal />
         </Modal>
       )}

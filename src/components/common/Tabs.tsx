@@ -1,15 +1,27 @@
+import Icon from './Icon';
 import { css, cx } from '../../../styled-system/css';
 
+interface TabItem {
+  id: string;
+  value: string;
+  disabled?: boolean;
+  iconName?: string;
+}
+
 interface IProps<T extends string> {
-  tabList: { id: string; value: string }[];
+  tabList: TabItem[];
   selected: T;
   handleSelect: (id: T) => void;
+  handleSelectDisabled?: (id: T) => void;
+  type?: 'box' | 'line';
 }
 
 const Tabs = <T extends string>({
   tabList,
   selected,
   handleSelect,
+  handleSelectDisabled,
+  type = 'box',
 }: IProps<T>) => {
   return (
     <div className={styles.tabs_wrapper}>
@@ -19,10 +31,26 @@ const Tabs = <T extends string>({
             key={tab.id}
             className={cx(
               styles.tab,
-              selected === tab.id && styles.selected_tab
+              type === 'line' &&
+                selected !== tab.id &&
+                css({ borderBottomColor: 'white' }),
+              selected === tab.id && type === 'box'
+                ? styles.selected_tab_box
+                : styles.selected_tab_line,
+              tab.disabled && styles.disabled
             )}
-            onClick={() => handleSelect(tab.id as T)}
+            onClick={() =>
+              tab.disabled
+                ? handleSelectDisabled!(tab.id as T)
+                : handleSelect(tab.id as T)
+            }
           >
+            {tab.iconName && (
+              <Icon
+                name={tab.iconName}
+                className={css({ marginRight: '10px' })}
+              />
+            )}
             {tab.value}
           </button>
         ))}
@@ -60,11 +88,20 @@ const styles = {
     color: 'gray.300',
     fontWeight: 500,
   }),
-  selected_tab: css({
+  selected_tab_box: css({
     borderColor: 'main.base',
     borderWidth: '1px',
     borderStyle: 'solid',
     borderBottomColor: 'white',
+    marginBottom: '-1px',
+    zIndex: 2,
+    color: 'main.base !important',
+    fontWeight: 500,
+  }),
+  selected_tab_line: css({
+    borderBottom: '2px solid',
+    borderBottomColor: 'main.base',
+    borderWidth: '1px',
     marginBottom: '-1px',
     zIndex: 2,
     color: 'main.base !important',
@@ -77,5 +114,9 @@ const styles = {
     position: 'absolute',
     bottom: 0,
     left: 0,
+  }),
+  disabled: css({
+    color: 'gray.300 !important',
+    cursor: 'default',
   }),
 };
