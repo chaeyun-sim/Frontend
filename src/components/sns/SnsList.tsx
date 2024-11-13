@@ -8,7 +8,7 @@ import { css } from '../../../styled-system/css';
 import Select from '../common/Select';
 
 interface IProps {
-  list?: ISnsItem[];
+  list?: ISnsItem[] | null;
   currentSnsId: number;
 }
 

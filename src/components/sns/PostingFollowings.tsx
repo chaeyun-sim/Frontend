@@ -2,7 +2,7 @@ import FollowingProfile from './FollowingProfile';
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
-  followings: IPostingFollowing[];
+  followings?: IPostingFollowing[] | null;
 }
 
 const PostingFollowings = ({ followings }: IProps) => {
@@ -10,7 +10,7 @@ const PostingFollowings = ({ followings }: IProps) => {
     <div className={styles.container}>
       {/* <div className={cx(styles.box, styles.left_box)} /> */}
       <ul className={styles.list}>
-        {followings.map((v) => (
+        {followings?.map((v) => (
           <li key={v?.broadcasterId || 0}>
             <FollowingProfile
               profile={v?.profileUrl || ''}

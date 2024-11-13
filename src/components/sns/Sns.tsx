@@ -7,7 +7,7 @@ import SnsHeader from './sns/SnsHeader';
 import SnsMain from './sns/SnsMain';
 
 interface IProps {
-  data?: ISnsDetail;
+  data?: ISnsDetail | null;
   prevSnsId: number;
   nextSnsId: number;
   currentSnsId: number;

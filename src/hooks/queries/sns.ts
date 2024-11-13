@@ -27,18 +27,15 @@ export const useGetSnsList = ({
   return useQuery({
     queryKey: ['snsList'],
     queryFn: async () => {
-      const { code, data } = await getSnsList();
-      if (code === 'OK') {
-        const currentSnsIdx = (data as ISnsItem[]).findIndex(
-          (v) => v.postId === snsId
-        );
+      const { code, data }: IRes<ISnsItem[] | null> = await getSnsList();
+      if (code === 'OK' && data) {
+        const currentSnsIdx = data?.findIndex((v) => v.postId === snsId);
 
         setPrevSnsId(data[currentSnsIdx - 1]?.postId);
         setNextSnsId(data[currentSnsIdx + 1]?.postId);
 
         return data;
       }
-      return [];
     },
   });
 };
@@ -47,11 +44,10 @@ export const useGetSnsDetail = (snsId: number) => {
   return useQuery({
     queryKey: ['snsDetail', snsId],
     queryFn: async () => {
-      const { code, data } = await getSnsDetail(snsId);
+      const { code, data }: IRes<ISnsDetail | null> = await getSnsDetail(snsId);
       if (code === 'OK') {
         return data;
       }
-      return null;
     },
     enabled: !!snsId,
   });
@@ -61,11 +57,11 @@ export const useGetPostingFollowings = () => {
   return useQuery({
     queryKey: ['postingFollowings'],
     queryFn: async () => {
-      const { code, data } = await getPostingFollowings();
+      const { code, data }: IRes<IPostingFollowing> =
+        await getPostingFollowings();
       if (code === 'OK') {
-        return data;
+        return [data];
       }
-      return null;
     },
   });
 };
@@ -73,7 +69,7 @@ export const useGetPostingFollowings = () => {
 export const usePostComment = ({ onClose }: IPostCommentProps) => {
   return useMutation({
     mutationFn: (data: IPostCommentReq) => postComment(data),
-    onSuccess: ({ code }) => {
+    onSuccess: ({ code }: IRes<any>) => {
       if (code === 'OK') {
         onClose();
       }

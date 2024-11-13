@@ -29,7 +29,7 @@ const SnsNormalPage = () => {
 
   return (
     <div className={styles.page_container}>
-      <PostingFollowings followings={[postingFollwings]} />
+      <PostingFollowings followings={postingFollwings} />
       <div className={styles.main_container}>
         <Sns
           data={snsDetail}
