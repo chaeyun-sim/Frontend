@@ -29,7 +29,6 @@ export default PostingFollowings;
 const styles = {
   container: css({
     position: 'relative',
-    width: '620px',
   }),
   list: css({
     display: 'flex',

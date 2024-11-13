@@ -41,8 +41,6 @@ export default Sns;
 
 const styles = {
   container: css({
-    minWidth: '620px',
-    maxWidth: '620px',
     display: 'flex',
     flexDirection: 'column',
   }),
