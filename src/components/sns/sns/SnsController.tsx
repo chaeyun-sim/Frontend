@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import IconButton from '@/components/common/IconButton';
 
@@ -10,24 +10,19 @@ interface IProps {
 }
 
 const SnsController = ({ prevSnsId, nextSnsId }: IProps) => {
-  const router = useRouter();
-
-  const handleClickPrevSns = () => {
-    router.push(`${prevSnsId}`);
-  };
-  const handleClickNextSns = () => {
-    router.push(`${nextSnsId}`);
-  };
-
   return (
     <div className={styles.controller}>
       {prevSnsId ? (
-        <IconButton icon="left" onClick={handleClickPrevSns} />
+        <Link href={`${prevSnsId}`}>
+          <IconButton icon="left" />
+        </Link>
       ) : (
         <div />
       )}
       {nextSnsId ? (
-        <IconButton icon="right" onClick={handleClickNextSns} />
+        <Link href={`${nextSnsId}`}>
+          <IconButton icon="right" />
+        </Link>
       ) : (
         <div />
       )}

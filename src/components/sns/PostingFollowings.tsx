@@ -8,7 +8,7 @@ interface IProps {
 const PostingFollowings = ({ followings }: IProps) => {
   return (
     <div className={styles.container}>
-      {/* <div className={cx(styles.box, styles.left_box)} /> */}
+      {/* <div className={cx(styles.overlay, styles.left_overlay)} /> */}
       <ul className={styles.list}>
         {followings?.map((v) => (
           <li key={v?.broadcasterId || 0}>
@@ -19,7 +19,7 @@ const PostingFollowings = ({ followings }: IProps) => {
           </li>
         ))}
       </ul>
-      {/* <div className={cx(styles.box, styles.right_box)} /> */}
+      {/* <div className={cx(styles.overlay, styles.right_overlay)} /> */}
     </div>
   );
 };
@@ -39,18 +39,18 @@ const styles = {
       display: 'none',
     },
   }),
-  box: css({
+  overlay: css({
     position: 'absolute',
     top: 0,
     width: '48px',
     height: '100%',
     zIndex: 10,
   }),
-  left_box: css({
+  left_overlay: css({
     left: 0,
     background: 'linear-gradient(to left, transparent, white)',
   }),
-  right_box: css({
+  right_overlay: css({
     right: 0,
     background: 'linear-gradient(to right, transparent, white)',
   }),

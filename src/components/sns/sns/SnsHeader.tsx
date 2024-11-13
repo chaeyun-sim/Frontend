@@ -26,6 +26,7 @@ const SnsHeader = ({
           alt="profile"
           width={36}
           height={36}
+          objectFit="cover"
           className={styles.profile}
         />
         <div className={styles.name}>{nickname}</div>

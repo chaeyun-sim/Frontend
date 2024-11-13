@@ -13,13 +13,8 @@ const SnsMain = ({ title, content }: IProps) => {
   const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
 
   return (
-    <div
-      className={cx(
-        styles.main_container,
-        !isMore && styles.close_main_container
-      )}
-    >
-      <div className={styles.main}>
+    <div className={cx(styles.container, !isMore && styles.close_container)}>
+      <div className={styles.content_container}>
         <p className={styles.title}>{title}</p>
         <p className={styles.content}>{content} </p>
       </div>
@@ -45,7 +40,7 @@ const SnsMain = ({ title, content }: IProps) => {
 export default SnsMain;
 
 const styles = {
-  main_container: css({
+  container: css({
     position: 'relative',
     padding: '16px',
     minHeight: '568px',
@@ -57,11 +52,11 @@ const styles = {
     borderX: '1px solid',
     borderColor: 'main.base',
   }),
-  close_main_container: css({
+  close_container: css({
     height: '568px',
     overflowY: 'hidden',
   }),
-  main: css({
+  content_container: css({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

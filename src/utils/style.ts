@@ -1,6 +1,13 @@
 import { css } from '../../styled-system/css';
 
-export const inputBorderColor = (hasError?: boolean, disabled?: boolean) => {
+export const getInputStyle = (hasError?: boolean, disabled?: boolean) => {
+  const baseStyle = {
+    borderColor: 'gray.300',
+    _focusVisible: {
+      outlineColor: 'main.base',
+    },
+  };
+
   if (hasError) {
     return css({
       color: 'red',
@@ -9,16 +16,11 @@ export const inputBorderColor = (hasError?: boolean, disabled?: boolean) => {
         outlineColor: 'red',
       },
     });
-  } else if (disabled) {
-    return css({
-      borderColor: 'gray.300',
-    });
   }
 
-  return css({
-    borderColor: 'gray.300',
-    _focusVisible: {
-      outlineColor: 'main.base',
-    },
-  });
+  if (disabled) {
+    return css(baseStyle);
+  }
+
+  return css(baseStyle);
 };

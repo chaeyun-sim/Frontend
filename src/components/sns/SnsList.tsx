@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { SNS_FILTER_OPTIONS } from '@/constants/sns';
@@ -13,8 +13,6 @@ interface IProps {
 }
 
 const SnsList = ({ list, currentSnsId }: IProps) => {
-  const router = useRouter();
-
   const [selectedFilter, setSelectedFilter] = useState('1');
 
   return (
@@ -29,8 +27,10 @@ const SnsList = ({ list, currentSnsId }: IProps) => {
       </div>
       <ul className={styles.list}>
         {list?.map((v) => (
-          <li key={v.postId} onClick={() => router.push(`${v.postId}`)}>
-            <SnsItem title={v.title} active={v.postId === currentSnsId} />
+          <li key={v.postId}>
+            <Link href={`${v.postId}`}>
+              <SnsItem title={v.title} active={v.postId === currentSnsId} />
+            </Link>
           </li>
         ))}
       </ul>
@@ -60,9 +60,6 @@ const styles = {
     flexDirection: 'column',
     maxHeight: '424px',
     overflowY: 'auto',
-    '& > li': {
-      cursor: 'pointer',
-    },
     '& > li:not(:last-of-type)': {
       borderBottom: '1px solid',
       borderColor: 'gray.100',
