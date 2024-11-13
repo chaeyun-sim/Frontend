@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import TodayWords from './Todaywords';
+import DailyMessage from './DailyMessage';
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
@@ -19,7 +19,7 @@ const FollowingProfile = ({ profile, todayWords, isViewed }: IProps) => {
     >
       {todayWords && (
         <div className={styles.today_words_container}>
-          <TodayWords todayWords={todayWords} />
+          <DailyMessage todayWords={todayWords} />
         </div>
       )}
       <Image

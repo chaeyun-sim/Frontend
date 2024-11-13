@@ -7,7 +7,7 @@ interface IProps {
   todayWords: string;
 }
 
-const TodayWords = ({ todayWords }: IProps) => {
+const DailyMessage = ({ todayWords }: IProps) => {
   const [isHover, setIsHover] = useState(false);
 
   const handleMouseEnter = () => {
@@ -35,7 +35,7 @@ const TodayWords = ({ todayWords }: IProps) => {
   );
 };
 
-export default TodayWords;
+export default DailyMessage;
 
 const styles = {
   container: css({

@@ -6,7 +6,7 @@ import { css } from '../../../styled-system/css';
 import IconButton from '../common/IconButton';
 import Textarea from '../common/Textarea';
 
-const TodayWordsInput = () => {
+const DailyMessageInput = () => {
   const [message, setMessage] = useState('');
 
   const { mutate: postDailyMessage } = usePostDailyMessage({ setMessage });
@@ -30,7 +30,7 @@ const TodayWordsInput = () => {
   );
 };
 
-export default TodayWordsInput;
+export default DailyMessageInput;
 
 const styles = {
   container: css({

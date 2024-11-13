@@ -1,10 +1,10 @@
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
+import DailyMessageInput from '@/components/sns/DailyMessageInput';
 import PostingFollowings from '@/components/sns/PostingFollowings';
 import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
-import TodayWordsInput from '@/components/sns/TodaywordsInput';
 import {
   useGetPostingFollowings,
   useGetSnsDetail,
@@ -38,7 +38,7 @@ const SnsNormalPage = () => {
           currentSnsId={snsId}
         />
         <div className={styles.aside_container}>
-          <TodayWordsInput />
+          <DailyMessageInput />
           <SnsList list={snsList} currentSnsId={snsId} />
         </div>
       </div>
