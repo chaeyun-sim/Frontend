@@ -9,8 +9,9 @@ import {
   ICreatePost,
 } from '@/apis/sns';
 
-interface IGetSnsListProps {
+interface IGetSnsDetailProps {
   snsId: number;
+  snsList?: ISnsItem[] | null;
   setPrevSnsId: (value: number) => void;
   setNextSnsId: (value: number) => void;
 }
@@ -19,37 +20,40 @@ interface IPostCommentProps {
   onClose: () => void;
 }
 
-export const useGetSnsList = ({
-  snsId,
-  setPrevSnsId,
-  setNextSnsId,
-}: IGetSnsListProps) => {
+export const useGetSnsList = () => {
   return useQuery({
     queryKey: ['snsList'],
     queryFn: async () => {
       const { code, data }: IRes<ISnsItem[] | null> = await getSnsList();
-      if (code === 'OK' && data) {
-        const currentSnsIdx = data?.findIndex((v) => v.postId === snsId);
-
-        setPrevSnsId(data[currentSnsIdx - 1]?.postId);
-        setNextSnsId(data[currentSnsIdx + 1]?.postId);
-
+      if (code === 'OK') {
         return data;
       }
+      return null;
     },
   });
 };
 
-export const useGetSnsDetail = (snsId: number) => {
+export const useGetSnsDetail = ({
+  snsId,
+  snsList,
+  setPrevSnsId,
+  setNextSnsId,
+}: IGetSnsDetailProps) => {
   return useQuery({
     queryKey: ['snsDetail', snsId],
     queryFn: async () => {
       const { code, data }: IRes<ISnsDetail | null> = await getSnsDetail(snsId);
       if (code === 'OK') {
+        if (snsList) {
+          const currentSnsIdx = snsList.findIndex((v) => v.postId === snsId);
+          setPrevSnsId(snsList[currentSnsIdx - 1]?.postId);
+          setNextSnsId(snsList[currentSnsIdx + 1]?.postId);
+        }
         return data;
       }
+      return null;
     },
-    enabled: !!snsId,
+    enabled: !!snsId && !!snsList,
   });
 };
 
@@ -62,6 +66,7 @@ export const useGetPostingFollowings = () => {
       if (code === 'OK') {
         return [data];
       }
+      return null;
     },
   });
 };
@@ -73,6 +78,7 @@ export const usePostComment = ({ onClose }: IPostCommentProps) => {
       if (code === 'OK') {
         onClose();
       }
+      return null;
     },
   });
 };

@@ -20,9 +20,10 @@ const SnsNormalPage = () => {
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: postingFollwings } = useGetPostingFollowings();
-  const { data: snsDetail } = useGetSnsDetail(snsId);
-  const { data: snsList } = useGetSnsList({
+  const { data: snsList } = useGetSnsList();
+  const { data: snsDetail } = useGetSnsDetail({
     snsId,
+    snsList,
     setPrevSnsId,
     setNextSnsId,
   });
