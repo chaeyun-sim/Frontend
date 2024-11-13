@@ -25,7 +25,7 @@ const CommentWriteModal = ({ onClose, currentSnsId }: IProps) => {
   };
 
   return (
-    <Modal onClose={onClose} width={600}>
+    <Modal onClose={onClose} className={css({ width: 600 })}>
       <div className={styles.container}>
         <h2 className={styles.title}>댓글 작성</h2>
         <Textarea value={content} setValue={setContent} rows={9} />
