@@ -1,21 +1,29 @@
 import { useState } from 'react';
 
+import { usePostDailyMessage } from '@/hooks/queries/streamer';
+
 import { css } from '../../../styled-system/css';
 import IconButton from '../common/IconButton';
 import Textarea from '../common/Textarea';
 
 const TodayWordsInput = () => {
-  const [value, setValue] = useState('');
+  const [message, setMessage] = useState('');
+
+  const { mutate: postDailyMessage } = usePostDailyMessage({ setMessage });
+
+  const handleSubmit = () => {
+    postDailyMessage({ message });
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.title_container}>
         <p className={styles.title}>오늘의 한마디</p>
-        <IconButton icon="pen" />
+        <IconButton icon="pen" disabled={!message} onClick={handleSubmit} />
       </div>
       <Textarea
-        value={value}
-        setValue={setValue}
+        value={message}
+        setValue={setMessage}
         placeholder="오늘의 한마디를 작성해주세요."
       />
     </div>

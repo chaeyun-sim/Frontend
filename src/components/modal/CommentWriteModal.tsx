@@ -1,4 +1,3 @@
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { usePostComment } from '@/hooks/queries/sns';
@@ -19,8 +18,6 @@ const CommentWriteModal = ({ onClose, currentSnsId }: IProps) => {
   const { mutate: postComment } = usePostComment({ onClose });
 
   const handleSubmit = () => {
-    if (!content) return;
-
     postComment({ postId: currentSnsId, content });
   };
 

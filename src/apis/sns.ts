@@ -1,4 +1,4 @@
-import { publicInstance } from '.';
+import { authInstance, publicInstance } from '.';
 
 export interface ICreatePost {
   postType: string;
@@ -24,7 +24,7 @@ export const getPostingFollowings = async () => {
 };
 
 export const postComment = async (data: IPostCommentReq) => {
-  const response = await publicInstance.post('sns/createComment', data);
+  const response = await authInstance.post('sns/createComment', data);
   return response.data;
 };
 
