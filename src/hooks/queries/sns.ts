@@ -5,6 +5,8 @@ import {
   getSnsDetail,
   getSnsList,
   postComment,
+  createPost,
+  ICreatePost,
 } from '@/apis/sns';
 
 interface IGetSnsListProps {
@@ -76,5 +78,16 @@ export const usePostComment = ({ onClose }: IPostCommentProps) => {
         onClose();
       }
     },
+  });
+};
+
+export const useCreatePost = ({
+  successCallback,
+}: {
+  successCallback: (data: IRes<any>) => void;
+}) => {
+  return useMutation({
+    mutationFn: async (props: ICreatePost) => await createPost(props),
+    onSuccess: successCallback,
   });
 };

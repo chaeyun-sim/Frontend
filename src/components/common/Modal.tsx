@@ -4,27 +4,14 @@ import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
   onClose: () => void;
-  width?: number;
-  height?: number;
+  className?: string;
 }
 
-const Modal = ({
-  onClose,
-  width,
-  height,
-  children,
-}: PropsWithChildren<IProps>) => {
+const Modal = ({ onClose, className, children }: PropsWithChildren<IProps>) => {
   return (
     <div className={styles.modal_container}>
       <div className={styles.modal_blur} onClick={onClose} />
-      <div
-        className={cx(
-          styles.modal_content,
-          css({ width: width || 380, height: height || 'auto', margin: 'auto' })
-        )}
-      >
-        {children}
-      </div>
+      <div className={cx(styles.modal_content, className)}>{children}</div>
     </div>
   );
 };
@@ -42,13 +29,13 @@ const styles = {
   }),
   modal_content: css({
     backgroundColor: 'white',
-    zIndex: 100,
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     shadow: 'shadow1',
     borderRadius: '8px',
+    zIndex: 10000,
   }),
   modal_blur: css({
     width: '100%',
@@ -60,6 +47,6 @@ const styles = {
     bottom: 0,
     backgroundColor: 'black',
     opacity: 0.5,
-    zIndex: 10,
+    zIndex: 1000,
   }),
 };

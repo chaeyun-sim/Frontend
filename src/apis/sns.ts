@@ -1,5 +1,13 @@
 import { publicInstance } from '.';
 
+export interface ICreatePost {
+  postType: string;
+  title: string;
+  content: string;
+  publicMembers: string[];
+  privateMembers: string[];
+}
+
 export const getSnsList = async () => {
   const response = await publicInstance.get('/sns/getPostList');
 
@@ -21,5 +29,10 @@ export const getPostingFollowings = async () => {
 export const postComment = async (data: IPostCommentReq) => {
   const response = await publicInstance.post('sns/createComment', data);
 
+  return response.data;
+};
+
+export const createPost = async (props: ICreatePost) => {
+  const response = await publicInstance.post(`sns/createPost`, props);
   return response.data;
 };

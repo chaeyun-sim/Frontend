@@ -8,6 +8,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   hasError?: boolean;
   postfix?: ReactNode;
   onClickRightIcon?: () => void;
+  hidePlaceholderOnFocus?: boolean;
 }
 
 const Input = ({
@@ -17,6 +18,7 @@ const Input = ({
   disabled,
   postfix,
   onClickRightIcon,
+  hidePlaceholderOnFocus,
   ...props
 }: IProps) => {
   const bottomColor = () => {
@@ -48,10 +50,16 @@ const Input = ({
       <input
         value={value}
         onChange={handleChange}
-        className={cx(styles.input, bottomColor())}
+        className={cx(
+          styles.input,
+          bottomColor(),
+          hidePlaceholderOnFocus && styles.hidePlaceholder
+        )}
         disabled={disabled}
         readOnly={disabled}
-        style={{ paddingRight: postfix ? 30 : 0 }}
+        style={{
+          paddingRight: postfix ? 30 : 0,
+        }}
         {...props}
       />
       <button className={styles.postfix} onClick={onClickRightIcon}>
@@ -80,5 +88,10 @@ const styles = {
     position: 'absolute',
     right: 0,
     top: 6,
+  }),
+  hidePlaceholder: css({
+    '&:focus::placeholder': {
+      opacity: 0,
+    },
   }),
 };
