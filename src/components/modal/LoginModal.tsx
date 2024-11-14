@@ -7,15 +7,15 @@ import { flex } from '../../../styled-system/patterns';
 const LoginModal = () => {
   const loginProviders = {
     kakao: {
-      url: 'https://kauth.kakao.com/oauth/authorize',
+      url: 'https://kauth.kakao.com/oauth/authorize?',
       clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
     },
     google: {
-      url: 'https://accounts.google.com/o/oauth2/v2/auth',
+      url: 'https://accounts.google.com/o/oauth2/v2/auth?scope=openid email&',
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     },
     naver: {
-      url: 'https://nid.naver.com/oauth2.0/authorize',
+      url: 'https://nid.naver.com/oauth2.0/authorize?',
       clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
     },
   };
@@ -25,7 +25,8 @@ const LoginModal = () => {
     const redirectUrl = encodeURIComponent(
       `${process.env.NEXT_PUBLIC_REDIRECT_URL}/${provider}`
     );
-    window.location.href = `${url}?client_id=${clientId}&redirect_uri=${redirectUrl}&response_type=code`;
+
+    window.location.href = `${url}client_id=${clientId}&redirect_uri=${redirectUrl}&response_type=code`;
   };
 
   return (

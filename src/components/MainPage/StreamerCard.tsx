@@ -5,6 +5,7 @@ import Tag from './Tag';
 import { css } from '../../../styled-system/css';
 import { center, flex } from '../../../styled-system/patterns';
 import Icon from '../common/Icon';
+import Platform from '../Platform';
 
 interface IProps {
   imageUrl: string;
@@ -56,16 +57,7 @@ const StreamerCard = ({
         <p className={styles.desc}>{selfIntroduction}</p>
         <div className={styles.platforms_wrapper}>
           {platformList.map((platform) => (
-            <Link href={platform.profileUrl} className={styles.platform}>
-              <Image
-                key={platform.platform}
-                src={platform.imageUrl}
-                alt={platform.platform}
-                width={24}
-                height={24}
-                loading="lazy"
-              />
-            </Link>
+            <Platform {...platform} />
           ))}
         </div>
       </div>
@@ -116,14 +108,6 @@ const styles = {
     marginTop: '8px',
     alignItems: 'center',
     gap: '8px',
-  }),
-  platform: center({
-    width: '24px',
-    height: '24px',
-    borderRadius: '100%',
-    borderColor: 'main.base',
-    borderWidth: '1px',
-    overflow: 'hidden',
   }),
   notice_box: center({
     position: 'absolute',
