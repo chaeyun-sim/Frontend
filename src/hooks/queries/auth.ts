@@ -7,7 +7,7 @@ import {
   login,
   postUser,
 } from '@/apis/auth';
-import { setItem } from '@/utils/localStorage';
+import { removeItem, setItem } from '@/utils/localStorage';
 
 interface ICheckNicknameProps {
   nickname: string;
@@ -125,6 +125,7 @@ export const useSignup = ({ snsType, handleChangeStep }: ISignupProps) => {
     onSuccess: ({ code }) => {
       if (code === 'OK') {
         handleChangeStep(2);
+        removeItem('@oauthToken');
       }
     },
   });
