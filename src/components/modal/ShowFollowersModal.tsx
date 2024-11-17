@@ -52,6 +52,7 @@ const styles = {
     borderColor: 'gray.100',
     borderWidth: '1px',
     maxHeight: '340px',
-    overflow: 'scroll',
+    overflowY: 'auto',
+    overflowX: 'hidden',
   }),
 };

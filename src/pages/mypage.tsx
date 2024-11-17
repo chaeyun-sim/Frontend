@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 import Modal from '@/components/common/Modal';
+import ProfileImage from '@/components/common/ProfileImage';
 import AccountUpdateModal from '@/components/modal/AccountUpdateModal';
 import ShowFollowersModal from '@/components/modal/ShowFollowersModal';
 import Content from '@/components/mypage/Content';
 import Platform from '@/components/Platform';
+import { useModal } from '@/hooks/useModal';
+import { useToggle } from '@/hooks/useToggle';
 
 import { css, cx } from '../../styled-system/css';
 import { center, flex, vstack } from '../../styled-system/patterns';
@@ -20,84 +23,80 @@ interface PlatformData {
   profileUrl: string;
 }
 
-interface Article {
-  title: string;
-  date: string;
-  type?: ArticleType;
-  pinned?: boolean;
-}
-
-const articles: Article[] = [
-  {
-    title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
-    date: '2024.11.01',
-    type: 'image',
-    pinned: true,
-  },
-];
-
 const MyPage = () => {
   const [isMyPage, setIsMyPage] = useState(false);
-  const platformList: PlatformData[] = [];
-  const [follow, setFollow] = useState(false);
+  const followersModal = useModal();
+  const accountUpdateModal = useModal();
+  const { boolValue: follow, toggle: toggleFollow } = useToggle();
   const [requestChangeAccountType, setRequestChangeAccountType] =
     useState(false);
-  const [openFollowersModal, setOpenFollowersModal] = useState<
-    'follower' | 'following' | null
+  const [followerModalType, setFollowerModalType] = useState<
+    'following' | 'follower' | null
   >(null);
-  const [openAccountUpdate, setOpenAccountUpdate] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newProfileImage, setNewProfileImage] = useState<File>();
 
-  const toggleFollow = () => setFollow((prev) => !prev);
+  const platformList: PlatformData[] = [];
 
-  const handleCloseFollowersModal = () => setOpenFollowersModal(null);
-  const handleCloseAccountUpdate = () => setOpenAccountUpdate(false);
+  const handleModalType = (type: 'following' | 'follower' | null) => {
+    setFollowerModalType(type);
+    followersModal.open();
+  };
+
+  const handleUpdateProfile = () => {
+    console.log(newProfileImage);
+    setIsEditing(false);
+  };
 
   return (
     <>
-      {openFollowersModal && (
+      {followersModal.isOpen && (
         <Modal
-          onClose={handleCloseFollowersModal}
+          onClose={followersModal.close}
           className={css({ width: '360px', height: '524px' })}
         >
           <ShowFollowersModal
-            onCloseModal={handleCloseFollowersModal}
-            type={openFollowersModal}
+            onCloseModal={followersModal.close}
+            type={followerModalType}
           />
         </Modal>
       )}
-      {openAccountUpdate && (
+      {accountUpdateModal.isOpen && (
         <Modal
           className={css({ width: '480px' })}
-          onClose={handleCloseAccountUpdate}
+          onClose={accountUpdateModal.close}
         >
-          <AccountUpdateModal onClose={handleCloseAccountUpdate} />
+          <AccountUpdateModal onClose={accountUpdateModal.close} />
         </Modal>
       )}
       <div className={styles.container}>
         <div className={styles.banner}>
-          <Image
+          <img
             src={
               'https://images.unsplash.com/photo-1660056252469-a1996f1f5080?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
             }
             alt=""
-            width={1920}
-            height={320}
-            style={{ height: '100%', objectFit: 'cover' }}
+            style={{ width: 'inherit', height: 'inherit', objectFit: 'cover' }}
           />
         </div>
         <div className={styles.info}>
           <div className={styles.info_box}>
-            <div className={styles.profile_wrap}>
-              <Image
-                src={
-                  'https://plus.unsplash.com/premium_photo-1700520223771-bb3a599755d1?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                }
-                alt="my profile image"
-                width={120}
-                height={120}
-                style={{ objectFit: 'cover', height: '100%' }}
-              />
-            </div>
+            {isEditing ? (
+              <ProfileImage setFile={setNewProfileImage} />
+            ) : (
+              <div className={styles.profile_wrap}>
+                <Image
+                  src={
+                    'https://plus.unsplash.com/premium_photo-1700520223771-bb3a599755d1?q=80&w=2970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                  }
+                  alt="my profile image"
+                  width={120}
+                  height={120}
+                  style={{ objectFit: 'cover', height: '100%' }}
+                />
+              </div>
+            )}
+
             <div className={styles.info_wrap}>
               <div className={styles.name_box}>
                 <span>김철수</span>
@@ -110,32 +109,66 @@ const MyPage = () => {
                   />
                 )}
               </div>
-              <span className={styles.description}>
-                안녕하세요 전세계를 돌아다니며 맛집을 찾아다니는 BJ
-                김철수입니다~~안녕하세요 전세계를 돌아다니며 맛집을 찾아다니는
-                BJ 김철수입니다~~
-              </span>
-              <div className={styles.tags}>
+              {isEditing ? (
+                <textarea className={cx(styles.description, styles.textarea)} />
+              ) : (
+                <span className={styles.description}>
+                  안녕하세요 전세계를 돌아다니며 맛집을 찾아다니는 BJ
+                  김철수입니다~~안녕하세요 전세계를 돌아다니며 맛집을 찾아다니는
+                  BJ 김철수입니다~~
+                </span>
+              )}
+              <div
+                className={cx(
+                  styles.tags,
+                  css({ marginTop: isEditing ? '0.5px' : '12px' })
+                )}
+              >
                 {['뉴욕맛집', '미국여행', '자동차', '디저트'].map((tag) => (
                   <button className={styles.tag} key={tag}>
                     {tag}
                   </button>
                 ))}
               </div>
+              {isMyPage && isEditing && (
+                <div
+                  className={flex({
+                    gap: '8px',
+                    position: 'absolute',
+                    right: 0,
+                    top: '-5px',
+                  })}
+                >
+                  <Button
+                    text="취소"
+                    size="small"
+                    variant="outlined"
+                    className={css({ height: '35px' })}
+                    onClick={() => setIsEditing(false)}
+                  />
+                  <Button
+                    text="저장"
+                    size="small"
+                    className={css({ height: '35px' })}
+                    onClick={handleUpdateProfile}
+                  />
+                </div>
+              )}
             </div>
-            {isMyPage && (
-              <div className={styles.edit_wrap}>
+            {isMyPage && !isEditing && (
+              <button
+                className={styles.edit_wrap}
+                onClick={() => setIsEditing(true)}
+              >
                 <Icon name="edit" />
-              </div>
+              </button>
             )}
           </div>
           <div className={styles.activity_box}>
             <div className={styles.activity_top}>
               <div
                 className={styles.follow_box}
-                onClick={() =>
-                  isMyPage ? setOpenFollowersModal('follower') : null
-                }
+                onClick={() => (isMyPage ? handleModalType('follower') : null)}
                 style={{ cursor: isMyPage ? 'pointer' : 'default' }}
               >
                 <span className={styles.amount}>322</span>
@@ -144,7 +177,7 @@ const MyPage = () => {
               {isMyPage && (
                 <button
                   className={styles.follow_box}
-                  onClick={() => setOpenFollowersModal('following')}
+                  onClick={() => handleModalType('following')}
                 >
                   <span className={styles.amount}>123</span>
                   <span className={styles.amount_label}>팔로잉</span>
@@ -161,7 +194,9 @@ const MyPage = () => {
                   disabled={requestChangeAccountType}
                   text={requestChangeAccountType ? '신청중' : '방송 계정 전환'}
                   onClick={() =>
-                    requestChangeAccountType ? null : setOpenAccountUpdate(true)
+                    requestChangeAccountType
+                      ? setRequestChangeAccountType(true)
+                      : accountUpdateModal.open()
                   }
                   size="small"
                   className={css({ width: '100%', marginTop: '7px' })}
@@ -186,7 +221,7 @@ const MyPage = () => {
             </div>
           </div>
         </div>
-        <Content />
+        <Content isFromMe={isMyPage} />
         <Button
           size="large"
           onClick={() => setIsMyPage(!isMyPage)}
@@ -206,12 +241,11 @@ const styles = {
     marginBottom: '30px',
   }),
   banner: css({
-    maxWidth: '1920px',
+    width: '100%',
     height: '320px',
     position: 'absolute',
     right: 0,
     top: 0,
-    width: '100%',
     marginTop: '70px',
     zIndex: -1,
   }),
@@ -250,6 +284,7 @@ const styles = {
   info_wrap: css({
     marginLeft: '20px',
     flex: 1,
+    position: 'relative',
   }),
   name_box: flex({
     textStyle: 'title1',
@@ -260,7 +295,7 @@ const styles = {
   }),
   follow_btn: center({
     marginLeft: '12px',
-    width: 'max-content',
+    width: '97px',
     height: '100%',
     borderRadius: '4px',
     padding: '12px 8px',
@@ -273,7 +308,6 @@ const styles = {
     color: 'gray.900',
   }),
   tags: flex({
-    marginTop: '12px',
     alignItems: 'center',
     gap: '12px',
   }),
@@ -326,10 +360,18 @@ const styles = {
     position: 'absolute',
     right: '20px',
     cursor: 'pointer',
-    '&::hover': {
-      '& > img': {
-        backgroundColor: 'black',
-      },
-    },
+  }),
+  textarea: css({
+    height: '56px',
+    resize: 'none',
+    width: '100%',
+    borderColor: 'main.base',
+    borderWidth: '1px',
+    outline: 'none',
+    wordBreak: 'break-all',
+    overflow: 'hidden',
+    borderRadius: '4px',
+    padding: '8px',
+    marginTop: '-8px',
   }),
 };

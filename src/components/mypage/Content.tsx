@@ -6,7 +6,7 @@ import { ArticleType } from '@/pages/mypage';
 import ArticleBox from './ArticleBox';
 import CommentBox from './CommentBox';
 import { css, cx } from '../../../styled-system/css';
-import { center, flex } from '../../../styled-system/patterns';
+import { center, flex, wrap } from '../../../styled-system/patterns';
 
 interface Article {
   title: string;
@@ -16,6 +16,18 @@ interface Article {
 }
 
 const articleList: Article[] = [
+  {
+    title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
+    date: '2024.11.01',
+    type: 'image',
+    pinned: true,
+  },
+  {
+    title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
+    date: '2024.11.01',
+    type: 'image',
+    pinned: true,
+  },
   {
     title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
     date: '2024.11.01',
@@ -36,12 +48,27 @@ const commentList = [
       '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
     reply: '',
   },
+  {
+    comment:
+      '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
+    reply: '',
+  },
+  {
+    comment:
+      '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
+    reply: '',
+  },
 ];
 
-const Content = () => {
-  const [articles, setArticles] = useState<Article[]>(articleList);
+const TAB = {
+  ARTICLES: '내 게시물',
+  COMMENTS: '내가 쓴 댓글',
+} as const;
 
-  if (!articles) {
+const Content = ({ isFromMe }: { isFromMe: boolean }) => {
+  const [currentItem, setCurrentItem] = useState('내가 쓴 댓글');
+
+  if (!articleList) {
     return (
       <div className={styles.wrapper}>
         <Image
@@ -54,17 +81,58 @@ const Content = () => {
     );
   }
 
+  const handleSelectItem = (value: string) => setCurrentItem(value);
+
   return (
-    <div>
-      <div className={styles.title_box}>
-        <p className={cx(styles.article_title, css({ cursor: 'default' }))}>
-          게시글 ({articles.length})
-        </p>
-      </div>
-      {articles.map((article) => (
-        <ArticleBox key={article.title} {...article} />
-      ))}
-    </div>
+    <>
+      {isFromMe ? (
+        <div>
+          <div className={cx(styles.title_box, flex({ gap: '20px' }))}>
+            {['내가 쓴 댓글', '내 게시물'].map((item) => (
+              <button key={item} onClick={() => handleSelectItem(item)}>
+                <p
+                  className={cx(
+                    styles.article_title,
+                    css({
+                      color: currentItem === item ? 'main.base' : 'gray.300',
+                    })
+                  )}
+                >
+                  {item}
+                </p>
+              </button>
+            ))}
+          </div>
+          {currentItem === TAB.ARTICLES && (
+            <div className={wrap({ gap: '20px' })}>
+              {articleList.map((article) => (
+                <ArticleBox key={article.title} {...article} />
+              ))}
+            </div>
+          )}
+          {currentItem === TAB.COMMENTS && (
+            <div className={wrap({ gap: '20px' })}>
+              {commentList.map((comment) => (
+                <CommentBox key={comment.comment} {...comment} />
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div>
+          <div className={styles.title_box}>
+            <p className={cx(styles.article_title, css({ cursor: 'default' }))}>
+              게시글 ({articleList.length})
+            </p>
+          </div>
+          <div className={wrap({ justifyContent: 'space-between' })}>
+            {articleList.map((article) => (
+              <ArticleBox key={article.title} {...article} />
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

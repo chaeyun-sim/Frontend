@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-import { getItem } from '@/utils/localStorage';
+import { useAuth } from '@/hooks/useAuth';
 
 import Icon from './Icon';
 import Modal from './Modal';
@@ -9,8 +9,7 @@ import { css } from '../../../styled-system/css';
 import LoginModal from '../modal/LoginModal';
 
 const Header = () => {
-  const token = getItem('@token');
-
+  const { isLoggedIn } = useAuth();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const openModal = () => setIsLoginModalOpen(true);
@@ -33,7 +32,9 @@ const Header = () => {
           </Link>
           <div className={styles.menu}>
             <Link href={'/'}>SNS 이동</Link>
-            <button onClick={openModal}>{token ? '로그아웃' : '로그인'}</button>
+            <button onClick={openModal}>
+              {isLoggedIn ? '로그아웃' : '로그인'}
+            </button>
           </div>
         </div>
       </div>

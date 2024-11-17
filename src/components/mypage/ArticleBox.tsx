@@ -32,7 +32,7 @@ const ArticleBox = ({ title, date, type, pinned }: IProps) => {
           />
         )}
       </span>
-      <div className={flex({ justifyContent: 'space-between', width: '100%' })}>
+      <div className={styles.info_box}>
         <span className={styles.date}>{date}</span>
         <Icon name={iconName} />
       </div>
@@ -65,5 +65,10 @@ const styles = {
   date: css({
     textStyle: 'caption2',
     color: 'gray.500',
+  }),
+  info_box: flex({
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
   }),
 };

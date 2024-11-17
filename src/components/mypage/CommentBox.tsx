@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 
 import { css, cx } from '../../../styled-system/css';
-import { flex, vstack } from '../../../styled-system/patterns';
+import { flex } from '../../../styled-system/patterns';
 import Icon from '../common/Icon';
 
 interface IProps {
