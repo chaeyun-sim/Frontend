@@ -2,14 +2,9 @@ import { authInstance, publicInstance } from '.';
 
 export const login = async (snsType: string, authCode: string) => {
   const type = snsType.toUpperCase();
-  console.log(
-    'Request URL:',
-    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/members/login/${type}`
-  );
-  console.log('Request Body:', { authCode });
 
   const response = await publicInstance.post(
-    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/members/login/${type}`,
+    `/members/login/${type}`,
     {
       authCode,
     },
