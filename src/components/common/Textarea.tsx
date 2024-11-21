@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
 
-import { getInputStyle } from '@/utils/style';
+import { inputStyles } from '@/utils/style';
 
 import { css, cx } from '../../../styled-system/css';
 
@@ -31,7 +31,7 @@ const Textarea = ({
       disabled={disabled}
       readOnly={disabled}
       {...props}
-      className={cx(styles.container, getInputStyle(hasError, disabled))}
+      className={cx(styles.container, inputStyles({ hasError }))}
     />
   );
 };

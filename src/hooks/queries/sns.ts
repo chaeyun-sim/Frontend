@@ -72,7 +72,7 @@ export const useGetPostingFollowings = () => {
 
 export const usePostComment = ({ onClose }: IPostCommentProps) => {
   return useMutation({
-    mutationFn: (data: IPostCommentReq) => postComment(data),
+    mutationFn: postComment,
     onSuccess: ({ code }: IRes<any>) => {
       if (code === 'OK') {
         onClose();
@@ -88,7 +88,7 @@ export const useCreatePost = ({
   successCallback: (data: IRes<any>) => void;
 }) => {
   return useMutation({
-    mutationFn: async (props: ICreatePost) => await createPost(props),
+    mutationFn: createPost,
     onSuccess: successCallback,
   });
 };

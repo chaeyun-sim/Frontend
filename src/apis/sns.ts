@@ -24,11 +24,11 @@ export const getPostingFollowings = async () => {
 };
 
 export const postComment = async (data: IPostCommentReq) => {
-  const response = await authInstance.post('sns/createComment', data);
+  const response = await authInstance.post('/sns/createComment', data);
   return response.data;
 };
 
 export const createPost = async (props: ICreatePost) => {
-  const response = await publicInstance.post(`sns/createPost`, props);
+  const response = await publicInstance.post(`/sns/createPost`, props);
   return response.data;
 };
