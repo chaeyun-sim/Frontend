@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { usePostDailyMessage } from '@/hooks/queries/streamer';
 
 import { css } from '../../../styled-system/css';
-import IconButton from '../common/IconButton';
+import Icon from '../common/Icon';
 import Textarea from '../common/Textarea';
 
 const DailyMessageInput = () => {
@@ -19,7 +19,9 @@ const DailyMessageInput = () => {
     <div className={styles.container}>
       <div className={styles.title_container}>
         <p className={styles.title}>오늘의 한마디</p>
-        <IconButton icon="pen" disabled={!message} onClick={handleSubmit} />
+        <button disabled={!message} onClick={handleSubmit}>
+          <Icon name="pen" />
+        </button>
       </div>
       <Textarea
         value={message}

@@ -1,6 +1,5 @@
-import Image from 'next/image';
-
 import { css, cx } from '../../../styled-system/css';
+import Icon from '../common/Icon';
 
 interface IProps {
   title: string;
@@ -14,9 +13,7 @@ const SnsItem = ({ title, type = 'text', active }: IProps) => {
       className={cx(styles.container, active ? styles.active : styles.default)}
     >
       <p>{title}</p>
-      {type !== 'text' && (
-        <Image src={`/icons/${type}.svg`} alt={type} width={20} height={20} />
-      )}
+      {type !== 'text' && <Icon name={type} />}
     </div>
   );
 };
