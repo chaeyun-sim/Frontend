@@ -18,7 +18,7 @@ const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
     useToggle(false);
 
   return (
-    <div className={styles.container}>
+    <div className={snsStyles.container}>
       {isOpenCommentModal && (
         <CommentWriteModal
           onClose={handleToggleCommentModal}
@@ -39,7 +39,7 @@ const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
 
 export default Sns;
 
-const styles = {
+export const snsStyles = {
   container: css({
     display: 'flex',
     flexDirection: 'column',

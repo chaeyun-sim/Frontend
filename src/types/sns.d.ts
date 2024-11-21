@@ -5,7 +5,7 @@ interface IRecentSnsItem {
   isFollowed: boolean;
 }
 
-interface IPostingFollowing {
+interface IProfile {
   broadcasterId: number;
   profileUrl: string;
   nickname: string;
@@ -35,4 +35,10 @@ interface ISnsDetail {
 interface IPostCommentReq {
   postId: number;
   content: string;
+}
+
+interface IComment {
+  profileUrl: string;
+  nickname: string;
+  comment: string;
 }

@@ -1,18 +1,18 @@
-import FollowingProfile from './FollowingProfile';
+import Profile from './Profile';
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
-  followings?: IPostingFollowing[] | null;
+  followings?: IProfile[] | null;
 }
 
-const PostingFollowings = ({ followings }: IProps) => {
+const Followings = ({ followings }: IProps) => {
   return (
     <div className={styles.container}>
       {/* <div className={cx(styles.overlay, styles.left_overlay)} /> */}
       <ul className={styles.list}>
         {followings?.map((v) => (
           <li key={v?.broadcasterId || 0}>
-            <FollowingProfile
+            <Profile
               profile={v?.profileUrl || ''}
               todayWords={v?.todaySaying}
             />
@@ -24,7 +24,7 @@ const PostingFollowings = ({ followings }: IProps) => {
   );
 };
 
-export default PostingFollowings;
+export default Followings;
 
 const styles = {
   container: css({
