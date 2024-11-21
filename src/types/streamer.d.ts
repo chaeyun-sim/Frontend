@@ -1,0 +1,3 @@
+interface IPostDailyMessageReq {
+  message: string;
+}
