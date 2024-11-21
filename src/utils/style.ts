@@ -1,26 +1,24 @@
-import { css } from '../../styled-system/css';
+import { cva } from '../../styled-system/css';
 
-export const getInputStyle = (hasError?: boolean, disabled?: boolean) => {
-  const baseStyle = {
+export const inputStyles = cva({
+  base: {
     borderColor: 'gray.300',
     _focusVisible: {
       outlineColor: 'main.base',
     },
-  };
-
-  if (hasError) {
-    return css({
-      color: 'red',
-      borderColor: 'red',
-      _focusVisible: {
-        outlineColor: 'red',
+  },
+  variants: {
+    hasError: {
+      true: {
+        color: 'red',
+        borderColor: 'red',
+        _focusVisible: {
+          outlineColor: 'red',
+        },
       },
-    });
-  }
-
-  if (disabled) {
-    return css(baseStyle);
-  }
-
-  return css(baseStyle);
-};
+    },
+  },
+  defaultVariants: {
+    hasError: false,
+  },
+});

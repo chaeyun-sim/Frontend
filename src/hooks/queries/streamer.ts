@@ -8,7 +8,7 @@ interface IPostDailyMessageProps {
 
 export const usePostDailyMessage = ({ setMessage }: IPostDailyMessageProps) => {
   return useMutation({
-    mutationFn: (data: IPostDailyMessageReq) => postDailyMessage(data),
+    mutationFn: postDailyMessage,
     onSuccess: ({ code }: IRes<any>) => {
       if (code === 'OK') {
         setMessage('');

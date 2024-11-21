@@ -1,13 +1,12 @@
-import Image from 'next/image';
-
 import { css } from '../../../styled-system/css';
+import Icon from '../common/Icon';
 
 const PostingButton = ({
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button {...props} className={styles.button}>
-      <Image src={'/icons/pen-white.svg'} alt="pen" width={20} height={20} />
+      <Icon name="pen-white" />
     </button>
   );
 };

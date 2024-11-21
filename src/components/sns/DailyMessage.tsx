@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import { useState } from 'react';
 
 import { css, cx } from '../../../styled-system/css';
+import Icon from '../common/Icon';
 
 interface IProps {
   todayWords: string;
@@ -24,12 +24,7 @@ const DailyMessage = ({ todayWords }: IProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Image
-        src={'/icons/megaphone.svg'}
-        alt="megaphone"
-        width={16}
-        height={16}
-      />
+      <Icon name="megaphone" />
       {isHover && <p className={styles.text}>{todayWords}</p>}
     </div>
   );

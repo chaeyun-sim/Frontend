@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import Button from '@/components/common/Button';
-import IconButton from '@/components/common/IconButton';
+import Icon from '@/components/common/Icon';
 
 import { css } from '../../../../styled-system/css';
 
@@ -41,7 +41,9 @@ const SnsHeader = ({
           size="small"
           onClick={handleOpenCommentModal}
         />
-        <IconButton icon="dot-white" />
+        <button>
+          <Icon name="dot-white" />
+        </button>
       </div>
     </div>
   );

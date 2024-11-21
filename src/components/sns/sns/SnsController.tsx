@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import IconButton from '@/components/common/IconButton';
+import Icon from '@/components/common/Icon';
 
 import { css } from '../../../../styled-system/css';
 
@@ -14,14 +14,14 @@ const SnsController = ({ prevSnsId, nextSnsId }: IProps) => {
     <div className={styles.controller}>
       {prevSnsId ? (
         <Link href={`${prevSnsId}`}>
-          <IconButton icon="left" />
+          <Icon name="left" />
         </Link>
       ) : (
         <div />
       )}
       {nextSnsId ? (
         <Link href={`${nextSnsId}`}>
-          <IconButton icon="right" />
+          <Icon name="right" />
         </Link>
       ) : (
         <div />
