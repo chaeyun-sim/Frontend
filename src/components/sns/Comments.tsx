@@ -2,14 +2,14 @@ import Comment from './Comment';
 import { css } from '../../../styled-system/css';
 
 interface IProps {
-  comments?: IComment[] | null;
+  list?: IComment[] | null;
 }
 
-const Comments = ({ comments }: IProps) => {
+const Comments = ({ list }: IProps) => {
   return (
     <div>
       <ul className={styles.list}>
-        {comments?.map((v) => (
+        {list?.map((v) => (
           <li>
             <Comment
               profileUrl={v.profileUrl}

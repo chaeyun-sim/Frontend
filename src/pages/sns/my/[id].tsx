@@ -18,8 +18,8 @@ const SnsMyPage = () => {
         <MySns data={snsDetail} />
       </div>
       <div className={snsPageStyles.aside_container}>
-        <Viewers />
-        <Comments />
+        <Viewers list={[]} />
+        <Comments list={[]} />
       </div>
     </div>
   );

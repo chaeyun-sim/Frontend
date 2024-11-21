@@ -5,25 +5,25 @@ import ProfileList from './ProfileList';
 import { css } from '../../../styled-system/css';
 
 interface IProps {
-  viewers?: IProfile[] | null;
+  list?: IProfile[] | null;
 }
 
-const Viewers = ({ viewers }: IProps) => {
+const Viewers = ({ list }: IProps) => {
   const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
 
   return (
     <div className={styles.container}>
       <p className={styles.title}>내 게시글을 본 방송인</p>
       <ul className={styles.list}>
-        {viewers?.map((v) => (
+        {list?.map((v) => (
           <li>
             <Profile profile={v.profileUrl} />
           </li>
         ))}
-        {viewers && viewers?.length > 2 && (
+        {list && list?.length > 2 && (
           <li className={css({ position: 'relative' })}>
             <div onClick={handleToggleMore} className={styles.empty}>
-              +{viewers.length - 2}
+              +{list.length - 2}
             </div>
             {isMore && (
               <div className={styles.profile_list_container}>
