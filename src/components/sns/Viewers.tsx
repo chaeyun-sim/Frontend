@@ -1,4 +1,7 @@
+import useToggle from '@/hooks/useToggle';
+
 import Profile from './Profile';
+import ProfileList from './ProfileList';
 import { css } from '../../../styled-system/css';
 
 interface IProps {
@@ -6,6 +9,8 @@ interface IProps {
 }
 
 const Viewers = ({ viewers }: IProps) => {
+  const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
+
   return (
     <div className={styles.container}>
       <p className={styles.title}>내 게시글을 본 방송인</p>
@@ -16,8 +21,15 @@ const Viewers = ({ viewers }: IProps) => {
           </li>
         ))}
         {viewers && viewers?.length > 2 && (
-          <li>
-            <div className={styles.empty}>+{viewers.length - 2}</div>
+          <li className={css({ position: 'relative' })}>
+            <div onClick={handleToggleMore} className={styles.empty}>
+              +{viewers.length - 2}
+            </div>
+            {isMore && (
+              <div className={styles.profile_list_container}>
+                <ProfileList list={[]} onClose={handleToggleMore} />
+              </div>
+            )}
           </li>
         )}
       </ul>
@@ -52,5 +64,11 @@ const styles = {
     backgroundColor: 'gray.50',
     color: 'gray.500',
     borderRadius: '50%',
+    cursor: 'pointer',
+  }),
+  profile_list_container: css({
+    position: 'absolute',
+    top: 'calc(50% + 20px)',
+    left: '50%',
   }),
 };
