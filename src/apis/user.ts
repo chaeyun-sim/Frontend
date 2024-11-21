@@ -3,7 +3,7 @@
 import { publicInstance } from '.';
 
 export const getUser = async (userId: string) => {
-  const response = await publicInstance.get(`users/${userId}`);
+  const response = await publicInstance.get(`/users/${userId}`);
   return response.data;
 };
 
