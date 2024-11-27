@@ -1,27 +1,27 @@
 import React from 'react';
 
-import { ArticleType } from '@/pages/mypage';
+import { PostInfo } from '@/hooks/queries/members';
 
 import { css } from '../../../styled-system/css';
-import { flex, vstack } from '../../../styled-system/patterns';
+import { flex } from '../../../styled-system/patterns';
 import Icon from '../common/Icon';
 
-interface IProps {
-  title: string;
-  date: string;
-  type?: ArticleType;
-  pinned?: boolean;
-}
-
-const ArticleBox = ({ title, date, type, pinned }: IProps) => {
-  const iconName =
-    type === 'mixed' ? 'img-and-vid' : type === 'image' ? 'img' : 'video';
+const ArticleBox = ({ ...props }: PostInfo) => {
+  const getIconName = () => {
+    if (props.hasImage && props.hasVideo) {
+      return 'img-and-vid';
+    } else if (props.hasImage) {
+      return 'img';
+    } else if (props.hasVideo) {
+      return 'video';
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.text}>
-        {title}
-        {pinned && (
+      <div className={styles.text}>
+        <span className={css({ flex: 1 })}>{props.title}</span>
+        {props.isPinned && (
           <Icon
             name="pin"
             className={css({
@@ -31,10 +31,10 @@ const ArticleBox = ({ title, date, type, pinned }: IProps) => {
             })}
           />
         )}
-      </span>
+      </div>
       <div className={styles.info_box}>
-        <span className={styles.date}>{date}</span>
-        <Icon name={iconName} />
+        <span className={styles.date}>{props.createdDate}</span>
+        <Icon name={getIconName() as string} />
       </div>
     </div>
   );
@@ -43,7 +43,8 @@ const ArticleBox = ({ title, date, type, pinned }: IProps) => {
 export default ArticleBox;
 
 const styles = {
-  wrapper: vstack({
+  wrapper: flex({
+    flexDirection: 'column',
     width: '300px',
     height: '126px',
     borderRadius: '8px',

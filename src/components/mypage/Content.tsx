@@ -1,62 +1,62 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { ArticleType } from '@/pages/mypage';
+import { CommentInfo, PostInfo } from '@/hooks/queries/members';
+import { useMyPage } from '@/hooks/useMyPage';
 
 import ArticleBox from './ArticleBox';
 import CommentBox from './CommentBox';
 import { css, cx } from '../../../styled-system/css';
 import { center, flex, wrap } from '../../../styled-system/patterns';
 
-interface Article {
-  title: string;
-  date: string;
-  type?: ArticleType;
-  pinned?: boolean;
-}
-
-const articleList: Article[] = [
+const articleList: PostInfo[] = [
   {
-    title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
-    date: '2024.11.01',
-    type: 'image',
-    pinned: true,
+    postId: 1,
+    title: '게시물1',
+    createdDate: '2024.11.01',
+    hasImage: true,
+    hasVideo: false,
+    isPinned: true,
+    content: '내용1',
   },
   {
-    title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
-    date: '2024.11.01',
-    type: 'image',
-    pinned: true,
+    postId: 2,
+    title: '게시물2',
+    createdDate: '2024.11.01',
+    hasImage: false,
+    hasVideo: true,
+    isPinned: true,
+    content: '내용2',
   },
   {
-    title: '게시물 제목 최대 2줄 게시물 제목 최대 2줄 게시물 제목 최대 2',
-    date: '2024.11.01',
-    type: 'image',
-    pinned: true,
+    postId: 3,
+    title: '게시물3',
+    createdDate: '2024.11.01',
+    hasImage: true,
+    hasVideo: true,
+    isPinned: true,
+    content: '내용3',
   },
 ];
 
-const commentList = [
+const commentList: CommentInfo[] = [
   {
-    comment:
-      '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
-    reply:
-      '답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 답글 내용 ',
+    commentId: 1,
+    replyCommentId: 1,
+    content: '이것이 바로 댓글 1',
+    replyContent: '',
   },
   {
-    comment:
-      '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
-    reply: '',
+    commentId: 2,
+    replyCommentId: 1,
+    content: '댓글2',
+    replyContent: '대댓글 드립니다',
   },
   {
-    comment:
-      '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
-    reply: '',
-  },
-  {
-    comment:
-      '댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 댓글 내용 ',
-    reply: '',
+    commentId: 3,
+    replyCommentId: 1,
+    content: '이것이 바로 댓글 3',
+    replyContent: '',
   },
 ];
 
@@ -65,8 +65,21 @@ const TAB = {
   COMMENTS: '내가 쓴 댓글',
 } as const;
 
-const Content = ({ isFromMe }: { isFromMe: boolean }) => {
+interface IProps {
+  memberId: string;
+}
+
+const Content = ({ memberId }: IProps) => {
+  const { isMyPage /*posts, comments*/ } = useMyPage({ memberId });
   const [currentItem, setCurrentItem] = useState('내가 쓴 댓글');
+
+  const posts = {
+    postInfos: articleList,
+  };
+
+  const comments = {
+    comments: commentList,
+  };
 
   if (!articleList) {
     return (
@@ -85,7 +98,7 @@ const Content = ({ isFromMe }: { isFromMe: boolean }) => {
 
   return (
     <>
-      {isFromMe ? (
+      {isMyPage ? (
         <div>
           <div className={cx(styles.title_box, flex({ gap: '20px' }))}>
             {['내가 쓴 댓글', '내 게시물'].map((item) => (
@@ -105,15 +118,15 @@ const Content = ({ isFromMe }: { isFromMe: boolean }) => {
           </div>
           {currentItem === TAB.ARTICLES && (
             <div className={wrap({ gap: '20px' })}>
-              {articleList.map((article) => (
+              {posts?.postInfos?.map((article) => (
                 <ArticleBox key={article.title} {...article} />
               ))}
             </div>
           )}
           {currentItem === TAB.COMMENTS && (
             <div className={wrap({ gap: '20px' })}>
-              {commentList.map((comment) => (
-                <CommentBox key={comment.comment} {...comment} />
+              {comments?.comments.map((comment) => (
+                <CommentBox key={comment.content} {...comment} />
               ))}
             </div>
           )}

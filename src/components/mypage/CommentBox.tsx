@@ -1,16 +1,13 @@
 import Image from 'next/image';
 import React from 'react';
 
+import { CommentInfo } from '@/hooks/queries/members';
+
 import { css, cx } from '../../../styled-system/css';
 import { flex } from '../../../styled-system/patterns';
 import Icon from '../common/Icon';
 
-interface IProps {
-  comment: string;
-  reply: string;
-}
-
-const CommentBox = ({ comment, reply }: IProps) => {
+const CommentBox = (props: CommentInfo) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
@@ -28,14 +25,14 @@ const CommentBox = ({ comment, reply }: IProps) => {
           height={24}
           style={{ width: '24px', height: '24px', borderRadius: '24px' }}
         />
-        <span className={styles.name}>이민정</span>
+        <span className={styles.name}>누군가</span>
       </div>
       <div className={css({ width: '100%', marginTop: '22px' })}>
         <div
           className={cx(styles.comment_wrap, css({ borderColor: 'gray.300' }))}
         >
           <strong className={styles.comment_title}>댓글</strong>
-          <span className={styles.comment}>{comment}</span>
+          <span className={styles.comment}>{props.content}</span>
         </div>
         <div
           className={cx(
@@ -47,10 +44,12 @@ const CommentBox = ({ comment, reply }: IProps) => {
           <span
             className={cx(
               styles.comment,
-              css({ color: reply ? 'gray.500' : 'gray.200' })
+              css({
+                color: props.replyContent.length > 0 ? 'gray.500' : 'gray.200',
+              })
             )}
           >
-            {reply || '아직 답글이 달리지 않았습니다.'}
+            {props.replyContent || '아직 답글이 달리지 않았습니다.'}
           </span>
         </div>
       </div>
