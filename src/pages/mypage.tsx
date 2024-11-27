@@ -3,19 +3,29 @@ import React, { useState } from 'react';
 
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
-import Modal from '@/components/common/Modal';
+import Input from '@/components/common/Input';
 import ProfileImage from '@/components/common/ProfileImage';
 import AccountUpdateModal from '@/components/modal/AccountUpdateModal';
 import ShowFollowersModal from '@/components/modal/ShowFollowersModal';
+import WithdrawalModal from '@/components/modal/WithdrawalModal';
+import AddPlatform from '@/components/mypage/AddPlatform';
 import Content from '@/components/mypage/Content';
 import Platform from '@/components/Platform';
 import { useModal } from '@/hooks/useModal';
+import { useMyPage } from '@/hooks/useMyPage';
 import { useToggle } from '@/hooks/useToggle';
 
 import { css, cx } from '../../styled-system/css';
 import { center, flex, vstack } from '../../styled-system/patterns';
 
 export type ArticleType = 'image' | 'video' | 'mixed' | undefined;
+
+interface FormData {
+  image: File;
+  name: string;
+  description: string;
+  tags: string[];
+}
 
 interface PlatformData {
   platform: string;
@@ -24,18 +34,26 @@ interface PlatformData {
 }
 
 const MyPage = () => {
-  const [isMyPage, setIsMyPage] = useState(false);
   const followersModal = useModal();
   const accountUpdateModal = useModal();
+  const withdrawalModal = useModal();
   const { boolValue: follow, toggle: toggleFollow } = useToggle();
+  const { isMyPage, profileSummary, posts, comments, followers } = useMyPage({
+    memberId: '1',
+  });
+
   const [requestChangeAccountType, setRequestChangeAccountType] =
     useState(false);
   const [followerModalType, setFollowerModalType] = useState<
     'following' | 'follower' | null
   >(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [newProfileImage, setNewProfileImage] = useState<File>();
-
+  const [inputs, setInputs] = useState<FormData>({
+    image: null as unknown as File,
+    name: '',
+    description: '',
+    tags: [],
+  });
   const platformList: PlatformData[] = [];
 
   const handleModalType = (type: 'following' | 'follower' | null) => {
@@ -43,31 +61,23 @@ const MyPage = () => {
     followersModal.open();
   };
 
-  const handleUpdateProfile = () => {
-    console.log(newProfileImage);
-    setIsEditing(false);
-  };
+  const handleUpdateProfile = () => setIsEditing(false);
 
   return (
     <>
+      {/* 팔로워/팔로잉 모달 */}
       {followersModal.isOpen && (
-        <Modal
+        <ShowFollowersModal
           onClose={followersModal.close}
-          className={css({ width: '360px', height: '524px' })}
-        >
-          <ShowFollowersModal
-            onCloseModal={followersModal.close}
-            type={followerModalType}
-          />
-        </Modal>
+          type={followerModalType}
+        />
       )}
+      {/* 등업 모달 */}
       {accountUpdateModal.isOpen && (
-        <Modal
-          className={css({ width: '480px' })}
-          onClose={accountUpdateModal.close}
-        >
-          <AccountUpdateModal onClose={accountUpdateModal.close} />
-        </Modal>
+        <AccountUpdateModal onClose={accountUpdateModal.close} />
+      )}
+      {withdrawalModal.isOpen && (
+        <WithdrawalModal onClose={withdrawalModal.close} />
       )}
       <div className={styles.container}>
         <div className={styles.banner}>
@@ -79,10 +89,13 @@ const MyPage = () => {
             style={{ width: 'inherit', height: 'inherit', objectFit: 'cover' }}
           />
         </div>
+
         <div className={styles.info}>
           <div className={styles.info_box}>
             {isEditing ? (
-              <ProfileImage setFile={setNewProfileImage} />
+              <ProfileImage
+                setFile={(file) => setInputs({ ...inputs, image: file })}
+              />
             ) : (
               <div className={styles.profile_wrap}>
                 <Image
@@ -99,7 +112,19 @@ const MyPage = () => {
 
             <div className={styles.info_wrap}>
               <div className={styles.name_box}>
-                <span>김철수</span>
+                {isEditing ? (
+                  <div style={{ height: '37px', marginBottom: '8px' }}>
+                    <Input
+                      value={inputs.name}
+                      onSetValue={(name) => {
+                        setInputs({ ...inputs, name: name });
+                      }}
+                      className={styles.name_input}
+                    />
+                  </div>
+                ) : (
+                  <span>김철수</span>
+                )}
                 {!isMyPage && (
                   <Button
                     className={styles.follow_btn}
@@ -190,17 +215,37 @@ const MyPage = () => {
             </div>
             <div className={styles.activity_bottom}>
               {isMyPage ? (
-                <Button
-                  disabled={requestChangeAccountType}
-                  text={requestChangeAccountType ? '신청중' : '방송 계정 전환'}
-                  onClick={() =>
-                    requestChangeAccountType
-                      ? setRequestChangeAccountType(true)
-                      : accountUpdateModal.open()
-                  }
-                  size="small"
-                  className={css({ width: '100%', marginTop: '7px' })}
-                />
+                isEditing ? (
+                  <>
+                    <span>플랫폼</span>
+                    <div>
+                      {platformList
+                        ?.slice(0, 5)
+                        .map((platform) => (
+                          <Platform key={platform.platform} {...platform} />
+                        ))}
+                      {platformList?.length > 5 && (
+                        <div className={styles.platform_box}>
+                          + {platformList.length - 5}
+                        </div>
+                      )}
+                      <AddPlatform />
+                    </div>
+                  </>
+                ) : (
+                  <Button
+                    text={
+                      requestChangeAccountType ? '신청중' : '방송 계정 전환'
+                    }
+                    onClick={() =>
+                      requestChangeAccountType
+                        ? setRequestChangeAccountType(true)
+                        : accountUpdateModal.open()
+                    }
+                    size="small"
+                    className={css({ width: '100%', marginTop: '7px' })}
+                  />
+                )
               ) : (
                 <>
                   <span>플랫폼</span>
@@ -222,11 +267,9 @@ const MyPage = () => {
           </div>
         </div>
         <Content isFromMe={isMyPage} />
-        <Button
-          size="large"
-          onClick={() => setIsMyPage(!isMyPage)}
-          text={isMyPage ? '내가 본다' : '남이 본다'}
-        />
+        <div className={styles.withdrawal}>
+          <button onClick={withdrawalModal.open}>회원 탈퇴</button>
+        </div>
       </div>
     </>
   );
@@ -295,7 +338,7 @@ const styles = {
   }),
   follow_btn: center({
     marginLeft: '12px',
-    width: '97px',
+    width: '97px !important',
     height: '100%',
     borderRadius: '4px',
     padding: '12px 8px',
@@ -373,5 +416,18 @@ const styles = {
     borderRadius: '4px',
     padding: '8px',
     marginTop: '-8px',
+  }),
+  name_input: css({
+    textStyle: 'body3',
+    color: 'gray.900',
+    outline: 'none',
+    fontWeight: 'bold',
+    padding: '0 12px',
+  }),
+  withdrawal: css({
+    marginTop: '180px',
+    textAlign: 'center',
+    textStyle: 'button2',
+    color: 'gray.300',
   }),
 };
