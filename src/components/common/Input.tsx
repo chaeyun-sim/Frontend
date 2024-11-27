@@ -9,6 +9,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   postfix?: ReactNode;
   onClickRightIcon?: () => void;
   hidePlaceholderOnFocus?: boolean;
+  className?: string;
 }
 
 const Input = ({
@@ -19,6 +20,7 @@ const Input = ({
   postfix,
   onClickRightIcon,
   hidePlaceholderOnFocus,
+  className,
   ...props
 }: IProps) => {
   const bottomColor = () => {
@@ -53,12 +55,13 @@ const Input = ({
         className={cx(
           styles.input,
           bottomColor(),
-          hidePlaceholderOnFocus && styles.hidePlaceholder
+          hidePlaceholderOnFocus && styles.hidePlaceholder,
+          className
         )}
         disabled={disabled}
         readOnly={disabled}
         style={{
-          paddingRight: postfix ? 30 : 0,
+          paddingRight: postfix ? 30 : 12,
         }}
         {...props}
       />
