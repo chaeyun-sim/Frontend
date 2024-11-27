@@ -1,15 +1,12 @@
 import React from 'react';
 
+import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
 import { flex } from '../../../styled-system/patterns';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 
-interface IProps {
-  onClose: () => void;
-}
-
-const AccountUpdateModal = ({ onClose }: IProps) => {
+const AccountUpdateModal = ({ onClose }: ModalProps) => {
   return (
     <Modal className={css({ width: '480px' })} onClose={onClose}>
       <div>

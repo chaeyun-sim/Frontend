@@ -1,12 +1,12 @@
 import React from 'react';
 
+import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import PersonBox from '../PersonBox';
 
-interface IProps {
-  onClose: () => void;
+interface IProps extends ModalProps {
   type: 'follower' | 'following' | null;
 }
 

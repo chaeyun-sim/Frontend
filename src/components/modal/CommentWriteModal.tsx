@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import { usePostComment } from '@/hooks/queries/sns';
 
+import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
-interface IProps {
-  onClose: () => void;
+interface IProps extends ModalProps {
   currentSnsId: number;
 }
 
