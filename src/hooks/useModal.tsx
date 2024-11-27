@@ -1,10 +1,15 @@
 import { useState } from 'react';
 
-export const useModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const useModal = <T extends string | number>() => {
+  const [activeModal, setActiveModal] = useState<T | null>(null);
 
-  const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const openModal = (modalType: T) => setActiveModal(modalType);
+  const closeModal = () => setActiveModal(null);
 
-  return { isOpen, open, close };
+  return {
+    activeModal,
+    openModal,
+    closeModal,
+    isOpen: activeModal !== null,
+  };
 };
