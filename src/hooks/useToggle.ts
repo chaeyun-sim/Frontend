@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useToggle = (initState: boolean) => {
+export const useToggle = (initState: boolean) => {
   const [isOpen, setIsOpen] = useState(initState);
 
   const handleToggle = () => {
@@ -12,5 +12,3 @@ const useToggle = (initState: boolean) => {
     handleToggle,
   };
 };
-
-export default useToggle;
