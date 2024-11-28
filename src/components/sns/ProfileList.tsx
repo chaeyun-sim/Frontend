@@ -1,6 +1,6 @@
 import ProfileItem from './ProfileItem';
 import { css } from '../../../styled-system/css';
-import IconButton from '../common/IconButton';
+import Icon from '../common/Icon';
 
 interface IProps {
   list?: IProfile[] | null;
@@ -11,7 +11,9 @@ const ProfileList = ({ list, onClose }: IProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <IconButton icon="close" onClick={onClose} />
+        <button onClick={onClose}>
+          <Icon name="close" />
+        </button>
       </div>
       <ul className={styles.list}>
         {list?.map((v) => (
