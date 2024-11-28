@@ -28,7 +28,7 @@ const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
       <SnsHeader
         profileUrl={data?.profileUrl || ''}
         nickname={data?.nickname || ''}
-        isFollowed={data?.isFollowed || false}
+        isFollowed={false}
         handleOpenCommentModal={handleToggleCommentModal}
       />
       <SnsMain title={data?.title || ''} content={data?.content || ''} />

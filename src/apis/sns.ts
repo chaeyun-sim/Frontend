@@ -18,8 +18,8 @@ export const getSnsDetail = async (postId: number) => {
   return response.data;
 };
 
-export const getPostingFollowings = async () => {
-  const response = await publicInstance.get('/sns/getFollowedLatestPosts');
+export const getLatestSnsList = async () => {
+  const response = await publicInstance.get('/sns/getLatestPosts');
   return response.data;
 };
 

@@ -1,11 +1,11 @@
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
-import Followings from '@/components/sns/Followings';
+import LatestSnsList from '@/components/sns/LatestSnsList';
 import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
 import {
-  useGetPostingFollowings,
+  useGetLatestSnsList,
   useGetSnsDetail,
   useGetSnsList,
 } from '@/hooks/queries/sns';
@@ -18,7 +18,7 @@ const SnsNormalPage = () => {
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
-  const { data: postingFollwings } = useGetPostingFollowings();
+  const { data: lastestSnsList } = useGetLatestSnsList();
   const { data: snsList } = useGetSnsList();
   const { data: snsDetail } = useGetSnsDetail({
     snsId,
@@ -35,7 +35,7 @@ const SnsNormalPage = () => {
       )}
     >
       <div className={snsPageStyles.width_620}>
-        <Followings followings={postingFollwings} />
+        <LatestSnsList list={lastestSnsList} />
       </div>
       <div className={snsPageStyles.main_container}>
         <div className={snsPageStyles.width_620}>

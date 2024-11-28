@@ -29,7 +29,11 @@ const SnsList = ({ list, currentSnsId }: IProps) => {
         {list?.map((v) => (
           <li key={v.postId}>
             <Link href={`${v.postId}`}>
-              <SnsItem title={v.title} active={v.postId === currentSnsId} />
+              <SnsItem
+                title={v.title}
+                active={v.postId === currentSnsId}
+                type={v.hasImage ? 'image' : v.hasVideo ? 'video' : 'text'}
+              />
             </Link>
           </li>
         ))}
