@@ -5,7 +5,13 @@ import { css } from '../../../styled-system/css';
 import Button from '../common/Button';
 import Textarea from '../common/Textarea';
 
-const Comment = ({ profileUrl, nickname, comment }: IComment) => {
+interface IProps {
+  profileUrl: string;
+  nickname: string;
+  comment: string;
+}
+
+const Comment = ({ profileUrl, nickname, comment }: IProps) => {
   const [reply, setReply] = useState('');
 
   return (
@@ -17,7 +23,6 @@ const Comment = ({ profileUrl, nickname, comment }: IComment) => {
             alt="profile"
             width={36}
             height={36}
-            objectFit="cover"
             className={styles.profile}
           />
           <span className={styles.name}>{nickname}</span>
@@ -52,7 +57,11 @@ const styles = {
     alignItems: 'center',
   }),
   profile_container: css({ display: 'flex', alignItems: 'center', gap: '8px' }),
-  profile: css({ backgroundColor: 'white', borderRadius: '50%' }),
+  profile: css({
+    backgroundColor: 'white',
+    borderRadius: '50%',
+    objectFit: 'cover',
+  }),
   name: css({ textStyle: 'body3' }),
   comment: css({
     color: 'gray.700',

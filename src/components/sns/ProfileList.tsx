@@ -17,7 +17,7 @@ const ProfileList = ({ list, onClose }: IProps) => {
       </div>
       <ul className={styles.list}>
         {list?.map((v) => (
-          <li>
+          <li key={v.broadcasterId}>
             <ProfileItem profile={v.profileUrl} nickname={v.nickname} />
           </li>
         ))}

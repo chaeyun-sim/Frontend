@@ -7,19 +7,17 @@ interface IProps {
 
 const Comments = ({ list }: IProps) => {
   return (
-    <div>
-      <ul className={styles.list}>
-        {list?.map((v) => (
-          <li>
-            <Comment
-              profileUrl={v.profileUrl}
-              nickname={v.nickname}
-              comment={v.comment}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className={styles.list}>
+      {list?.map((v) => (
+        <li key={v.id}>
+          <Comment
+            profileUrl={v.profileUrl}
+            nickname={v.nickname}
+            comment={v.comment}
+          />
+        </li>
+      ))}
+    </ul>
   );
 };
 

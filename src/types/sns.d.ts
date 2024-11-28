@@ -38,6 +38,7 @@ interface IPostCommentReq {
 }
 
 interface IComment {
+  id: number;
   profileUrl: string;
   nickname: string;
   comment: string;

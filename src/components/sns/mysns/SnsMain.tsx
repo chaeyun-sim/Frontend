@@ -1,7 +1,7 @@
 import Button from '@/components/common/Button';
 import useToggle from '@/hooks/useToggle';
 
-import { cx } from '../../../../styled-system/css';
+import { css, cx } from '../../../../styled-system/css';
 import { snsMainStyles } from '../sns/SnsMain';
 
 interface IProps {
@@ -16,6 +16,7 @@ const SnsMain = ({ title, content }: IProps) => {
     <div
       className={cx(
         snsMainStyles.container,
+        styles.container,
         !isMore && snsMainStyles.close_container
       )}
     >
@@ -40,3 +41,10 @@ const SnsMain = ({ title, content }: IProps) => {
 };
 
 export default SnsMain;
+
+const styles = {
+  container: css({
+    borderBottom: '1px solid',
+    borderRadius: '0 0 8px 8px',
+  }),
+};

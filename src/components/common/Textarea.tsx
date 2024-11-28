@@ -29,7 +29,6 @@ const Textarea = ({
       onChange={handleChange}
       rows={rows}
       disabled={disabled}
-      readOnly={disabled}
       {...props}
       className={cx(styles.container, inputStyles({ hasError }))}
     />

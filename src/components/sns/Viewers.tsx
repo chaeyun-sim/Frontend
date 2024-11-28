@@ -15,8 +15,8 @@ const Viewers = ({ list }: IProps) => {
     <div className={styles.container}>
       <p className={styles.title}>내 게시글을 본 방송인</p>
       <ul className={styles.list}>
-        {list?.map((v) => (
-          <li>
+        {list?.slice(0, 2).map((v) => (
+          <li key={v.broadcasterId}>
             <Profile profile={v.profileUrl} />
           </li>
         ))}
