@@ -9,7 +9,7 @@ interface IProps {
   isViewed?: boolean;
 }
 
-const FollowingProfile = ({ profile, todayWords, isViewed }: IProps) => {
+const Profile = ({ profile, todayWords, isViewed }: IProps) => {
   return (
     <div
       className={cx(
@@ -33,7 +33,7 @@ const FollowingProfile = ({ profile, todayWords, isViewed }: IProps) => {
   );
 };
 
-export default FollowingProfile;
+export default Profile;
 
 const styles = {
   container: css({
