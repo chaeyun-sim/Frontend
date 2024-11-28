@@ -1,12 +1,11 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import {
-  getPostingFollowings,
+  getLatestSnsList,
   getSnsDetail,
   getSnsList,
   postComment,
   createPost,
-  ICreatePost,
 } from '@/apis/sns';
 
 interface IGetSnsDetailProps {
@@ -57,13 +56,14 @@ export const useGetSnsDetail = ({
   });
 };
 
-export const useGetPostingFollowings = () => {
+export const useGetLatestSnsList = () => {
   return useQuery({
-    queryKey: ['postingFollowings'],
+    queryKey: ['latestSnsList'],
     queryFn: async () => {
-      const { code, data }: IRes<IProfile> = await getPostingFollowings();
+      const { code, data }: IRes<ILastestSnsItem[] | null> =
+        await getLatestSnsList();
       if (code === 'OK') {
-        return [data];
+        return data;
       }
       return null;
     },

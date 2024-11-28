@@ -4,10 +4,10 @@ import { css, cx } from '../../../styled-system/css';
 import Icon from '../common/Icon';
 
 interface IProps {
-  todayWords: string;
+  message: string;
 }
 
-const DailyMessage = ({ todayWords }: IProps) => {
+const DailyMessage = ({ message }: IProps) => {
   const [isHover, setIsHover] = useState(false);
 
   const handleMouseEnter = () => {
@@ -25,7 +25,7 @@ const DailyMessage = ({ todayWords }: IProps) => {
       onMouseLeave={handleMouseLeave}
     >
       <Icon name="megaphone" />
-      {isHover && <p className={styles.text}>{todayWords}</p>}
+      {isHover && <p className={styles.text}>{message}</p>}
     </div>
   );
 };

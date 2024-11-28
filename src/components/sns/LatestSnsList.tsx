@@ -2,19 +2,19 @@ import Profile from './Profile';
 import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
-  followings?: IProfile[] | null;
+  list?: ILastestSnsItem[] | null;
 }
 
-const Followings = ({ followings }: IProps) => {
+const LatestSnsList = ({ list }: IProps) => {
   return (
     <div className={styles.container}>
       {/* <div className={cx(styles.overlay, styles.left_overlay)} /> */}
       <ul className={styles.list}>
-        {followings?.map((v) => (
-          <li key={v?.broadcasterId || 0}>
+        {list?.map((v) => (
+          <li key={v?.streamerId || 0}>
             <Profile
               profile={v?.profileUrl || ''}
-              todayWords={v?.todaySaying}
+              dailyMessage={v?.dailyMessage}
             />
           </li>
         ))}
@@ -24,7 +24,7 @@ const Followings = ({ followings }: IProps) => {
   );
 };
 
-export default Followings;
+export default LatestSnsList;
 
 const styles = {
   container: css({
