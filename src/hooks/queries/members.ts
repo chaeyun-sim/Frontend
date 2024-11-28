@@ -32,7 +32,7 @@ export const useProfileSummary = (memberId: string, isValid: boolean) => {
   });
 };
 
-interface ProfileInfo {
+export interface ProfileInfo {
   imageUrl: string;
   nickName: string;
   isFollowing: boolean;
