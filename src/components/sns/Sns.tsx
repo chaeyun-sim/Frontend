@@ -1,4 +1,4 @@
-import useToggle from '@/hooks/useToggle';
+import { useToggle } from '@/hooks/useToggle';
 
 import { css } from '../../../styled-system/css';
 import CommentWriteModal from '../modal/CommentWriteModal';
