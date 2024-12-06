@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
 
@@ -12,7 +14,9 @@ const SignupStep3 = () => {
         <p>다양한 서비스 이용을 위해 로그인해주세요.</p>
       </div>
       <div className={styles.button_container}>
-        <Button text="로그인하러 가기" />
+        <Link href={'/'}>
+          <Button text="로그인하러 가기" />
+        </Link>
       </div>
     </div>
   );
@@ -39,5 +43,10 @@ const styles = {
   title: css({
     textStyle: 'title1',
   }),
-  button_container: css({ padding: '20px 0' }),
+  button_container: css({
+    padding: '20px 0',
+    '& button': {
+      width: 200,
+    },
+  }),
 };
