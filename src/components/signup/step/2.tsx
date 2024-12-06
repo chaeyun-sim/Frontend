@@ -36,7 +36,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     2: false,
     3: false,
   });
-  const [interests, setInterests] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>([]);
 
   const { toast, handleOpenToast, handleCloseToast } = useToast();
 
@@ -72,16 +72,14 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     if (!isEnabledSubmitButton) return;
 
     const request = {
-      nickname,
       oauthToken: getItem('@oauthToken'),
+      nickname,
+      tags,
     };
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('request', JSON.stringify(request));
-    // interests.forEach((interest) => {
-    //   formData.append('interests', interest);
-    // });
 
     signup(formData);
   };
@@ -139,7 +137,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
           <div className={styles.title_box}>
             <p>관심 분야</p>
           </div>
-          <TagInput tagList={interests} setTagList={setInterests} />
+          <TagInput tagList={tags} setTagList={setTags} />
         </div>
       </div>
       <div className={styles.button_container}>

@@ -19,22 +19,22 @@ const SnsHeader = ({
   handleOpenCommentModal,
 }: IProps) => {
   return (
-    <div className={styles.header}>
-      <div className={styles.header_button_container}>
+    <div className={snsHeaderStyles.header}>
+      <div className={snsHeaderStyles.header_button_container}>
         <Image
           src={profileUrl}
           alt="profile"
           width={36}
           height={36}
           objectFit="cover"
-          className={styles.profile}
+          className={snsHeaderStyles.profile}
         />
-        <div className={styles.name}>{nickname}</div>
+        <div className={snsHeaderStyles.name}>{nickname}</div>
         {!isFollowed && (
           <Button text="팔로우" variant="outlined" size="small" />
         )}
       </div>
-      <div className={styles.header_button_container}>
+      <div className={snsHeaderStyles.header_button_container}>
         <Button
           text="댓글 달기"
           variant="outlined"
@@ -51,7 +51,7 @@ const SnsHeader = ({
 
 export default SnsHeader;
 
-const styles = {
+export const snsHeaderStyles = {
   header: css({
     padding: '12px 8px',
     display: 'flex',

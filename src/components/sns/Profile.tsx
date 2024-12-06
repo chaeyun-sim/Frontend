@@ -5,11 +5,11 @@ import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
   profile: string;
-  todayWords?: string;
+  dailyMessage?: string;
   isViewed?: boolean;
 }
 
-const FollowingProfile = ({ profile, todayWords, isViewed }: IProps) => {
+const Profile = ({ profile, dailyMessage, isViewed }: IProps) => {
   return (
     <div
       className={cx(
@@ -17,9 +17,9 @@ const FollowingProfile = ({ profile, todayWords, isViewed }: IProps) => {
         isViewed ? styles.viewed : styles.default
       )}
     >
-      {todayWords && (
+      {dailyMessage && (
         <div className={styles.today_words_container}>
-          <DailyMessage todayWords={todayWords} />
+          <DailyMessage message={dailyMessage} />
         </div>
       )}
       <Image
@@ -33,7 +33,7 @@ const FollowingProfile = ({ profile, todayWords, isViewed }: IProps) => {
   );
 };
 
-export default FollowingProfile;
+export default Profile;
 
 const styles = {
   container: css({

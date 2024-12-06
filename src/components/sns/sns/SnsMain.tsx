@@ -13,15 +13,20 @@ const SnsMain = ({ title, content }: IProps) => {
   const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
 
   return (
-    <div className={cx(styles.container, !isMore && styles.close_container)}>
-      <div className={styles.content_container}>
-        <p className={styles.title}>{title}</p>
-        <p className={styles.content}>{content} </p>
+    <div
+      className={cx(
+        snsMainStyles.container,
+        !isMore && snsMainStyles.close_container
+      )}
+    >
+      <div className={snsMainStyles.content_container}>
+        <p className={snsMainStyles.title}>{title}</p>
+        <p className={snsMainStyles.content}>{content} </p>
       </div>
       <div
         className={cx(
-          styles.more_button_container,
-          !isMore && styles.close_more_button_container
+          snsMainStyles.more_button_container,
+          !isMore && snsMainStyles.close_more_button_container
         )}
       >
         <Button
@@ -30,7 +35,7 @@ const SnsMain = ({ title, content }: IProps) => {
           onClick={handleToggleMore}
         />
       </div>
-      <div className={styles.post_button_container}>
+      <div className={snsMainStyles.post_button_container}>
         <PostingButton />
       </div>
     </div>
@@ -39,7 +44,7 @@ const SnsMain = ({ title, content }: IProps) => {
 
 export default SnsMain;
 
-const styles = {
+export const snsMainStyles = {
   container: css({
     position: 'relative',
     padding: '16px',

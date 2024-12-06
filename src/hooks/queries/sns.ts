@@ -1,19 +1,18 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import {
-  getPostingFollowings,
+  getLatestSnsList,
   getSnsDetail,
   getSnsList,
   postComment,
   createPost,
-  ICreatePost,
 } from '@/apis/sns';
 
 interface IGetSnsDetailProps {
   snsId: number;
   snsList?: ISnsItem[] | null;
-  setPrevSnsId: (value: number) => void;
-  setNextSnsId: (value: number) => void;
+  setPrevSnsId?: (value: number) => void;
+  setNextSnsId?: (value: number) => void;
 }
 
 interface IPostCommentProps {
@@ -44,7 +43,7 @@ export const useGetSnsDetail = ({
     queryFn: async () => {
       const { code, data }: IRes<ISnsDetail | null> = await getSnsDetail(snsId);
       if (code === 'OK') {
-        if (snsList) {
+        if (snsList && setPrevSnsId && setNextSnsId) {
           const currentSnsIdx = snsList.findIndex((v) => v.postId === snsId);
           setPrevSnsId(snsList[currentSnsIdx - 1]?.postId);
           setNextSnsId(snsList[currentSnsIdx + 1]?.postId);
@@ -57,14 +56,14 @@ export const useGetSnsDetail = ({
   });
 };
 
-export const useGetPostingFollowings = () => {
+export const useGetLatestSnsList = () => {
   return useQuery({
-    queryKey: ['postingFollowings'],
+    queryKey: ['latestSnsList'],
     queryFn: async () => {
-      const { code, data }: IRes<IPostingFollowing> =
-        await getPostingFollowings();
+      const { code, data }: IRes<ILastestSnsItem[] | null> =
+        await getLatestSnsList();
       if (code === 'OK') {
-        return [data];
+        return data;
       }
       return null;
     },

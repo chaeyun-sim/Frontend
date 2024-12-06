@@ -6,7 +6,7 @@ import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
 import { useGetSnsDetail, useGetSnsList } from '@/hooks/queries/sns';
 
-import { snsStyles } from '../normal/[id]';
+import { snsPageStyles } from '../normal/[id]';
 
 const SnsBroadcastPage = () => {
   const snsId = Number(useParams()?.id);
@@ -23,8 +23,8 @@ const SnsBroadcastPage = () => {
   });
 
   return (
-    <div className={snsStyles.page_container}>
-      <div className={snsStyles.width_620}>
+    <div className={snsPageStyles.page_container}>
+      <div className={snsPageStyles.width_620}>
         <Sns
           data={snsDetail}
           prevSnsId={prevSnsId}
@@ -32,7 +32,7 @@ const SnsBroadcastPage = () => {
           currentSnsId={snsId}
         />
       </div>
-      <div className={snsStyles.aside_container}>
+      <div className={snsPageStyles.aside_container}>
         <DailyMessageInput />
         <SnsList list={snsList} currentSnsId={snsId} />
       </div>

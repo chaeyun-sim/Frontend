@@ -5,7 +5,7 @@ interface IRecentSnsItem {
   isFollowed: boolean;
 }
 
-interface IPostingFollowing {
+interface IProfile {
   broadcasterId: number;
   profileUrl: string;
   nickname: string;
@@ -18,21 +18,35 @@ type TSnsType = 'text' | 'image' | 'video' | 'imagevideo';
 interface ISnsItem {
   postId: number;
   title: string;
-  type: TSnsType; // 추가
+  hasImage: boolean;
+  hasVideo: boolean;
 }
 
 interface ISnsDetail {
-  id: number; // 추가
+  postId: number;
   writerId: number;
-  profileUrl: string;
-  nickname: string;
   title: string;
+  nickname: string;
+  profileUrl: string;
   content: string;
   comment: string;
-  isFollowed: boolean;
 }
 
 interface IPostCommentReq {
   postId: number;
   content: string;
+}
+
+interface IComment {
+  id: number;
+  profileUrl: string;
+  nickname: string;
+  comment: string;
+}
+
+interface ILastestSnsItem {
+  streamerId: number;
+  profileUrl: string;
+  dailyMessage: string;
+  postIdList: number[];
 }
