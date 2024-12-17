@@ -21,7 +21,7 @@ import { css } from '../../../../styled-system/css';
 
 const SignupInfo = () => {
   const router = useRouter();
-  const { snsType } = router.query;
+  const { snsType = '' } = router.query;
 
   const [file, setFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');

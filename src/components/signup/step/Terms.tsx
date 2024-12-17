@@ -10,7 +10,7 @@ import { css } from '../../../../styled-system/css';
 
 const SignupTerms = () => {
   const router = useRouter();
-  const { snsType } = router.query;
+  const { snsType = '' } = router.query;
 
   const [selectedTerm, setSelectedTerm] = useState<TSignupTerm>('service');
   const [isAgreedTerm, setIsAgreedTerm] = useState<{
