@@ -1,39 +1,40 @@
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import JoinProcess from '@/components/JoinProcess';
-import SignupStep1 from '@/components/signup/step/1';
-import SignupStep2 from '@/components/signup/step/2';
-import SignupStep3 from '@/components/signup/step/3';
+import Complete from '@/components/signup/step/Complete';
+import Info from '@/components/signup/step/Info';
+import Terms from '@/components/signup/step/Terms';
 import { SIGNUP_PROCESS_STEPS } from '@/constants/signup';
 
 import { css } from '../../../styled-system/css';
 
 const SignupPage = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const handleChangeStep = (step: number) => {
-    setCurrentStep(step);
-  };
+  const router = useRouter();
+  const { step } = router.query;
 
   return (
     <div>
       <div className={styles.process_container}>
         <JoinProcess
           processSteps={SIGNUP_PROCESS_STEPS}
-          currentStep={currentStep}
+          currentStep={Number(step)}
         />
       </div>
-      {currentStep !== 2 && (
+      {step !== 'complete' && (
         <div className={styles.title_container}>
           <h2 className={styles.title}>회원가입</h2>
           <h3 className={styles.subTitle}>
-            가입을 통해 다양한 서비스를 이용해보세요!
+            {step === 'terms'
+              ? '가입을 통해 다양한 서비스를 이용해보세요!'
+              : step === 'info'
+                ? '서비스 이용을 위해 사용자 정보를 입력해주세요.'
+                : ''}
           </h3>
         </div>
       )}
-      {currentStep === 0 && <SignupStep1 handleChangeStep={handleChangeStep} />}
-      {currentStep === 1 && <SignupStep2 handleChangeStep={handleChangeStep} />}
-      {currentStep === 2 && <SignupStep3 />}
+      {step === 'terms' && <Terms />}
+      {step === 'info' && <Info />}
+      {step === 'complete' && <Complete />}
     </div>
   );
 };

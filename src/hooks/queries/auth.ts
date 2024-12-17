@@ -22,7 +22,7 @@ interface IServeNicknameProps {
 
 interface ISignupProps {
   snsType: TSns;
-  handleChangeStep: (step: number) => void;
+  handleRedirect: () => void;
 }
 
 const useSocialLogin = ({
@@ -58,7 +58,7 @@ const useSocialLogin = ({
             console.error('가입되지 않은 회원입니다');
             const oauthToken = axiosError.response?.data?.data;
             setItem('@oauthToken', oauthToken);
-            router.push(`/signup/${snsType}`);
+            router.push(`/signup/terms?snsType=${snsType}`);
             break;
           }
           case 500:
@@ -119,12 +119,12 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   });
 };
 
-export const useSignup = ({ snsType, handleChangeStep }: ISignupProps) => {
+export const useSignup = ({ snsType, handleRedirect }: ISignupProps) => {
   return useMutation({
     mutationFn: (formData: FormData) => postUser(snsType, formData),
     onSuccess: ({ code }) => {
       if (code === 'OK') {
-        handleChangeStep(2);
+        handleRedirect();
       }
     },
   });

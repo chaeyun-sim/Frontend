@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import Button from '@/components/common/Button';
@@ -7,11 +8,10 @@ import { SIGNUP_TERMS, SIGNUP_TERMS_CONTENT } from '@/constants/signup';
 
 import { css } from '../../../../styled-system/css';
 
-interface IProps {
-  handleChangeStep: (step: number) => void;
-}
+const SignupTerms = () => {
+  const router = useRouter();
+  const { snsType } = router.query;
 
-const SignupStep1 = ({ handleChangeStep }: IProps) => {
   const [selectedTerm, setSelectedTerm] = useState<TSignupTerm>('service');
   const [isAgreedTerm, setIsAgreedTerm] = useState<{
     [key in TSignupTerm]: boolean;
@@ -35,7 +35,7 @@ const SignupStep1 = ({ handleChangeStep }: IProps) => {
   };
 
   const handleClickNextButton = () => {
-    handleChangeStep(1);
+    router.push(`/signup/info?snsType=${snsType}`);
   };
 
   return (
@@ -72,7 +72,7 @@ const SignupStep1 = ({ handleChangeStep }: IProps) => {
   );
 };
 
-export default SignupStep1;
+export default SignupTerms;
 
 const styles = {
   terms_container: css({

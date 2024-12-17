@@ -19,13 +19,9 @@ import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
 
-interface IProps {
-  handleChangeStep: (step: number) => void;
-}
-
-const SignupStep2 = ({ handleChangeStep }: IProps) => {
+const SignupInfo = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { snsType } = router.query;
 
   const [file, setFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');
@@ -64,8 +60,8 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
 
   // 가입 완료
   const { mutate: signup } = useSignup({
-    snsType: id as TSns,
-    handleChangeStep,
+    snsType: snsType as TSns,
+    handleRedirect: () => router.push('/signup/complete'),
   });
 
   const handleSubmit = () => {
@@ -151,7 +147,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   );
 };
 
-export default SignupStep2;
+export default SignupInfo;
 
 const styles = {
   box: css({
