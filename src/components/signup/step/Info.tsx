@@ -15,7 +15,7 @@ import {
 } from '@/hooks/queries/auth';
 import useToast from '@/hooks/useToast';
 import { useSignupStore } from '@/stores/useSignupStore';
-import { getItem } from '@/utils/localStorage';
+import { getItem, setItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
@@ -65,9 +65,13 @@ const SignupInfo = () => {
   // 가입 완료
   const { mutate: signup } = useSignup({
     snsType: snsType as TSns,
-    successCallback: () => {
-      resetSignupData();
-      router.push('/signup/complete');
+    successCallback: ({ code, data }) => {
+      if (code === 'OK') {
+        resetSignupData();
+        setItem('@token', data.accessToken);
+        setItem('@refresh', data.refreshToken);
+        router.push('/signup/complete');
+      }
     },
   });
 
