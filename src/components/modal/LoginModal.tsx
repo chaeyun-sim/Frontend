@@ -25,7 +25,6 @@ const LoginModal = () => {
     const redirectUrl = encodeURIComponent(
       `${process.env.NEXT_PUBLIC_REDIRECT_URL}/${provider}`
     );
-
     window.location.href = `${url}client_id=${clientId}&redirect_uri=${redirectUrl}&response_type=code`;
   };
 
