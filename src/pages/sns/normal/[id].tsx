@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import LatestSnsList from '@/components/sns/LatestSnsList';
@@ -13,7 +13,9 @@ import {
 import { css, cx } from '../../../../styled-system/css';
 
 const SnsNormalPage = () => {
-  const snsId = Number(useParams()?.id);
+  const router = useRouter();
+  const { id } = router.query;
+  const snsId = Number(id);
 
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
@@ -21,7 +23,7 @@ const SnsNormalPage = () => {
   const { data: lastestSnsList } = useGetLatestSnsList();
   const { data: snsList } = useGetSnsList();
   const { data: snsDetail } = useGetSnsDetail({
-    snsId,
+    snsId: snsId || snsList?.[0]?.postId,
     snsList,
     setPrevSnsId,
     setNextSnsId,
@@ -79,5 +81,3 @@ export const snsPageStyles = {
     maxWidth: 620,
   }),
 };
-
-// TODO server-side redirect
