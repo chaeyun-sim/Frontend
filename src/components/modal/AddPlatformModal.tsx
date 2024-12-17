@@ -18,30 +18,17 @@ const AddPlatformModal = ({
   publicPlatformList,
   onSetPublicPlatformList,
 }: IProps) => {
-  const platformList = [
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-    'https://www.brandb.net/_next/image?url=https%3A%2F%2Fapi.brandb.net%2Fapi%2Fv2%2Fcommon%2Fimage%2F%3FfileId%3D15004&w=1920&q=75',
-  ];
-
   const [newUrl, setNewUrl] = useState('');
   const [activePlatform, setActivePlatform] = useState(-1);
+
+  const platformList: Platform[] = []; // 기존 플랫폼
 
   const handleSave = () => {
     onSetPublicPlatformList([
       ...publicPlatformList,
       {
         platform: '치지직',
-        imageUrl: platformList[activePlatform],
+        imageUrl: platformList[activePlatform].imageUrl,
         profileUrl: '',
       },
     ]);
@@ -66,7 +53,7 @@ const AddPlatformModal = ({
               onClick={() => setActivePlatform(i)}
             >
               <img
-                src={platform}
+                src={platform.profileUrl}
                 alt=""
                 style={{ width: '48px', height: '48px', objectFit: 'cover' }}
               />
