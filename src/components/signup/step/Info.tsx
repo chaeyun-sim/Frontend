@@ -14,6 +14,7 @@ import {
   useSignup,
 } from '@/hooks/queries/auth';
 import useToast from '@/hooks/useToast';
+import { useSignupStore } from '@/stores/useSignupStore';
 import { getItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
@@ -33,6 +34,8 @@ const SignupInfo = () => {
     3: false,
   });
   const [tags, setTags] = useState<string[]>([]);
+
+  const { usageAgree, personalAgree, withdrawalAgree } = useSignupStore();
 
   const { toast, handleOpenToast, handleCloseToast } = useToast();
 
@@ -68,6 +71,9 @@ const SignupInfo = () => {
     if (!isEnabledSubmitButton) return;
 
     const request = {
+      usageAgree,
+      personalAgree,
+      withdrawalAgree,
       oauthToken: getItem('@oauthToken'),
       nickname,
       tags,

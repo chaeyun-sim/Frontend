@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import CheckBox from '@/components/common/CheckBox';
 import Tabs from '@/components/common/Tabs';
 import { SIGNUP_TERMS, SIGNUP_TERMS_CONTENT } from '@/constants/signup';
+import { useSignupStore } from '@/stores/useSignupStore';
 
 import { css } from '../../../../styled-system/css';
 
@@ -21,6 +22,9 @@ const SignupTerms = () => {
     withdrawal: false,
   });
 
+  const { usageAgree, personalAgree, withdrawalAgree, setTerms } =
+    useSignupStore();
+
   const isEnabledNextButton =
     isAgreedTerm['service'] &&
     isAgreedTerm['privacy'] &&
@@ -35,8 +39,21 @@ const SignupTerms = () => {
   };
 
   const handleClickNextButton = () => {
+    setTerms({
+      usageAgree: isAgreedTerm['service'],
+      personalAgree: isAgreedTerm['privacy'],
+      withdrawalAgree: isAgreedTerm['withdrawal'],
+    });
     router.push(`/signup/info?snsType=${snsType}`);
   };
+
+  useEffect(() => {
+    setIsAgreedTerm({
+      service: usageAgree,
+      privacy: personalAgree,
+      withdrawal: withdrawalAgree,
+    });
+  }, [usageAgree, personalAgree, withdrawalAgree]);
 
   return (
     <div>
