@@ -1,8 +1,10 @@
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import { Editor } from '@toast-ui/react-editor';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import '@toast-ui/editor/dist/toastui-editor.css';
+import { uploadPostMedia } from '@/apis/sns';
+
 import { css } from '../../styled-system/css';
 import { center } from '../../styled-system/patterns';
 
@@ -13,7 +15,20 @@ interface IProps {
 const TuiEditor = ({ onChange }: IProps) => {
   const editorRef = useRef<Editor>(null);
   const MAX_LENGTH = 1200;
-  const isLoading = false;
+  const LOADING_TEXT = (blob: File) => `<p>[${blob.name}](uploading...)</p>`;
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      return '페이지를 벗어나시겠습니까?';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   const extractTextFromHTML = (html: string) => {
     const parser = new DOMParser();
@@ -30,18 +45,23 @@ const TuiEditor = ({ onChange }: IProps) => {
     }
   };
 
-  // TODO: 이미지 저장을 위해 API 필요
-  // 참고: https://teawon.github.io/next/toast-ui-editor-image-uplaod/
-  const handleUploadImage = async (
-    blob: File,
-    callback: (imageUrl: string, fileName: string) => void
-  ) => {
-    // uploadImageMutation(blob, {
-    //   onSuccess: (data) => {
-    //     callback(data.imageUrl, blob.name);
-    //   },
-    // });
-    return false;
+  const uploadImage = async (blob: File) => {
+    const instance = editorRef.current?.getInstance();
+    const currentContent = instance.getHTML();
+    instance.setHTML(currentContent + LOADING_TEXT(blob));
+
+    const formData = new FormData();
+    formData.append('file', blob);
+
+    const data = await uploadPostMedia(formData);
+    const contentWithoutLoading = instance
+      .getHTML()
+      .replace(
+        LOADING_TEXT(blob),
+        data.code === 'OK' ? '' : '<p>이미지 로딩 실패</p>'
+      );
+    instance.setHTML(contentWithoutLoading);
+    return data.code === 'OK' ? data.data.url : '';
   };
 
   return (
@@ -56,13 +76,15 @@ const TuiEditor = ({ onChange }: IProps) => {
         placeholder="내용을 입력해주세요."
         onChange={handleChange}
         hideModeSwitch={true}
-        plugin={[colorSyntax, { onUploadImage: handleUploadImage }]}
+        plugin={[colorSyntax]}
+        hooks={{
+          addImageBlobHook: async (blob: File, callback: any) => {
+            const imageUrl = await uploadImage(blob);
+            callback(imageUrl, blob.name);
+            return false;
+          },
+        }}
       />
-      {isLoading && (
-        <div className={styles.loading_box}>
-          <span className={styles.loading_text}>이미지 업로드 중...</span>
-        </div>
-      )}
     </div>
   );
 };
@@ -76,16 +98,16 @@ const styles = {
     position: 'relative',
   }),
   loading_box: center({
-    position: 'absolute',
-    top: '46px',
-    left: '1px',
-    right: '1px',
-    bottom: '1px',
-    backgroundColor: '#fcfcfc',
-    zIndex: 100,
+    // position: 'absolute',
+    // top: '46px',
+    // left: '1px',
+    // right: '1px',
+    // bottom: '1px',
+    // backgroundColor: '#fcfcfc',
+    // zIndex: 100,
   }),
   loading_text: css({
-    textStyle: 'caption2',
+    textStyle: 'title1',
     color: 'gray.900',
   }),
 };

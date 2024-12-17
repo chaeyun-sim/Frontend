@@ -92,9 +92,3 @@ export const useCreatePost = ({
     onSuccess: successCallback,
   });
 };
-
-export const useUploadMedia = () => {
-  return useMutation({
-    mutationFn: (file: string) => uploadPostMedia(file),
-  });
-};
