@@ -29,7 +29,7 @@ export const postComment = async (data: IPostCommentReq) => {
 };
 
 export const createPost = async (props: ICreatePost) => {
-  const response = await publicInstance.post(`/sns/createPost`, props);
+  const response = await authInstance.post(`/sns/createPost`, props);
   return response.data;
 };
 
