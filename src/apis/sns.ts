@@ -32,3 +32,15 @@ export const createPost = async (props: ICreatePost) => {
   const response = await publicInstance.post(`/sns/createPost`, props);
   return response.data;
 };
+
+export const uploadPostMedia = async (file: string) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await authInstance.post('/sns/uploadPostMedia', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};

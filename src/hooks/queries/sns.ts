@@ -6,6 +6,7 @@ import {
   getSnsList,
   postComment,
   createPost,
+  uploadPostMedia,
 } from '@/apis/sns';
 
 interface IGetSnsDetailProps {
@@ -90,5 +91,11 @@ export const useCreatePost = ({
   return useMutation({
     mutationFn: createPost,
     onSuccess: successCallback,
+  });
+};
+
+export const useUploadMedia = () => {
+  return useMutation({
+    mutationFn: (file: string) => uploadPostMedia(file),
   });
 };
