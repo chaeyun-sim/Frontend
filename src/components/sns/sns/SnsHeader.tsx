@@ -47,14 +47,12 @@ const SnsHeader = ({
           className={snsHeaderStyles.profile}
         />
         <div className={snsHeaderStyles.name}>{nickname}</div>
-        {!isFollow && (
-          <Button
-            text="팔로우"
-            variant="outlined"
-            size="small"
-            onClick={handleToggleFollow}
-          />
-        )}
+        <Button
+          text={isFollow ? '언팔로우' : '팔로우'}
+          variant="outlined"
+          size="small"
+          onClick={handleToggleFollow}
+        />
       </div>
       <div className={snsHeaderStyles.header_button_container}>
         <Button
