@@ -9,13 +9,21 @@ export const publicInstance = axios.create({
   withCredentials: true,
 });
 
-const token = String(getItem('@token'));
-
 export const authInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
   withCredentials: true,
-  headers: { Authorization: `Bearer ${token}` },
 });
+
+authInstance.interceptors.request.use(
+  (config) => {
+    const token = getItem('@token');
+
+    if (token) config.headers.Authorization = `Bearer ${token}`;
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 authInstance.interceptors.response.use(
   (response) => response,

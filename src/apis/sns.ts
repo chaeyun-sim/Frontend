@@ -1,4 +1,4 @@
-import { authInstance, publicInstance } from '.';
+import { authInstance } from '.';
 
 export interface ICreatePost {
   postType: string;
@@ -9,17 +9,17 @@ export interface ICreatePost {
 }
 
 export const getSnsList = async () => {
-  const response = await publicInstance.get('/sns/getPostList');
+  const response = await authInstance.get('/sns/getPostList');
   return response.data;
 };
 
 export const getSnsDetail = async (postId?: number) => {
-  const response = await publicInstance.get(`/sns/getPostDetails/${postId}`);
+  const response = await authInstance.get(`/sns/getPostDetails/${postId}`);
   return response.data;
 };
 
 export const getLatestSnsList = async () => {
-  const response = await publicInstance.get('/sns/getLatestPosts');
+  const response = await authInstance.get('/sns/getLatestPosts');
   return response.data;
 };
 
@@ -29,6 +29,6 @@ export const postComment = async (data: IPostCommentReq) => {
 };
 
 export const createPost = async (props: ICreatePost) => {
-  const response = await publicInstance.post(`/sns/createPost`, props);
+  const response = await authInstance.post(`/sns/createPost`, props);
   return response.data;
 };
