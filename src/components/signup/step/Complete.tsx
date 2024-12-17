@@ -14,7 +14,7 @@ const SignupComplete = () => {
         <p>다양한 서비스 이용을 위해 로그인해주세요.</p>
       </div>
       <div className={styles.button_container}>
-        <Link href={'/'}>
+        <Link href={'/?from=signup-complete'}>
           <Button text="로그인하러 가기" />
         </Link>
       </div>
