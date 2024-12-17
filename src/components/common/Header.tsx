@@ -28,7 +28,7 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={'/'}>SNS 이동</Link>
+            <Link href={'/sns/normal/0'}>SNS 이동</Link>
             <button onClick={openModal}>로그인</button>
           </div>
         </div>

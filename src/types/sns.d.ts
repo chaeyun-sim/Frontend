@@ -26,10 +26,11 @@ interface ISnsDetail {
   postId: number;
   writerId: number;
   title: string;
-  nickname: string;
-  profileUrl: string;
   content: string;
+  profileUrl: string;
+  nickname: string;
   comment: string;
+  isFollowed: boolean;
 }
 
 interface IPostCommentReq {
@@ -45,7 +46,7 @@ interface IComment {
 }
 
 interface ILastestSnsItem {
-  streamerId: number;
+  memberId: number;
   profileUrl: string;
   dailyMessage: string;
   postIdList: number[];
