@@ -21,3 +21,9 @@ export const SIGNUP_NICKNAME_VALIDATIONS = [
   { id: 2, value: '한글, 영문, 숫자, 특수문자 사용 가능' },
   { id: 3, value: '특수문자 (  )   -   _   : 사용 가능' },
 ];
+
+export const SIGNUP_SUB_TITLES: { [key in TSignupStep]: string } = {
+  terms: '가입을 통해 다양한 서비스를 이용해보세요!',
+  info: '서비스 이용을 위해 사용자 정보를 입력해주세요.',
+  complete: '',
+};
