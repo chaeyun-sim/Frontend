@@ -96,7 +96,11 @@ const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
             openDropdown('');
           }}
           hidePlaceholderOnFocus
-          placeholder="사용자 이름을 입력해주세요."
+          placeholder={
+            isPublic
+              ? '이 글을 숨길 사용자를 입력해주세요.'
+              : '이 글을 보여줄 사용자를 입력해주세요.'
+          }
         />
         <SelectPeopleDropdown
           keyword={searchMember}
