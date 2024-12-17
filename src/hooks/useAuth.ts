@@ -14,7 +14,10 @@ export const useAuth = () => {
     removeItem('@token');
     removeItem('@refresh');
     setIsLoggedIn(false);
-    window.location.href = '/';
+    // TODO: 로그인이 필요없는 사이트는 현재 위치에 남고, 로그인이 필요하다면 홈으로 이동
+    if (window.location.pathname !== '/') {
+      window.location.href = '/';
+    }
   };
 
   return { isLoggedIn, token, logout };
