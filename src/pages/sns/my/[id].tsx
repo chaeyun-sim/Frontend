@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import Comments from '@/components/sns/Comments';
 import MySns from '@/components/sns/MySns';
@@ -8,7 +8,9 @@ import { useGetSnsDetail } from '@/hooks/queries/sns';
 import { snsPageStyles } from '../normal/[id]';
 
 const SnsMyPage = () => {
-  const snsId = Number(useParams()?.id);
+  const router = useRouter();
+  const { id } = router.query;
+  const snsId = Number(id);
 
   const { data: snsDetail } = useGetSnsDetail({ snsId });
 
@@ -26,5 +28,3 @@ const SnsMyPage = () => {
 };
 
 export default SnsMyPage;
-
-// TODO server-side redirect

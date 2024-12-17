@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import DailyMessageInput from '@/components/sns/DailyMessageInput';
@@ -9,14 +9,16 @@ import { useGetSnsDetail, useGetSnsList } from '@/hooks/queries/sns';
 import { snsPageStyles } from '../normal/[id]';
 
 const SnsBroadcastPage = () => {
-  const snsId = Number(useParams()?.id);
+  const router = useRouter();
+  const { id } = router.query;
+  const snsId = Number(id);
 
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: snsList } = useGetSnsList();
   const { data: snsDetail } = useGetSnsDetail({
-    snsId,
+    snsId: snsId || snsList?.[0]?.postId,
     snsList,
     setPrevSnsId,
     setNextSnsId,
@@ -41,5 +43,3 @@ const SnsBroadcastPage = () => {
 };
 
 export default SnsBroadcastPage;
-
-// TODO server-side redirect

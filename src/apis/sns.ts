@@ -13,7 +13,7 @@ export const getSnsList = async () => {
   return response.data;
 };
 
-export const getSnsDetail = async (postId: number) => {
+export const getSnsDetail = async (postId?: number) => {
   const response = await publicInstance.get(`/sns/getPostDetails/${postId}`);
   return response.data;
 };

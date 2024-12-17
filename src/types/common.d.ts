@@ -7,3 +7,8 @@ interface IRes<T> {
 }
 
 type TSns = 'KAKAO' | 'GOOGLE' | 'NAVER';
+
+interface IToken {
+  accessToken: string;
+  refreshToken: string;
+}

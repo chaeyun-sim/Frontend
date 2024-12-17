@@ -10,7 +10,7 @@ import {
 } from '@/apis/sns';
 
 interface IGetSnsDetailProps {
-  snsId: number;
+  snsId?: number;
   snsList?: ISnsItem[] | null;
   setPrevSnsId?: (value: number) => void;
   setNextSnsId?: (value: number) => void;
@@ -24,7 +24,7 @@ export const useGetSnsList = () => {
   return useQuery({
     queryKey: ['snsList'],
     queryFn: async () => {
-      const { code, data }: IRes<ISnsItem[] | null> = await getSnsList();
+      const { code, data }: IRes<ISnsItem[]> = await getSnsList();
       if (code === 'OK') {
         return data;
       }
@@ -53,7 +53,7 @@ export const useGetSnsDetail = ({
       }
       return null;
     },
-    enabled: !!snsId && !!snsList,
+    enabled: !!snsId,
   });
 };
 
@@ -61,8 +61,7 @@ export const useGetLatestSnsList = () => {
   return useQuery({
     queryKey: ['latestSnsList'],
     queryFn: async () => {
-      const { code, data }: IRes<ILastestSnsItem[] | null> =
-        await getLatestSnsList();
+      const { code, data }: IRes<ILastestSnsItem[]> = await getLatestSnsList();
       if (code === 'OK') {
         return data;
       }
