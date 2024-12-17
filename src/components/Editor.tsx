@@ -4,18 +4,16 @@ import React, { useEffect, useRef } from 'react';
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { uploadPostMedia } from '@/apis/sns';
+import { usePostContent } from '@/stores/usePostContent';
 
 import { css } from '../../styled-system/css';
-import { center } from '../../styled-system/patterns';
 
-interface IProps {
-  onChange: (value: string) => void;
-}
-
-const TuiEditor = ({ onChange }: IProps) => {
+const TuiEditor = () => {
   const editorRef = useRef<Editor>(null);
   const MAX_LENGTH = 1200;
   const LOADING_TEXT = (blob: File) => `<p>[${blob.name}](uploading...)</p>`;
+
+  const { setContent } = usePostContent();
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -41,7 +39,7 @@ const TuiEditor = ({ onChange }: IProps) => {
     const html = editorInstance.getHTML();
     const extracted = extractTextFromHTML(html);
     if (editorInstance && extracted.length <= MAX_LENGTH) {
-      onChange(html);
+      setContent(html);
     }
   };
 
@@ -83,6 +81,12 @@ const TuiEditor = ({ onChange }: IProps) => {
             return false;
           },
         }}
+        toolbarItems={[
+          ['heading', 'bold', 'italic', 'strike'],
+          ['hr', 'quote'],
+          ['ul', 'ol', 'task'],
+          ['table', 'codeblock'],
+        ]}
       />
     </div>
   );
@@ -95,18 +99,5 @@ const styles = {
     marginTop: '20px',
     zIndex: 100,
     position: 'relative',
-  }),
-  loading_box: center({
-    // position: 'absolute',
-    // top: '46px',
-    // left: '1px',
-    // right: '1px',
-    // bottom: '1px',
-    // backgroundColor: '#fcfcfc',
-    // zIndex: 100,
-  }),
-  loading_text: css({
-    textStyle: 'title1',
-    color: 'gray.900',
   }),
 };
