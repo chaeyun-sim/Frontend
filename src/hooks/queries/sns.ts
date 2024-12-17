@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import {
   getLatestSnsList,
@@ -6,7 +7,6 @@ import {
   getSnsList,
   postComment,
   createPost,
-  uploadPostMedia,
 } from '@/apis/sns';
 
 interface IGetSnsDetailProps {
@@ -73,7 +73,7 @@ export const useGetLatestSnsList = () => {
 export const usePostComment = ({ onClose }: IPostCommentProps) => {
   return useMutation({
     mutationFn: postComment,
-    onSuccess: ({ code }: IRes<any>) => {
+    onSuccess: ({ code }) => {
       if (code === 'OK') {
         onClose();
       }
@@ -82,13 +82,16 @@ export const usePostComment = ({ onClose }: IPostCommentProps) => {
   });
 };
 
-export const useCreatePost = ({
-  successCallback,
-}: {
-  successCallback: (data: IRes<any>) => void;
-}) => {
+export const useCreatePost = () => {
+  const navigate = useRouter();
+
   return useMutation({
     mutationFn: createPost,
-    onSuccess: successCallback,
+    onSuccess: (data) => {
+      if (data.code === 'OK') {
+        // TODO: 수정 필요
+        navigate.push(`/post/${data.data.postId}`);
+      }
+    },
   });
 };
