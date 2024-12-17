@@ -4,8 +4,8 @@ export interface ICreatePost {
   postType: string;
   title: string;
   content: string;
-  publicMembers: string[];
-  privateMembers: string[];
+  publicMembers: number[];
+  privateMembers: number[];
 }
 
 export const getSnsList = async () => {
@@ -40,4 +40,9 @@ export const uploadPostMedia = async (file: FormData) => {
     },
   });
   return response.data;
+};
+
+export const searchMember = async (nickname: string) => {
+  const response = await authInstance.get(`/sns/searchMember/${nickname}`);
+  return response.data.data;
 };

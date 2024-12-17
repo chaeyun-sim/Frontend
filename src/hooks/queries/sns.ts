@@ -7,6 +7,7 @@ import {
   getSnsList,
   postComment,
   createPost,
+  searchMember,
 } from '@/apis/sns';
 
 interface IGetSnsDetailProps {
@@ -89,9 +90,15 @@ export const useCreatePost = () => {
     mutationFn: createPost,
     onSuccess: (data) => {
       if (data.code === 'OK') {
-        // TODO: 수정 필요
-        navigate.push(`/post/${data.data.postId}`);
+        navigate.push(`/sns/normal/${data.data.postId}`);
       }
     },
+  });
+};
+
+export const useSearchMember = (nickname: string) => {
+  return useQuery<Member[]>({
+    queryKey: ['search-member', nickname],
+    queryFn: () => searchMember(nickname),
   });
 };

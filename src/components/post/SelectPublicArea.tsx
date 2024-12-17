@@ -20,7 +20,7 @@ interface IProps {
 }
 
 const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
-  const [members, setMembers] = useState<string[]>([]); // TODO: 추후 User[]로 변경
+  const [selectedMembers, setSelectedMembers] = useState<number[]>([]); // TODO: 추후 User[]로 변경
   const [searchMember, setSearchMember] = useState('');
 
   const {
@@ -30,21 +30,17 @@ const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
   } = useModal();
   const { title, content } = usePostContent();
   const { activeTab, handleTabChange } = useTab<'1' | '2'>(['1', '2'], '1');
-  const {
-    value: isPublic,
-    handleToggle: togglePublic,
-    options: { changeToTrue: changeToPublic },
-  } = useToggle();
+  const { value: isPublic, handleToggle: togglePublic } = useToggle();
 
   const { mutate: createPost } = useCreatePost();
 
-  const handleAddPublicPeople = (person: string) => {
-    setMembers([...members, person]);
+  const handleAddPublicPeople = (memberId: number) => {
+    setSelectedMembers([...selectedMembers, memberId]);
   };
 
   // TODO: User 데이터가 없어 index로 대신함
   const handleRemovePublicPeople = (index: number) => {
-    setMembers(members.filter((_, i) => i !== index));
+    setSelectedMembers(selectedMembers.filter((_, i) => i !== index));
   };
 
   const handleSubmit = () =>
@@ -52,7 +48,7 @@ const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
       postType: 'MEMBER',
       title,
       content,
-      publicMembers: members,
+      publicMembers: selectedMembers,
       privateMembers: [],
     });
 
@@ -91,10 +87,7 @@ const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
         <Input
           value={searchMember}
           onSetValue={setSearchMember}
-          onClick={() => {
-            changeToPublic();
-            openDropdown('');
-          }}
+          onClick={() => openDropdown('')}
           hidePlaceholderOnFocus
           placeholder={
             isPublic
@@ -112,12 +105,12 @@ const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
       <div className={styles.selected_list}>
         <div className={styles.selected_box}>
           {/* TODO: User 데이터가 없어서 임시로 인덱스 전달 */}
-          {members.slice(0, 4).map((item, i) => (
+          {selectedMembers.slice(0, 4).map((item, i) => (
             <Avatar key={item} onClick={() => handleRemovePublicPeople(i)} />
           ))}
-          {members.length > 4 && (
+          {selectedMembers.length > 4 && (
             <div className={cx(styles.profile_box_wrapper, center())}>
-              + {members.length - 4}
+              + {selectedMembers.length - 4}
             </div>
           )}
         </div>
