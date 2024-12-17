@@ -18,7 +18,7 @@ const Login = () => {
       if (data?.code === 'OK') {
         setItem('@token', data.data.accessToken);
         setItem('@refresh', data.data.refreshToken);
-        navigation.push('/');
+        navigation.back();
       }
     },
   });
