@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
 import { useCreatePost } from '@/hooks/queries/sns';
+import { useModal } from '@/hooks/useModal';
+import { useTab } from '@/hooks/useTab';
+import { useToggle } from '@/hooks/useToggle';
+import { usePostContent } from '@/stores/usePostContent';
 
 import { css, cx } from '../../../styled-system/css';
 import { center } from '../../../styled-system/patterns';
@@ -12,45 +16,36 @@ import Tabs from '../common/Tabs';
 import SelectPeopleDropdown from '../SelectPeopleDropdown';
 
 interface IProps {
-  searchText: string;
-  selectedTab: '1' | '2';
-  isDropdownOpen: boolean;
-  content: string;
-  title: string;
-  onSetSearchText: (value: string) => void;
-  onSetSelectedTab: (value: '1' | '2') => void;
-  onCloseDropdown: () => void;
   onSelectDisabled: () => void;
-  onOpenDropdown: () => void;
 }
 
-const SelectPublicArea = ({
-  searchText,
-  selectedTab,
-  isDropdownOpen,
-  content,
-  title,
-  onSetSearchText,
-  onSetSelectedTab,
-  onCloseDropdown,
-  onSelectDisabled,
-  onOpenDropdown,
-}: IProps) => {
-  const [isPublic, setIsPublic] = useState(true);
-  const [members, setMemberrs] = useState<string[]>([]); // TODO: 추후 User[]로 변경
+const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
+  const [members, setMembers] = useState<string[]>([]); // TODO: 추후 User[]로 변경
+  const [searchMember, setSearchMember] = useState('');
 
-  const { mutate: createPost } = useCreatePost({ successCallback: () => null });
+  const {
+    isOpen: isDropdownOpen,
+    openModal: openDropdown,
+    closeModal: closeDropdown,
+  } = useModal();
+  const { title, content } = usePostContent();
+  const { activeTab, handleTabChange } = useTab<'1' | '2'>(['1', '2'], '1');
+  const {
+    value: isPublic,
+    handleToggle: togglePublic,
+    options: { changeToTrue: changeToPublic },
+  } = useToggle();
+
+  const { mutate: createPost } = useCreatePost();
 
   const handleAddPublicPeople = (person: string) => {
-    setMemberrs([...members, person]);
+    setMembers([...members, person]);
   };
 
   // TODO: User 데이터가 없어 index로 대신함
   const handleRemovePublicPeople = (index: number) => {
-    setMemberrs(members.filter((_, i) => i !== index));
+    setMembers(members.filter((_, i) => i !== index));
   };
-
-  const togglePublic = () => setIsPublic(!isPublic);
 
   const handleSubmit = () =>
     createPost({
@@ -74,13 +69,13 @@ const SelectPublicArea = ({
             iconName: 'lock',
           },
         ]}
-        selected={selectedTab}
-        handleSelect={onSetSelectedTab}
+        selected={activeTab}
+        handleSelect={handleTabChange}
         handleSelectDisabled={onSelectDisabled}
       />
       <div className={styles.visibility_settings}>
         <CheckBox
-          checked={isPublic}
+          checked={isPublic!}
           handleCheck={togglePublic}
           label="공개 설정"
         />
@@ -94,19 +89,19 @@ const SelectPublicArea = ({
       </div>
       <div style={{ padding: '0 16px' }}>
         <Input
-          value={searchText}
-          onSetValue={onSetSearchText}
+          value={searchMember}
+          onSetValue={setSearchMember}
           onClick={() => {
-            setIsPublic(true);
-            onOpenDropdown();
+            changeToPublic();
+            openDropdown('');
           }}
           hidePlaceholderOnFocus
           placeholder="사용자 이름을 입력해주세요."
         />
         <SelectPeopleDropdown
-          keyword={searchText}
+          keyword={searchMember}
           onClickItem={handleAddPublicPeople}
-          onCloseDropdown={onCloseDropdown}
+          onCloseDropdown={closeDropdown}
           isDropdownOpen={isDropdownOpen}
         />
       </div>
