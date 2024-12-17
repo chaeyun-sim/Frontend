@@ -47,7 +47,7 @@ const Button = ({
     } else if (variant === 'outlined') {
       return css({
         backgroundColor: 'white',
-        color: 'main.base',
+        color: 'main.dark',
         borderColor: 'main.base',
         '&:hover': {
           backgroundColor: 'gray.50',

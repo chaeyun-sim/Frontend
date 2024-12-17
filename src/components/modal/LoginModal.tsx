@@ -11,7 +11,7 @@ const LoginModal = () => {
       clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID,
     },
     google: {
-      url: 'https://accounts.google.com/o/oauth2/v2/auth?scope=email&',
+      url: 'https://accounts.google.com/o/oauth2/v2/auth?scope=openid email&',
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     },
     naver: {
