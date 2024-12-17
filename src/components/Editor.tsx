@@ -54,14 +54,13 @@ const TuiEditor = ({ onChange }: IProps) => {
     formData.append('file', blob);
 
     const data = await uploadPostMedia(formData);
+    const isValid = data.code === 'OK';
+
     const contentWithoutLoading = instance
       .getHTML()
-      .replace(
-        LOADING_TEXT(blob),
-        data.code === 'OK' ? '' : '<p>이미지 로딩 실패</p>'
-      );
+      .replace(LOADING_TEXT(blob), isValid ? '' : '<p>이미지 로딩 실패</p>');
     instance.setHTML(contentWithoutLoading);
-    return data.code === 'OK' ? data.data.url : '';
+    return isValid ? data.data.url : '';
   };
 
   return (
