@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
-  const { isOpen: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
+  const { value: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
     useToggle(false);
 
   return (
