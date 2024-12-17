@@ -11,14 +11,15 @@ import { snsPageStyles } from '../normal/[id]';
 const SnsBroadcastPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const snsId = Number(id);
 
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: snsList } = useGetSnsList();
+
+  const snsId = Number(id) || snsList?.[0]?.postId || 0;
   const { data: snsDetail } = useGetSnsDetail({
-    snsId: snsId || snsList?.[0]?.postId,
+    snsId,
     snsList,
     setPrevSnsId,
     setNextSnsId,
