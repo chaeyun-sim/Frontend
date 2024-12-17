@@ -35,7 +35,8 @@ const SignupInfo = () => {
   });
   const [tags, setTags] = useState<string[]>([]);
 
-  const { usageAgree, personalAgree, withdrawalAgree } = useSignupStore();
+  const { usageAgree, personalAgree, withdrawalAgree, resetSignupData } =
+    useSignupStore();
 
   const { toast, handleOpenToast, handleCloseToast } = useToast();
 
@@ -64,7 +65,10 @@ const SignupInfo = () => {
   // 가입 완료
   const { mutate: signup } = useSignup({
     snsType: snsType as TSns,
-    handleRedirect: () => router.push('/signup/complete'),
+    successCallback: () => {
+      resetSignupData();
+      router.push('/signup/complete');
+    },
   });
 
   const handleSubmit = () => {

@@ -22,7 +22,7 @@ interface IServeNicknameProps {
 
 interface ISignupProps {
   snsType: TSns;
-  handleRedirect: () => void;
+  successCallback: () => void;
 }
 
 const useSocialLogin = ({
@@ -119,12 +119,12 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   });
 };
 
-export const useSignup = ({ snsType, handleRedirect }: ISignupProps) => {
+export const useSignup = ({ snsType, successCallback }: ISignupProps) => {
   return useMutation({
     mutationFn: (formData: FormData) => postUser(snsType, formData),
     onSuccess: ({ code }) => {
       if (code === 'OK') {
-        handleRedirect();
+        successCallback();
       }
     },
   });

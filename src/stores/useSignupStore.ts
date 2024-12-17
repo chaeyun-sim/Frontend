@@ -12,6 +12,7 @@ interface IStore {
   personalAgree: boolean;
   withdrawalAgree: boolean;
   setTerms: (terms: ITerms) => void;
+  resetSignupData: () => void;
 }
 
 const initialState = {
@@ -25,6 +26,7 @@ export const useSignupStore = create<IStore>()(
     (set) => ({
       ...initialState,
       setTerms: (terms) => set((state) => ({ ...state, ...terms })),
+      resetSignupData: () => set({ ...initialState }),
     }),
     { name: 'signup' }
   )
