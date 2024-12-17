@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { peoples } from '@/constants/dummyData';
 
 import Icon from './common/Icon';
+import PersonBox from './PersonBox';
 import { css } from '../../styled-system/css';
 
 interface IProps {
@@ -46,56 +47,17 @@ const SelectPeopleDropdown = ({
     setData(data.filter((item) => item !== value));
   };
 
-  const highlightText = (text: string) => {
-    if (!keyword.trim()) return text;
-
-    const regex = new RegExp(`(${keyword})`, 'gi');
-    const parts = text.split(regex);
-
-    return (
-      <span className={styles.name}>
-        {parts.map((part, i) =>
-          regex.test(part) ? (
-            <span key={i} className={css({ color: 'main.base' })}>
-              {part}
-            </span>
-          ) : (
-            part
-          )
-        )}
-      </span>
-    );
-  };
-
   return (
     <>
       {isDropdownOpen && data.length > 0 && (
         <div className={styles.wrapper} ref={dropdownRef}>
           {data.map((p) => (
-            <div className={styles.item}>
-              <div className={styles.image}>
-                <Image
-                  src={
-                    'https://images.unsplash.com/photo-1730343464315-a9ca01f9f1c6?q=80&w=2187&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                  }
-                  alt="profile"
-                  width={36}
-                  height={36}
-                  style={{ objectFit: 'cover' }}
-                />
-              </div>
-              {keyword === '' ? (
-                <span className={styles.name}>{p}</span>
-              ) : (
-                <span className={styles.name}>{highlightText(p)}</span>
-              )}
-              <button
-                className={styles.add_btn}
-                onClick={() => handleClickItem(p)}
-              >
-                <Icon name="add2" />
-              </button>
-            </div>
+            <PersonBox
+              hasAdd
+              data={p}
+              keyword={keyword}
+              onClick={handleClickItem}
+            />
           ))}
         </div>
       )}
@@ -124,35 +86,5 @@ const styles = {
       background: 'main.base',
       borderRadius: '4px',
     },
-  }),
-  item: css({
-    padding: '16px',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    position: 'relative',
-    borderBottomColor: 'gray.100',
-    borderBottomWidth: '1px',
-    '&:last-child': {
-      borderBottom: 'none',
-    },
-  }),
-  image: css({
-    width: '36px',
-    height: '36px',
-    borderRadius: '50%',
-    overflow: 'hidden',
-    flexShrink: 0,
-  }),
-  name: css({
-    textStyle: 'body4',
-    color: 'gray.900',
-  }),
-  add_btn: css({
-    position: 'absolute',
-    right: '16px',
-    top: '50%',
-    transform: 'translateY(-50%)',
   }),
 };

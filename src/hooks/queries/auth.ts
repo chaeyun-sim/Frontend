@@ -7,7 +7,7 @@ import {
   login,
   postUser,
 } from '@/apis/auth';
-import { setItem } from '@/utils/localStorage';
+import { removeItem, setItem } from '@/utils/localStorage';
 
 interface ICheckNicknameProps {
   nickname: string;

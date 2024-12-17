@@ -1,13 +1,10 @@
+import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
 import { center, flex } from '../../../styled-system/patterns';
 import Button from '../common/Button';
 import Icon from '../common/Icon';
 
-interface IProps {
-  onClose: () => void;
-}
-
-const GoToStreamerModal = ({ onClose }: IProps) => {
+const GoToStreamerModal = ({ onClose }: ModalProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.top_area}>

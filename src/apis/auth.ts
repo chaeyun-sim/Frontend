@@ -4,7 +4,7 @@ export const login = async (snsType: string, authCode: string) => {
   const type = snsType.toUpperCase();
 
   const response = await publicInstance.post(
-    `${process.env.NEXT_PUBLIC_SERVER_API}/api/v1/members/login/${type}`,
+    `/members/login/${type}`,
     {
       authCode,
     },

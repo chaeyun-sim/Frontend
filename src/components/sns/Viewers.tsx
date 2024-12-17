@@ -1,4 +1,4 @@
-import useToggle from '@/hooks/useToggle';
+import { useToggle } from '@/hooks/useToggle';
 
 import Profile from './Profile';
 import ProfileList from './ProfileList';

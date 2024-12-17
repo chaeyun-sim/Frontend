@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 
 import { css, cx } from '../../../styled-system/css';
 
@@ -8,6 +8,13 @@ interface IProps {
 }
 
 const Modal = ({ onClose, className, children }: PropsWithChildren<IProps>) => {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
     <div className={styles.modal_container}>
       <div className={styles.modal_blur} onClick={onClose} />
@@ -20,12 +27,15 @@ export default Modal;
 
 const styles = {
   modal_container: css({
-    width: '100%',
-    height: '100%',
+    position: 'fixed',
+    width: '100vw',
+    height: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'blue',
+    top: 0,
+    left: 0,
+    zIndex: 10000,
   }),
   modal_content: css({
     backgroundColor: 'white',

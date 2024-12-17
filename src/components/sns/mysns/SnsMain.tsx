@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-import useToggle from '@/hooks/useToggle';
+import { useToggle } from '@/hooks/useToggle';
 
 import { css, cx } from '../../../../styled-system/css';
 import { snsMainStyles } from '../sns/SnsMain';

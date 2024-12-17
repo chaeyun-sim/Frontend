@@ -26,7 +26,7 @@ jobs:
         run: yarn build
 
       - name: Deploy to Netlify
-        run: npx netlify-cli deploy --prod --dir=out
+        run: npx netlify-cli deploy --prod --dir=.next
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ github.ref == 'refs/heads/main' && secrets.NETLIFY_PROD_SITE_ID || secrets.NETLIFY_DEV_SITE_ID }}
