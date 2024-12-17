@@ -22,7 +22,7 @@ interface IServeNicknameProps {
 
 interface ISignupProps {
   snsType: TSns;
-  successCallback: (data: IRes<ISignupRes>) => void;
+  successCallback: (data: IRes<IToken>) => void;
 }
 
 const useSocialLogin = ({
@@ -86,7 +86,7 @@ const useCheckNickname = ({
     queryKey: ['checkNickname', nickname],
     queryFn: async () => {
       try {
-        const { code } = await getCheckNickname(nickname);
+        const { code }: IRes<null> = await getCheckNickname(nickname);
         if (code === 'OK') {
           setHasDuplicatedNickname(true);
           setIsDuplicatedNickname(true);
@@ -109,9 +109,10 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   return useQuery({
     queryKey: ['serveNickname'],
     queryFn: async () => {
-      const { code, data } = await getServeNickname();
+      const { code, data }: IRes<{ nickname: string }> =
+        await getServeNickname();
       if (code === 'OK') {
-        setNickname(data.nicknames[0]);
+        setNickname(data.nickname);
       }
       return null;
     },
