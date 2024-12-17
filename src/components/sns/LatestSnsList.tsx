@@ -1,5 +1,5 @@
 import Profile from './Profile';
-import { css, cx } from '../../../styled-system/css';
+import { css } from '../../../styled-system/css';
 
 interface IProps {
   list?: ILastestSnsItem[] | null;
@@ -11,7 +11,8 @@ const LatestSnsList = ({ list }: IProps) => {
       {/* <div className={cx(styles.overlay, styles.left_overlay)} /> */}
       <ul className={styles.list}>
         {list?.map((v) => (
-          <li key={v?.streamerId || 0}>
+          // NOTE: 빌드 에러 - streamerId 없음
+          <li key={v?.memberId || 0}>
             <Profile
               profile={v?.profileUrl || ''}
               dailyMessage={v?.dailyMessage}
