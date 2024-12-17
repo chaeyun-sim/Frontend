@@ -5,6 +5,7 @@ import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
 import GoToStreamerModal from '@/components/modal/GoToStreamerModal';
 import SelectPublicArea from '@/components/post/SelectPublicArea';
+import { useModal } from '@/hooks/useModal';
 
 import { css } from '../../styled-system/css';
 
@@ -17,8 +18,9 @@ const PostPage = () => {
   const [selectedTab, setSelectedTab] = useState<'1' | '2'>('1');
   const [searchText, setSearchText] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState<string>('');
+
+  const { isOpen: isModalOpen, openModal, closeModal } = useModal();
 
   const handleEditorChange = (value: string) => setContent(value);
 
@@ -26,10 +28,10 @@ const PostPage = () => {
     <div className={styles.container}>
       {isModalOpen && (
         <Modal
-          onClose={() => setIsModalOpen(false)}
+          onClose={closeModal}
           className={css({ width: 320, height: 196 })}
         >
-          <GoToStreamerModal onClose={() => setIsModalOpen(false)} />
+          <GoToStreamerModal onClose={closeModal} />
         </Modal>
       )}
       <div className={styles.editor_area}>
@@ -52,7 +54,7 @@ const PostPage = () => {
           onSetSelectedTab={setSelectedTab}
           onCloseDropdown={() => setIsDropdownOpen(false)}
           onOpenDropdown={() => setIsDropdownOpen(true)}
-          onSelectDisabled={() => setIsModalOpen(true)}
+          onSelectDisabled={() => openModal('')}
         />
       </div>
     </div>
