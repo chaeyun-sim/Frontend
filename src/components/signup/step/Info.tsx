@@ -14,18 +14,15 @@ import {
   useSignup,
 } from '@/hooks/queries/auth';
 import useToast from '@/hooks/useToast';
-import { getItem } from '@/utils/localStorage';
+import { useSignupStore } from '@/stores/useSignupStore';
+import { getItem, removeItem, setItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
 
-interface IProps {
-  handleChangeStep: (step: number) => void;
-}
-
-const SignupStep2 = ({ handleChangeStep }: IProps) => {
+const SignupInfo = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { snsType = '' } = router.query;
 
   const [file, setFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState('');
@@ -37,6 +34,9 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
     3: false,
   });
   const [tags, setTags] = useState<string[]>([]);
+
+  const { usageAgree, personalAgree, withdrawalAgree, resetSignupData } =
+    useSignupStore();
 
   const { toast, handleOpenToast, handleCloseToast } = useToast();
 
@@ -64,14 +64,25 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
 
   // 가입 완료
   const { mutate: signup } = useSignup({
-    snsType: id as TSns,
-    handleChangeStep,
+    snsType: snsType as TSns,
+    successCallback: ({ code, data }) => {
+      if (code === 'OK') {
+        resetSignupData();
+        removeItem('@oauthToken');
+        setItem('@token', data.accessToken);
+        setItem('@refresh', data.refreshToken);
+        router.push('/signup/complete');
+      }
+    },
   });
 
   const handleSubmit = () => {
     if (!isEnabledSubmitButton) return;
 
     const request = {
+      usageAgree,
+      personalAgree,
+      withdrawalAgree,
       oauthToken: getItem('@oauthToken'),
       nickname,
       tags,
@@ -151,7 +162,7 @@ const SignupStep2 = ({ handleChangeStep }: IProps) => {
   );
 };
 
-export default SignupStep2;
+export default SignupInfo;
 
 const styles = {
   box: css({

@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Button';
 import CheckBox from '@/components/common/CheckBox';
 import Tabs from '@/components/common/Tabs';
 import { SIGNUP_TERMS, SIGNUP_TERMS_CONTENT } from '@/constants/signup';
+import { useSignupStore } from '@/stores/useSignupStore';
 
 import { css } from '../../../../styled-system/css';
 
-interface IProps {
-  handleChangeStep: (step: number) => void;
-}
+const SignupTerms = () => {
+  const router = useRouter();
+  const { snsType = '' } = router.query;
 
-const SignupStep1 = ({ handleChangeStep }: IProps) => {
   const [selectedTerm, setSelectedTerm] = useState<TSignupTerm>('service');
   const [isAgreedTerm, setIsAgreedTerm] = useState<{
     [key in TSignupTerm]: boolean;
@@ -20,6 +21,9 @@ const SignupStep1 = ({ handleChangeStep }: IProps) => {
     privacy: false,
     withdrawal: false,
   });
+
+  const { usageAgree, personalAgree, withdrawalAgree, setTerms } =
+    useSignupStore();
 
   const isEnabledNextButton =
     isAgreedTerm['service'] &&
@@ -35,8 +39,21 @@ const SignupStep1 = ({ handleChangeStep }: IProps) => {
   };
 
   const handleClickNextButton = () => {
-    handleChangeStep(1);
+    setTerms({
+      usageAgree: isAgreedTerm['service'],
+      personalAgree: isAgreedTerm['privacy'],
+      withdrawalAgree: isAgreedTerm['withdrawal'],
+    });
+    router.push(`/signup/info?snsType=${snsType}`);
   };
+
+  useEffect(() => {
+    setIsAgreedTerm({
+      service: usageAgree,
+      privacy: personalAgree,
+      withdrawal: withdrawalAgree,
+    });
+  }, [usageAgree, personalAgree, withdrawalAgree]);
 
   return (
     <div>
@@ -72,7 +89,7 @@ const SignupStep1 = ({ handleChangeStep }: IProps) => {
   );
 };
 
-export default SignupStep1;
+export default SignupTerms;
 
 const styles = {
   terms_container: css({

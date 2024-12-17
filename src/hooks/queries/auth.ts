@@ -22,7 +22,7 @@ interface IServeNicknameProps {
 
 interface ISignupProps {
   snsType: TSns;
-  handleChangeStep: (step: number) => void;
+  successCallback: (data: IRes<IToken>) => void;
 }
 
 const useSocialLogin = ({
@@ -58,7 +58,7 @@ const useSocialLogin = ({
             console.error('가입되지 않은 회원입니다');
             const oauthToken = axiosError.response?.data?.data;
             setItem('@oauthToken', oauthToken);
-            router.push(`/signup/${snsType}`);
+            router.push(`/signup/terms?snsType=${snsType}`);
             break;
           }
           case 500:
@@ -86,7 +86,7 @@ const useCheckNickname = ({
     queryKey: ['checkNickname', nickname],
     queryFn: async () => {
       try {
-        const { code } = await getCheckNickname(nickname);
+        const { code }: IRes<null> = await getCheckNickname(nickname);
         if (code === 'OK') {
           setHasDuplicatedNickname(true);
           setIsDuplicatedNickname(true);
@@ -109,9 +109,10 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   return useQuery({
     queryKey: ['serveNickname'],
     queryFn: async () => {
-      const { code, data } = await getServeNickname();
+      const { code, data }: IRes<{ nickname: string }> =
+        await getServeNickname();
       if (code === 'OK') {
-        setNickname(data.nicknames[0]);
+        setNickname(data.nickname);
       }
       return null;
     },
@@ -119,15 +120,10 @@ const useServeNickname = ({ setNickname }: IServeNicknameProps) => {
   });
 };
 
-export const useSignup = ({ snsType, handleChangeStep }: ISignupProps) => {
+export const useSignup = ({ snsType, successCallback }: ISignupProps) => {
   return useMutation({
     mutationFn: (formData: FormData) => postUser(snsType, formData),
-    onSuccess: ({ code }) => {
-      if (code === 'OK') {
-        handleChangeStep(2);
-        removeItem('@oauthToken');
-      }
-    },
+    onSuccess: successCallback,
   });
 };
 
