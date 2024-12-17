@@ -2,22 +2,39 @@ import Image from 'next/image';
 
 import Button from '@/components/common/Button';
 import Icon from '@/components/common/Icon';
+import { usePostFollow } from '@/hooks/queries/members';
 
 import { css } from '../../../../styled-system/css';
 
 interface IProps {
   profileUrl: string;
   nickname: string;
-  isFollowed: boolean;
+  memberId: number;
+  isFollow: boolean;
   handleOpenCommentModal: () => void;
+  refetchGetSnsDetail: () => void;
 }
 
 const SnsHeader = ({
   profileUrl,
   nickname,
-  isFollowed,
+  memberId,
+  isFollow,
   handleOpenCommentModal,
+  refetchGetSnsDetail,
 }: IProps) => {
+  const { mutate: postFollow } = usePostFollow({
+    successCallback: ({ code }) => {
+      if (code === 'OK') {
+        refetchGetSnsDetail();
+      }
+    },
+  });
+
+  const handleToggleFollow = () => {
+    postFollow({ memberId, isFollow: !!isFollow });
+  };
+
   return (
     <div className={snsHeaderStyles.header}>
       <div className={snsHeaderStyles.header_button_container}>
@@ -30,8 +47,13 @@ const SnsHeader = ({
           className={snsHeaderStyles.profile}
         />
         <div className={snsHeaderStyles.name}>{nickname}</div>
-        {!isFollowed && (
-          <Button text="팔로우" variant="outlined" size="small" />
+        {!isFollow && (
+          <Button
+            text="팔로우"
+            variant="outlined"
+            size="small"
+            onClick={handleToggleFollow}
+          />
         )}
       </div>
       <div className={snsHeaderStyles.header_button_container}>

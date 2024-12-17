@@ -72,7 +72,7 @@ export const useGetLatestSnsList = () => {
 export const usePostComment = ({ onClose }: IPostCommentProps) => {
   return useMutation({
     mutationFn: postComment,
-    onSuccess: ({ code }: IRes<any>) => {
+    onSuccess: ({ code }: IRes<null>) => {
       if (code === 'OK') {
         onClose();
       }

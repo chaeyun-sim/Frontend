@@ -32,7 +32,15 @@ const SnsList = ({ list, currentSnsId }: IProps) => {
               <SnsItem
                 title={v.title}
                 active={v.postId === currentSnsId}
-                type={v.hasImage ? 'image' : v.hasVideo ? 'video' : 'text'}
+                type={
+                  v.hasImage && v.hasVideo
+                    ? 'imagevideo'
+                    : v.hasImage
+                      ? 'image'
+                      : v.hasVideo
+                        ? 'video'
+                        : 'text'
+                }
               />
             </Link>
           </li>

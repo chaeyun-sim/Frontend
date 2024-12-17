@@ -23,7 +23,7 @@ const SnsNormalPage = () => {
   const { data: snsList } = useGetSnsList();
 
   const snsId = Number(id) || snsList?.[0]?.postId || 0;
-  const { data: snsDetail } = useGetSnsDetail({
+  const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
     setPrevSnsId,
@@ -37,9 +37,9 @@ const SnsNormalPage = () => {
         snsPageStyles.normal_page_container
       )}
     >
-      <div className={snsPageStyles.width_620}>
+      {/* <div className={snsPageStyles.width_620}>
         <LatestSnsList list={lastestSnsList} />
-      </div>
+      </div> */}
       <div className={snsPageStyles.main_container}>
         <div className={snsPageStyles.width_620}>
           <Sns
@@ -47,6 +47,7 @@ const SnsNormalPage = () => {
             prevSnsId={prevSnsId}
             nextSnsId={nextSnsId}
             currentSnsId={snsId}
+            refetchGetSnsDetail={refetchGetSnsDetail}
           />
         </div>
         <div className={snsPageStyles.aside_container}>

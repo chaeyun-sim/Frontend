@@ -11,9 +11,16 @@ interface IProps {
   prevSnsId: number;
   nextSnsId: number;
   currentSnsId: number;
+  refetchGetSnsDetail: () => void;
 }
 
-const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
+const Sns = ({
+  data,
+  prevSnsId,
+  nextSnsId,
+  currentSnsId,
+  refetchGetSnsDetail,
+}: IProps) => {
   const { isOpen: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
     useToggle(false);
 
@@ -28,8 +35,10 @@ const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
       <SnsHeader
         profileUrl={data?.profileUrl || ''}
         nickname={data?.nickname || ''}
-        isFollowed={false}
+        memberId={data?.writerId || 0}
+        isFollow={data?.isFollowed || false}
         handleOpenCommentModal={handleToggleCommentModal}
+        refetchGetSnsDetail={refetchGetSnsDetail}
       />
       <SnsMain title={data?.title || ''} content={data?.content || ''} />
       <SnsController prevSnsId={prevSnsId} nextSnsId={nextSnsId} />

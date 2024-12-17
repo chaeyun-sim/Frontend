@@ -29,3 +29,8 @@ export const getComments = async (memberId: string) => {
   const response = await authInstance.get(`/members/comments/${memberId}`);
   return response.data;
 };
+
+export const postFollow = async (data: IPostFollowReq) => {
+  const response = await authInstance.post('/members/toggleFollow', data);
+  return response.data;
+};
