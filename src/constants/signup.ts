@@ -28,7 +28,7 @@ export const SIGNUP_SUB_TITLES: { [key: string]: string } = {
 };
 
 export const SIGNUP_STEPS: { [key: string]: number } = {
-  term: 0,
+  terms: 0,
   info: 1,
   complete: 2,
 };
