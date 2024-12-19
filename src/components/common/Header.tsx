@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 
-import { useAuth } from '@/hooks/useAuth';
 import { useModal } from '@/hooks/useModal';
+import { useAuth } from '@/stores/useAuth';
 
 import Icon from './Icon';
 import Modal from './Modal';
