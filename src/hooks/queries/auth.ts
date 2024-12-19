@@ -25,12 +25,18 @@ interface ISignupProps {
   successCallback: (data: IRes<IToken>) => void;
 }
 
+interface ILoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  role: string;
+  memberId: number;
+  profileImage: string;
+}
+
 const useSocialLogin = ({
   successCallback,
 }: {
-  successCallback: (
-    data: IRes<{ accessToken: string; refreshToken: string }>
-  ) => void;
+  successCallback: (data: IRes<ILoginResponse>) => void;
 }) => {
   const router = useRouter();
 
