@@ -9,12 +9,11 @@ import { useGetStreamerSnsList } from '@/hooks/queries/streamer';
 import { snsPageStyles } from './normal';
 
 const SnsBroadcastPage = () => {
+  const [snsId, setSnsId] = useState(0);
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
-  const { data: snsList } = useGetStreamerSnsList();
-
-  const snsId = snsList?.[0]?.postId || 0;
+  const { data: snsList } = useGetStreamerSnsList({ setSnsId });
   const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
@@ -29,13 +28,14 @@ const SnsBroadcastPage = () => {
           data={snsDetail}
           prevSnsId={prevSnsId}
           nextSnsId={nextSnsId}
-          currentSnsId={snsId}
+          snsId={snsId}
+          setSnsId={setSnsId}
           refetchGetSnsDetail={refetchGetSnsDetail}
         />
       </div>
       <div className={snsPageStyles.aside_container}>
         <DailyMessageInput />
-        <SnsList list={snsList} currentSnsId={snsId} />
+        <SnsList list={snsList} snsId={snsId} />
       </div>
     </div>
   );

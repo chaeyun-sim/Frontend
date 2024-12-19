@@ -12,13 +12,12 @@ import {
 import { css, cx } from '../../../styled-system/css';
 
 const SnsNormalPage = () => {
+  const [snsId, setSnsId] = useState(0);
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: lastestSnsList } = useGetLatestSnsList();
-  const { data: snsList } = useGetSnsList();
-
-  const snsId = snsList?.[0]?.postId || 0;
+  const { data: snsList } = useGetSnsList({ setSnsId });
   const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
@@ -40,14 +39,15 @@ const SnsNormalPage = () => {
         <div className={snsPageStyles.width_620}>
           <Sns
             data={snsDetail}
+            snsId={snsId}
+            setSnsId={setSnsId}
             prevSnsId={prevSnsId}
             nextSnsId={nextSnsId}
-            currentSnsId={snsId}
             refetchGetSnsDetail={refetchGetSnsDetail}
           />
         </div>
         <div className={snsPageStyles.aside_container}>
-          <SnsList list={snsList} currentSnsId={snsId} />
+          <SnsList list={snsList} snsId={snsId} />
         </div>
       </div>
     </div>

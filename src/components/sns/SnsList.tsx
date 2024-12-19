@@ -9,10 +9,10 @@ import Select from '../common/Select';
 
 interface IProps {
   list?: ISnsItem[] | null;
-  currentSnsId: number;
+  snsId: number;
 }
 
-const SnsList = ({ list, currentSnsId }: IProps) => {
+const SnsList = ({ list, snsId }: IProps) => {
   const [selectedFilter, setSelectedFilter] = useState('1');
 
   return (
@@ -31,7 +31,7 @@ const SnsList = ({ list, currentSnsId }: IProps) => {
             <Link href={`${v.postId}`}>
               <SnsItem
                 title={v.title}
-                active={v.postId === currentSnsId}
+                active={v.postId === snsId}
                 type={
                   v.hasImage && v.hasVideo
                     ? 'imagevideo'
