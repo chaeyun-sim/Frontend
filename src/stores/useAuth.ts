@@ -42,6 +42,7 @@ export const useAuth = create<IStore>()(
         token: state.token,
         refreshToken: state.refreshToken,
         memberId: state.memberId,
+        isLoggedIn: !!state.token,
       }),
     }
   )
