@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const Viewers = ({ list }: IProps) => {
-  const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
+  const { value: isMore, handleToggle: handleToggleMore } = useToggle(false);
 
   return (
     <div className={styles.container}>

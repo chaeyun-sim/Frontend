@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
+import { useModal } from '@/hooks/useModal';
 import { useAuth } from '@/stores/useAuth';
 
 import Icon from './Icon';
@@ -10,10 +11,15 @@ import LoginModal from '../modal/LoginModal';
 
 const Header = () => {
   const { isLoggedIn, logout } = useAuth();
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isOpen: isLoginModalOpen, openModal, closeModal } = useModal();
 
-  const openModal = () => setIsLoginModalOpen(true);
-  const closeModal = () => setIsLoginModalOpen(false);
+  const params = new URLSearchParams();
+
+  useEffect(() => {
+    if (params.get('from') === 'signup-complete') {
+      openModal('');
+    }
+  }, [params]);
 
   return (
     <>
@@ -31,8 +37,8 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={'/sns/normal'}>SNS 이동</Link>
-            <button onClick={isLoggedIn ? logout : openModal}>
+            <Link href={'/sns/normal/0'}>SNS 이동</Link>
+            <button onClick={isLoggedIn ? logout : () => openModal('')}>
               {isLoggedIn ? '로그아웃' : '로그인'}
             </button>
           </div>

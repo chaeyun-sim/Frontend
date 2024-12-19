@@ -1,16 +1,14 @@
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import { peoples } from '@/constants/dummyData';
+import { useSearchMember } from '@/hooks/queries/sns';
 
-import Icon from './common/Icon';
 import PersonBox from './PersonBox';
 import { css } from '../../styled-system/css';
 
 interface IProps {
   keyword: string;
   isDropdownOpen: boolean;
-  onClickItem: (item: string) => void;
+  onClickItem: (memberId: number) => void;
   onCloseDropdown: () => void;
 }
 
@@ -21,11 +19,10 @@ const SelectPeopleDropdown = ({
   onCloseDropdown,
 }: IProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState<string[]>(peoples);
+  const { data: members, refetch } = useSearchMember(keyword);
 
   useEffect(() => {
-    const filtered = peoples.filter((p) => p.includes(keyword));
-    setData(filtered);
+    refetch();
   }, [keyword]);
 
   useEffect(() => {
@@ -42,21 +39,17 @@ const SelectPeopleDropdown = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onCloseDropdown]);
 
-  const handleClickItem = (value: string) => {
-    onClickItem(value);
-    setData(data.filter((item) => item !== value));
-  };
-
   return (
     <>
-      {isDropdownOpen && data.length > 0 && (
+      {isDropdownOpen && members && (
         <div className={styles.wrapper} ref={dropdownRef}>
-          {data.map((p) => (
+          {members.map((member) => (
             <PersonBox
-              hasAdd
-              data={p}
+              key={member.memberId}
+              data={member.nickname}
               keyword={keyword}
-              onClick={handleClickItem}
+              hasAdd
+              onClick={() => onClickItem(member.memberId)}
             />
           ))}
         </div>
