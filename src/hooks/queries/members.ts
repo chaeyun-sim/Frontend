@@ -26,27 +26,25 @@ export interface ProfileSummary {
   platforms: Platform[];
 }
 
-export const useProfileSummary = (memberId: string, isValid: boolean) => {
+export const useProfileSummary = (memberId: string) => {
   return useQuery<ProfileSummary>({
     queryKey: ['member-summary', memberId],
     queryFn: () => getProfileSummary(memberId),
-    enabled: !!isValid,
   });
 };
 
 export interface ProfileInfo {
   imageUrl: string;
-  nickName: string;
+  nickname: string;
   isFollowing: boolean;
   selfIntroduction: string;
-  interests: string[];
+  tags: string[];
 }
 
-export const useProfileInfo = (memberId: string, isValid: boolean) => {
+export const useProfileInfo = (memberId: string) => {
   return useQuery<ProfileInfo>({
     queryKey: ['profile-info', memberId],
     queryFn: () => getProfileInfo(memberId),
-    enabled: !!isValid,
   });
 };
 
@@ -63,19 +61,17 @@ interface Follower {
   imageUrl: string;
 }
 
-export const useGetFollowers = (memberId: string, isValid: boolean) => {
+export const useGetFollowers = (memberId: string) => {
   return useQuery<{ followers: Follower[] }>({
     queryKey: ['get-followers', memberId],
     queryFn: () => getFollowers(memberId),
-    enabled: !!isValid,
   });
 };
 
-export const useGetFollows = (memberId: string, isValid: boolean) => {
+export const useGetFollows = (memberId: string) => {
   return useQuery({
     queryKey: ['ge-follows, memberId'],
     queryFn: () => getFollows(memberId),
-    enabled: !!isValid,
   });
 };
 
@@ -89,11 +85,10 @@ export interface PostInfo {
   hasVideo: boolean;
 }
 
-export const useGetPosts = (memberId: string, isValid: boolean) => {
-  return useQuery({
+export const useGetPosts = (memberId: string) => {
+  return useQuery<PostInfo[]>({
     queryKey: ['get-posts', memberId],
     queryFn: () => getPostList(memberId),
-    enabled: !!isValid,
   });
 };
 
@@ -104,11 +99,10 @@ export interface CommentInfo {
   replyContent: string;
 }
 
-export const useGetComments = (memberId: string, isValid: boolean) => {
+export const useGetComments = (memberId: string) => {
   return useQuery<{ comments: CommentInfo[] }>({
     queryKey: ['get-comments', memberId],
     queryFn: () => getComments(memberId),
-    enabled: !!isValid,
   });
 };
 
