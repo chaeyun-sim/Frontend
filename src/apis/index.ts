@@ -9,12 +9,10 @@ export const publicInstance = axios.create({
   withCredentials: true,
 });
 
-const { token } = useAuth();
-
 export const authInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
   withCredentials: true,
-  headers: { Authorization: `Bearer ${token}` },
+  headers: { Authorization: `Bearer ${useAuth.getState().token}` },
 });
 
 authInstance.interceptors.response.use(
@@ -23,7 +21,7 @@ authInstance.interceptors.response.use(
     const origin = error.config;
 
     if (error.response?.status === 401 && origin.url !== '/members/reissue') {
-      if (token) {
+      if (useAuth.getState().token) {
         // 401 에러 & 토큰 있음 -> 토큰 refresh 새로 받기
         try {
           const { refreshToken: originRefreshToken } = useAuth.getState();
