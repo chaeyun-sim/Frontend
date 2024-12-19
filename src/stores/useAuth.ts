@@ -30,18 +30,19 @@ export const useAuth = create<IStore>()(
       logout: () => {
         localStorage.removeItem('auth-storage');
         set({
+          isLoggedIn: false,
           // token: null,
           // refreshToken: null,
           memberId: null,
           profileImage: '',
           role: '',
-          isLoggedIn: false,
         });
       },
     }),
     {
       name: 'auth-storage',
       partialize: (state) => ({
+        isLoggedIn: state.isLoggedIn,
         // token: state.token,
         // refreshToken: state.refreshToken,
         memberId: state.memberId,
