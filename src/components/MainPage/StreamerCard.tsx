@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 import Tag from './Tag';
 import { css } from '../../../styled-system/css';
@@ -57,7 +56,7 @@ const StreamerCard = ({
         <p className={styles.desc}>{selfIntroduction}</p>
         <div className={styles.platforms_wrapper}>
           {platformList.map((platform) => (
-            <Platform {...platform} />
+            <Platform key={platform.platform} {...platform} />
           ))}
         </div>
       </div>

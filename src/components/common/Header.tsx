@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { useToggle } from '@/hooks/useToggle';
+
+import { useModal } from '@/hooks/useModal';
 import { useAuth } from '@/stores/useAuth';
 import { useUserStore } from '@/stores/useUserStore';
 
@@ -14,12 +16,17 @@ import LoginModal from '../modal/LoginModal';
 const Header = () => {
   const { isLoggedIn, logout } = useAuth();
   const { role, setUserRole } = useUserStore();
-  const { isOpen: isOnRoleSwitch, handleToggle: handleToggleRoleSwitch } =
+  const { value: isOnRoleSwitch, handleToggle: handleToggleRoleSwitch } =
     useToggle(role === 'STREAMER');
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isOpen: isLoginModalOpen, openModal, closeModal } = useModal();
 
-  const openModal = () => setIsLoginModalOpen(true);
-  const closeModal = () => setIsLoginModalOpen(false);
+  const params = new URLSearchParams();
+
+  useEffect(() => {
+    if (params.get('from') === 'signup-complete') {
+      openModal('');
+    }
+  }, [params]);
 
   useEffect(() => {
     if (!isLoggedIn) return;
@@ -57,7 +64,7 @@ const Header = () => {
                 handleToggle={handleToggleRoleSwitch}
               />
             )}
-            <button onClick={isLoggedIn ? logout : openModal}>
+            <button onClick={isLoggedIn ? logout : () => openModal('')}>
               {isLoggedIn ? '로그아웃' : '로그인'}
             </button>
           </div>

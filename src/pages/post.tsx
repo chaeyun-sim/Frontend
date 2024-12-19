@@ -1,10 +1,11 @@
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
 
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
 import GoToStreamerModal from '@/components/modal/GoToStreamerModal';
 import SelectPublicArea from '@/components/post/SelectPublicArea';
+import { useModal } from '@/hooks/useModal';
+import { usePostContent } from '@/stores/usePostContent';
 
 import { css } from '../../styled-system/css';
 
@@ -13,23 +14,17 @@ const ToastEditor = dynamic(() => import('../components/Editor'), {
 });
 
 const PostPage = () => {
-  const [title, setTitle] = useState('');
-  const [selectedTab, setSelectedTab] = useState<'1' | '2'>('1');
-  const [searchText, setSearchText] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [content, setContent] = useState<string>('');
-
-  const handleEditorChange = (value: string) => setContent(value);
+  const { title, setTitle } = usePostContent();
+  const { isOpen: isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <div className={styles.container}>
       {isModalOpen && (
         <Modal
-          onClose={() => setIsModalOpen(false)}
+          onClose={closeModal}
           className={css({ width: 320, height: 196 })}
         >
-          <GoToStreamerModal onClose={() => setIsModalOpen(false)} />
+          <GoToStreamerModal onClose={closeModal} />
         </Modal>
       )}
       <div className={styles.editor_area}>
@@ -39,21 +34,10 @@ const PostPage = () => {
           placeholder="제목을 입력해주세요."
           maxLength={50}
         />
-        <ToastEditor onChange={handleEditorChange} />
+        <ToastEditor />
       </div>
       <div className={styles.options_area}>
-        <SelectPublicArea
-          searchText={searchText}
-          selectedTab={selectedTab}
-          isDropdownOpen={isDropdownOpen}
-          content={content}
-          title={title}
-          onSetSearchText={setSearchText}
-          onSetSelectedTab={setSelectedTab}
-          onCloseDropdown={() => setIsDropdownOpen(false)}
-          onOpenDropdown={() => setIsDropdownOpen(true)}
-          onSelectDisabled={() => setIsModalOpen(true)}
-        />
+        <SelectPublicArea onSelectDisabled={() => openModal('')} />
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const SnsMain = ({ title, content }: IProps) => {
-  const { isOpen: isMore, handleToggle: handleToggleMore } = useToggle(false);
+  const { value: isMore, handleToggle: handleToggleMore } = useToggle(false);
 
   return (
     <div
