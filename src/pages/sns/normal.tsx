@@ -18,7 +18,7 @@ const SnsNormalPage = () => {
 
   const { data: lastestSnsList } = useGetLatestSnsList();
   const { data: snsList } = useGetSnsList({ setSnsId });
-  const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
+  const { data: snsDetail, refetch: getSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
     setPrevSnsId,
@@ -43,7 +43,7 @@ const SnsNormalPage = () => {
             setSnsId={setSnsId}
             prevSnsId={prevSnsId}
             nextSnsId={nextSnsId}
-            refetchGetSnsDetail={refetchGetSnsDetail}
+            getSnsDetail={getSnsDetail}
           />
         </div>
         <div className={snsPageStyles.aside_container}>

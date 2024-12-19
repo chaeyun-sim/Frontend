@@ -5,6 +5,7 @@ interface Auth {
   token: string | null;
   refreshToken: string | null;
   memberId: number | null;
+  role: string | null;
   profileImage: string;
 }
 
@@ -21,6 +22,7 @@ export const useAuth = create<IStore>()(
       token: null,
       refreshToken: null,
       memberId: null,
+      role: null,
       profileImage: '',
 
       setAuth: (auth) => set({ ...auth, isLoggedIn: true }),
@@ -31,6 +33,7 @@ export const useAuth = create<IStore>()(
           token: null,
           refreshToken: null,
           memberId: null,
+          role: null,
           profileImage: '',
           isLoggedIn: false,
         });
@@ -42,6 +45,8 @@ export const useAuth = create<IStore>()(
         token: state.token,
         refreshToken: state.refreshToken,
         memberId: state.memberId,
+        role: state.role,
+        profileImage: state.profileImage,
         isLoggedIn: !!state.token,
       }),
     }

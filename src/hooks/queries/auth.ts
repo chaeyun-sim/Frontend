@@ -22,7 +22,7 @@ interface IServeNicknameProps {
 
 interface ISignupProps {
   snsType: TSns;
-  successCallback: (data: IRes<IToken>) => void;
+  successCallback: (data: IRes<ILoginResponse>) => void;
 }
 
 interface ILoginResponse {

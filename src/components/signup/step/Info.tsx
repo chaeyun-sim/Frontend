@@ -16,6 +16,7 @@ import {
 import useToast from '@/hooks/useToast';
 import { useAuth } from '@/stores/useAuth';
 import { useSignupStore } from '@/stores/useSignupStore';
+import { useUserStore } from '@/stores/useUserStore';
 import { getItem, removeItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
@@ -38,6 +39,8 @@ const SignupInfo = () => {
 
   const { usageAgree, personalAgree, withdrawalAgree, resetSignupData } =
     useSignupStore();
+  const { setAuth } = useAuth();
+  const { setUserRole } = useUserStore();
 
   const { toast, handleOpenToast, handleCloseToast } = useToast();
 
@@ -70,11 +73,11 @@ const SignupInfo = () => {
       if (code === 'OK') {
         resetSignupData();
         removeItem('@oauthToken');
-        useAuth.getState().setAuth({
-          ...useAuth.getState(),
+        setAuth({
           token: data.accessToken,
-          refreshToken: data.refreshToken,
+          ...data,
         });
+        setUserRole(data.role as TRole);
         router.push('/signup/complete');
       }
     },

@@ -2,15 +2,21 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 import { useModal } from '@/hooks/useModal';
+import { useToggle } from '@/hooks/useToggle';
 import { useAuth } from '@/stores/useAuth';
+import { useUserStore } from '@/stores/useUserStore';
 
 import Icon from './Icon';
 import Modal from './Modal';
+import Switch from './Switch';
 import { css } from '../../../styled-system/css';
 import LoginModal from '../modal/LoginModal';
 
 const Header = () => {
   const { isLoggedIn, logout } = useAuth();
+  const { role, setUserRole } = useUserStore();
+  const { value: isOnRoleSwitch, handleToggle: handleToggleRoleSwitch } =
+    useToggle(role === 'STREAMER');
   const { isOpen: isLoginModalOpen, openModal, closeModal } = useModal();
 
   const params = new URLSearchParams();
@@ -20,6 +26,16 @@ const Header = () => {
       openModal('');
     }
   }, [params]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    if (isOnRoleSwitch) {
+      setUserRole('STREAMER');
+    } else {
+      setUserRole('MEMBER');
+    }
+  }, [isOnRoleSwitch]);
 
   return (
     <>
@@ -37,7 +53,16 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={'/sns/normal/0'}>SNS 이동</Link>
+            <Link href={`/sns/${role === 'STREAMER' ? 'broadcast' : 'normal'}`}>
+              SNS 이동
+            </Link>
+            {isLoggedIn && (
+              <Switch
+                label="방송모드"
+                on={isOnRoleSwitch}
+                handleToggle={handleToggleRoleSwitch}
+              />
+            )}
             <button onClick={isLoggedIn ? logout : () => openModal('')}>
               {isLoggedIn ? '로그아웃' : '로그인'}
             </button>
@@ -63,9 +88,10 @@ const styles = {
     margin: '0 auto',
   }),
   menu: css({
-    width: '138px',
+    // width: '138px',
     display: 'flex',
     justifyContent: 'space-between',
+    gap: 36,
     alignItems: 'center',
     textStyle: 'button1',
   }),

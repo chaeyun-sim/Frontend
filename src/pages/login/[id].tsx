@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { useSocialLogin } from '@/hooks/queries/auth';
 import { useAuth } from '@/stores/useAuth';
+import { useUserStore } from '@/stores/useUserStore';
 
 import { css } from '../../../styled-system/css';
 import { center } from '../../../styled-system/patterns';
@@ -14,6 +15,7 @@ const Login = () => {
   const { code, id } = router.query;
 
   const { setAuth } = useAuth();
+  const { setUserRole } = useUserStore();
 
   const { mutate, isError, error } = useSocialLogin({
     successCallback: (data) => {
@@ -22,6 +24,7 @@ const Login = () => {
           token: data.data.accessToken,
           ...data.data,
         });
+        setUserRole(data.data.role as TRole);
         navigation.push('/');
       }
     },
