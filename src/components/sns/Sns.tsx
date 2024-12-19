@@ -5,6 +5,7 @@ import CommentWriteModal from '../modal/CommentWriteModal';
 import SnsController from './sns/SnsController';
 import SnsHeader from './sns/SnsHeader';
 import SnsMain from './sns/SnsMain';
+import ReportPostModal from '../modal/ReportModal';
 
 interface IProps {
   data?: ISnsDetail | null;
@@ -25,11 +26,16 @@ const Sns = ({
 }: IProps) => {
   const { isOpen: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
     useToggle(false);
+  const { isOpen: isOpenReportModal, handleToggle: handleToggleReportModal } =
+    useToggle(false);
 
   return (
     <div className={snsStyles.container}>
       {isOpenCommentModal && (
         <CommentWriteModal onClose={handleToggleCommentModal} snsId={snsId} />
+      )}
+      {isOpenReportModal && (
+        <ReportPostModal onClose={handleToggleReportModal} snsId={snsId} />
       )}
       <SnsHeader
         profileUrl={data?.profileUrl || ''}
@@ -37,6 +43,7 @@ const Sns = ({
         memberId={data?.writerId || 0}
         isFollow={data?.isFollowed || false}
         handleOpenCommentModal={handleToggleCommentModal}
+        handleOpenReportModal={handleToggleReportModal}
         getSnsDetail={getSnsDetail}
       />
       <SnsMain title={data?.title || ''} content={data?.content || ''} />

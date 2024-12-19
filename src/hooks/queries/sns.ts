@@ -6,6 +6,8 @@ import {
   getSnsList,
   postComment,
   createPost,
+  postReportPost,
+  postReportComment,
 } from '@/apis/sns';
 
 export interface IGetSnsListProps {
@@ -94,5 +96,29 @@ export const useCreatePost = ({
   return useMutation({
     mutationFn: createPost,
     onSuccess: successCallback,
+  });
+};
+
+export const usePostReportPost = ({ onClose }: IPostCommentProps) => {
+  return useMutation({
+    mutationFn: postReportPost,
+    onSuccess: ({ code }: IRes<null>) => {
+      if (code === 'OK') {
+        onClose();
+      }
+      return null;
+    },
+  });
+};
+
+export const usePostReportComment = ({ onClose }: IPostCommentProps) => {
+  return useMutation({
+    mutationFn: postReportComment,
+    onSuccess: ({ code }: IRes<null>) => {
+      if (code === 'OK') {
+        onClose();
+      }
+      return null;
+    },
   });
 };

@@ -5,6 +5,11 @@ interface IPostCommentReq {
   content: string;
 }
 
+interface IPostReportPostReq {
+  postId: number;
+  reason: string;
+}
+
 export interface ICreatePost {
   postType: string;
   title: string;
@@ -35,5 +40,15 @@ export const postComment = async (data: IPostCommentReq) => {
 
 export const createPost = async (props: ICreatePost) => {
   const response = await authInstance.post(`/sns/createPost`, props);
+  return response.data;
+};
+
+export const postReportPost = async (data: IPostReportPostReq) => {
+  const response = await authInstance.post('/sns/reportPost', data);
+  return response.data;
+};
+
+export const postReportComment = async (commentId: number) => {
+  const response = await authInstance.post('/sns/reportComment', { commentId });
   return response.data;
 };

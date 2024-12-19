@@ -12,6 +12,7 @@ interface IProps {
   memberId: number;
   isFollow: boolean;
   handleOpenCommentModal: () => void;
+  handleOpenReportModal: () => void;
   getSnsDetail: () => void;
 }
 
@@ -21,6 +22,7 @@ const SnsHeader = ({
   memberId,
   isFollow,
   handleOpenCommentModal,
+  handleOpenReportModal,
   getSnsDetail,
 }: IProps) => {
   const { mutate: postFollow } = usePostFollow({
@@ -57,9 +59,12 @@ const SnsHeader = ({
           size="small"
           onClick={handleOpenCommentModal}
         />
-        <button>
-          <Icon name="dot-white" />
-        </button>
+        <Button
+          text="신고"
+          variant="outlined"
+          size="small"
+          onClick={handleOpenReportModal}
+        />
       </div>
     </div>
   );
