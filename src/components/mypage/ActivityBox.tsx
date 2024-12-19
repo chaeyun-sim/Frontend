@@ -6,6 +6,7 @@ import Platform from '@/components/Platform';
 import { Platform as IPlatform } from '@/hooks/queries/members';
 import { useModal } from '@/hooks/useModal';
 import { useMyPage } from '@/hooks/useMyPage';
+import { useAuth } from '@/stores/useAuth';
 import { useEditMyPage } from '@/stores/useEditMyPage';
 
 import StatBox from './StatBox';
@@ -17,17 +18,20 @@ interface IProps {
   onSetFollowerModalType: (value: 'following' | 'follower' | null) => void;
   openFollowersModal: () => void;
   openAccountUpdate: () => void;
-  memberId: string;
 }
 
 const ActivityBox = ({
   onSetFollowerModalType,
   openFollowersModal,
   openAccountUpdate,
-  memberId,
 }: IProps) => {
+  const role = 'MEMBER';
+  const { memberId } = useAuth();
+
   const platformList: IPlatform[] = [];
-  const { isMyPage, profileSummary } = useMyPage({ memberId });
+  const { isMyPage, profileSummary } = useMyPage({
+    memberId: String(memberId),
+  });
   const { isEditing } = useEditMyPage();
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -62,59 +66,62 @@ const ActivityBox = ({
       </div>
       <div className={styles.activity_bottom}>
         {isMyPage ? (
-          isEditing ? (
-            <>
-              <span>플랫폼</span>
-              <div className={flex({ gap: '2px' })}>
-                {profileSummary?.platforms
-                  ?.slice(0, 5)
-                  .map((platform, index) => (
-                    <Platform key={platform.platform + index} {...platform} />
-                  ))}
-                {(profileSummary?.platforms?.length ?? 0) > 5 ? (
-                  <div className={styles.platform_box}>
-                    + {platformList.length - 5}
-                  </div>
-                ) : (
-                  <AddPlatform onClick={() => openModal('')} />
-                )}
-                {isOpen && (
-                  <AddPlatformModal
-                    onClose={closeModal}
-                    publicPlatformList={publicPlatformList}
-                    onSetPublicPlatformList={setPublicPlatformList}
-                  />
-                )}
-              </div>
-            </>
-          ) : (
-            <Button
-              text={
-                profileSummary?.isSubmittedToStreamer
-                  ? '신청중'
-                  : '방송 계정 전환'
-              }
-              onClick={() =>
-                profileSummary?.isSubmittedToStreamer
-                  ? null
-                  : openAccountUpdate()
-              }
-              size="small"
-              className={css({ width: '100%', marginTop: '7px' })}
-            />
-          )
+          <>
+            {isEditing && (
+              <>
+                <span>플랫폼</span>
+                <div className={flex({ gap: '2px' })}>
+                  {profileSummary?.platforms
+                    ?.slice(0, 5)
+                    .map((platform, index) => (
+                      <Platform key={platform.platform + index} {...platform} />
+                    ))}
+                  {(profileSummary?.platforms?.length ?? 0) > 5 ? (
+                    <div className={styles.platform_box}>
+                      + {platformList.length - 5}
+                    </div>
+                  ) : (
+                    <AddPlatform onClick={() => openModal('')} />
+                  )}
+                  {isOpen && (
+                    <AddPlatformModal
+                      onClose={closeModal}
+                      publicPlatformList={publicPlatformList}
+                      onSetPublicPlatformList={setPublicPlatformList}
+                    />
+                  )}
+                </div>
+              </>
+            )}
+            {!isEditing && !profileSummary?.isStreamer && (
+              <Button
+                text={
+                  profileSummary?.isSubmittedToStreamer
+                    ? '신청중'
+                    : '방송 계정 전환'
+                }
+                onClick={() =>
+                  profileSummary?.isSubmittedToStreamer
+                    ? null
+                    : openAccountUpdate()
+                }
+                size="small"
+                className={css({ width: '100%', marginTop: '7px' })}
+              />
+            )}
+          </>
         ) : (
           <>
             <span>플랫폼</span>
             <div>
-              {platformList
+              {profileSummary?.platforms
                 ?.slice(0, 5)
                 .map((platform) => (
                   <Platform key={platform.platform} {...platform} />
                 ))}
-              {platformList?.length > 5 && (
+              {(profileSummary?.platforms?.length ?? 0) > 5 && (
                 <div className={styles.platform_box}>
-                  + {platformList.length - 5}
+                  + {(profileSummary?.platforms?.length ?? 0) - 5}
                 </div>
               )}
             </div>

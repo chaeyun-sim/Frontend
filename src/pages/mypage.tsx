@@ -47,15 +47,14 @@ const MyPage = () => {
         </div>
 
         <div className={styles.info}>
-          <InfoBox memberId={memberId} />
+          <InfoBox />
           <ActivityBox
             onSetFollowerModalType={setFollowerModalType}
             openFollowersModal={() => openModal('followers')}
             openAccountUpdate={() => openModal('accountUpdate')}
-            memberId={memberId}
           />
         </div>
-        <Content memberId={memberId} />
+        <Content />
         {isMyPage && (
           <div className={styles.withdrawal}>
             <button onClick={() => openModal('withdrawal')}>회원 탈퇴</button>

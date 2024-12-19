@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import { CommentInfo, PostInfo } from '@/hooks/queries/members';
 import { useMyPage } from '@/hooks/useMyPage';
+import { useAuth } from '@/stores/useAuth';
 
 import ArticleBox from './ArticleBox';
 import CommentBox from './CommentBox';
@@ -39,46 +40,21 @@ const articleList: PostInfo[] = [
   },
 ];
 
-const commentList: CommentInfo[] = [
-  {
-    commentId: 1,
-    replyCommentId: 1,
-    content: '이것이 바로 댓글 1',
-    replyContent: '',
-  },
-  {
-    commentId: 2,
-    replyCommentId: 1,
-    content: '댓글2',
-    replyContent: '대댓글 드립니다',
-  },
-  {
-    commentId: 3,
-    replyCommentId: 1,
-    content: '이것이 바로 댓글 3',
-    replyContent: '',
-  },
-];
-
 const TAB = {
   ARTICLES: '내 게시물',
   COMMENTS: '내가 쓴 댓글',
 } as const;
 
-interface IProps {
-  memberId: string;
-}
+const Content = () => {
+  const { memberId } = useAuth();
 
-const Content = ({ memberId }: IProps) => {
-  const { isMyPage /*posts, comments*/ } = useMyPage({ memberId });
+  const { isMyPage, /*posts,*/ comments } = useMyPage({
+    memberId: String(memberId),
+  });
   const [currentItem, setCurrentItem] = useState('내가 쓴 댓글');
 
   const posts = {
     postInfos: articleList,
-  };
-
-  const comments = {
-    comments: commentList,
   };
 
   if (!articleList) {

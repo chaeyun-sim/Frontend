@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Icon from '@/components/common/Icon';
 import Input from '@/components/common/Input';
@@ -7,6 +7,7 @@ import ProfileImage from '@/components/common/ProfileImage';
 import { ProfileInfo } from '@/hooks/queries/members';
 import { useModal } from '@/hooks/useModal';
 import { useMyPage } from '@/hooks/useMyPage';
+import { useAuth } from '@/stores/useAuth';
 import { useEditMyPage } from '@/stores/useEditMyPage';
 
 import { css, cx } from '../../../styled-system/css';
@@ -14,29 +15,20 @@ import { center, flex } from '../../../styled-system/patterns';
 import Button from '../common/Button';
 import Dropdown from '../common/Dropdown';
 
-interface IProps {
-  memberId: string;
-}
+const InfoBox = () => {
+  const { memberId } = useAuth();
 
-const InfoBox = ({ memberId }: IProps) => {
-  const { isMyPage, profileInfo } = useMyPage({ memberId });
+  const { isMyPage, profileInfo } = useMyPage({ memberId: String(memberId) });
   const { isEditing, setIsEditing } = useEditMyPage();
   const { isOpen, openModal, closeModal } = useModal();
 
-  const [inputs, setInputs] = useState<ProfileInfo>({
-    imageUrl: '',
-    nickName: '김철수',
-    selfIntroduction:
-      '안녕하세요 전세계를 돌아다니며 맛집을 찾아다니는 BJ 김철수입니다~~안녕하세요 전세계를 돌아다니며 맛집을 찾아다니는 BJ 김철수입니다~~',
-    interests: ['뉴욕맛집', '미국여행', '자동차'],
-    isFollowing: false,
-  });
+  const [inputs, setInputs] = useState<ProfileInfo>(profileInfo!);
   const [inputWidth, setInputWidth] = useState(1);
   const [newTag, setNewTag] = useState('');
 
   const handleUpdateProfile = () => setIsEditing(false);
 
-  const data = profileInfo || inputs;
+  const data = isEditing ? inputs : profileInfo;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTag(e.target.value);
@@ -102,15 +94,15 @@ const InfoBox = ({ memberId }: IProps) => {
           {isEditing ? (
             <div style={{ height: '37px', marginBottom: '8px' }}>
               <Input
-                value={inputs.nickName}
+                value={inputs.nickname}
                 onSetValue={(name) => {
-                  setInputs({ ...inputs, nickName: name });
+                  setInputs({ ...inputs, nickname: name });
                 }}
                 className={styles.name_input}
               />
             </div>
           ) : (
-            <span>{data?.nickName}</span>
+            <span>{data?.nickname}</span>
           )}
           {!isMyPage && (
             <Button
@@ -130,7 +122,15 @@ const InfoBox = ({ memberId }: IProps) => {
               }
             />
           ) : (
-            <span className={styles.description}>{data?.selfIntroduction}</span>
+            <span
+              className={cx(
+                styles.description,
+                !data?.selfIntroduction &&
+                  css({ fontSize: '15px', color: 'gray.400' })
+              )}
+            >
+              {data?.selfIntroduction || '소개글을 작성해주세요.'}
+            </span>
           )}
         </div>
         <div
@@ -139,7 +139,7 @@ const InfoBox = ({ memberId }: IProps) => {
             css({ marginTop: isEditing ? '0.5px' : '12px' })
           )}
         >
-          {data?.interests.map((tag) => (
+          {data?.tags.map((tag) => (
             <button
               className={cx(
                 styles.tag,
@@ -175,7 +175,7 @@ const InfoBox = ({ memberId }: IProps) => {
                     setNewTag(value);
                     setInputs({
                       ...inputs,
-                      interests: [...inputs.interests, newTag],
+                      tags: [...inputs.tags, newTag],
                     });
                     setNewTag('');
                   }}
