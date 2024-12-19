@@ -11,7 +11,6 @@ const LatestSnsList = ({ list }: IProps) => {
       {/* <div className={cx(styles.overlay, styles.left_overlay)} /> */}
       <ul className={styles.list}>
         {list?.map((v) => (
-          // NOTE: 빌드 에러 - streamerId 없음
           <li key={v?.memberId || 0}>
             <Profile
               profile={v?.profileUrl || ''}

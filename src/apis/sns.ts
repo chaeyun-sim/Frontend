@@ -1,4 +1,4 @@
-import { authInstance, publicInstance } from '.';
+import { authInstance } from '.';
 
 export interface ICreatePost {
   postType: string;
@@ -9,17 +9,17 @@ export interface ICreatePost {
 }
 
 export const getSnsList = async () => {
-  const response = await publicInstance.get('/sns/getPostList');
+  const response = await authInstance.get('/posts/getPostList');
   return response.data;
 };
 
 export const getSnsDetail = async (postId?: number) => {
-  const response = await publicInstance.get(`/sns/getPostDetails/${postId}`);
+  const response = await authInstance.get(`/posts/getPostDetails/${postId}`);
   return response.data;
 };
 
 export const getLatestSnsList = async () => {
-  const response = await publicInstance.get('/sns/getLatestPosts');
+  const response = await authInstance.get('/posts/getLatestPosts');
   return response.data;
 };
 

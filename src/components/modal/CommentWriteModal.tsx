@@ -9,16 +9,16 @@ import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
 interface IProps extends ModalProps {
-  currentSnsId: number;
+  snsId: number;
 }
 
-const CommentWriteModal = ({ onClose, currentSnsId }: IProps) => {
+const CommentWriteModal = ({ onClose, snsId }: IProps) => {
   const [content, setContent] = useState('');
 
   const { mutate: postComment } = usePostComment({ onClose });
 
   const handleSubmit = () => {
-    postComment({ postId: currentSnsId, content });
+    postComment({ postId: snsId, content });
   };
 
   return (

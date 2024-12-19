@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 import { useSocialLogin } from '@/hooks/queries/auth';
-import { setItem } from '@/utils/localStorage';
+import { useAuth } from '@/stores/useAuth';
 
 import { css } from '../../../styled-system/css';
 import { center } from '../../../styled-system/patterns';
@@ -13,12 +13,16 @@ const Login = () => {
   const navigation = useNavigation();
   const { code, id } = router.query;
 
+  const { setAuth } = useAuth();
+
   const { mutate, isError, error } = useSocialLogin({
     successCallback: (data) => {
       if (data?.code === 'OK') {
-        setItem('@token', data.data.accessToken);
-        setItem('@refresh', data.data.refreshToken);
-        navigation.back();
+        setAuth({
+          token: data.data.accessToken,
+          ...data.data,
+        });
+        navigation.push('/');
       }
     },
   });
