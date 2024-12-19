@@ -35,7 +35,7 @@ const SnsBroadcastPage = () => {
       </div>
       <div className={snsPageStyles.aside_container}>
         <DailyMessageInput />
-        <SnsList list={snsList} snsId={snsId} />
+        <SnsList list={snsList} snsId={snsId} setSnsId={setSnsId} />
       </div>
     </div>
   );

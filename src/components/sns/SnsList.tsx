@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useState } from 'react';
 
 import { SNS_FILTER_OPTIONS } from '@/constants/sns';
@@ -10,9 +9,10 @@ import Select from '../common/Select';
 interface IProps {
   list?: ISnsItem[] | null;
   snsId: number;
+  setSnsId: (value: number) => void;
 }
 
-const SnsList = ({ list, snsId }: IProps) => {
+const SnsList = ({ list, snsId, setSnsId }: IProps) => {
   const [selectedFilter, setSelectedFilter] = useState('1');
 
   return (
@@ -27,22 +27,24 @@ const SnsList = ({ list, snsId }: IProps) => {
       </div>
       <ul className={styles.list}>
         {list?.map((v) => (
-          <li key={v.postId}>
-            <Link href={`${v.postId}`}>
-              <SnsItem
-                title={v.title}
-                active={v.postId === snsId}
-                type={
-                  v.hasImage && v.hasVideo
-                    ? 'imagevideo'
-                    : v.hasImage
-                      ? 'image'
-                      : v.hasVideo
-                        ? 'video'
-                        : 'text'
-                }
-              />
-            </Link>
+          <li
+            key={v.postId}
+            onClick={() => setSnsId(v.postId)}
+            className={styles.item}
+          >
+            <SnsItem
+              title={v.title}
+              active={v.postId === snsId}
+              type={
+                v.hasImage && v.hasVideo
+                  ? 'imagevideo'
+                  : v.hasImage
+                    ? 'image'
+                    : v.hasVideo
+                      ? 'video'
+                      : 'text'
+              }
+            />
           </li>
         ))}
       </ul>
@@ -76,6 +78,9 @@ const styles = {
       borderBottom: '1px solid',
       borderColor: 'gray.100',
     },
+  }),
+  item: css({
+    cursor: 'pointer',
   }),
   footer: css({ padding: '8px 16px' }),
 };

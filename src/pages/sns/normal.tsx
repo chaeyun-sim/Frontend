@@ -47,7 +47,7 @@ const SnsNormalPage = () => {
           />
         </div>
         <div className={snsPageStyles.aside_container}>
-          <SnsList list={snsList} snsId={snsId} />
+          <SnsList list={snsList} snsId={snsId} setSnsId={setSnsId} />
         </div>
       </div>
     </div>
