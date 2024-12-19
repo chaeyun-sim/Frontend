@@ -1,41 +1,38 @@
 import { useState } from 'react';
 
-import { usePostReportPost } from '@/hooks/queries/sns';
-
-import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Textarea from '../common/Textarea';
 
-interface IProps extends ModalProps {
-  snsId: number;
+interface IProps {
+  title: string;
+  onClose: () => void;
+  handleSubmit: (content: string) => void;
 }
 
-const ReportPostModal = ({ onClose, snsId }: IProps) => {
-  const [reason, setReason] = useState('');
-
-  const { mutate: postReportPost } = usePostReportPost({ onClose });
-
-  const handleSubmit = () => {
-    postReportPost({ postId: snsId, reason });
-  };
+const InputModalLayout = ({ title, onClose, handleSubmit }: IProps) => {
+  const [content, setContent] = useState('');
 
   return (
     <Modal onClose={onClose} className={css({ width: 600 })}>
       <div className={styles.container}>
-        <h2 className={styles.title}>신고하기</h2>
-        <Textarea value={reason} setValue={setReason} rows={9} />
+        <h2 className={styles.title}>{title}</h2>
+        <Textarea value={content} setValue={setContent} rows={9} />
         <div className={styles.button_container}>
           <Button text="취소" variant="outlined" onClick={onClose} />
-          <Button text="완료" disabled={!reason} onClick={handleSubmit} />
+          <Button
+            text="완료"
+            disabled={!content}
+            onClick={() => handleSubmit(content)}
+          />
         </div>
       </div>
     </Modal>
   );
 };
 
-export default ReportPostModal;
+export default InputModalLayout;
 
 const styles = {
   container: css({

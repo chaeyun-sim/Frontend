@@ -5,7 +5,7 @@ import CommentWriteModal from '../modal/CommentWriteModal';
 import SnsController from './sns/SnsController';
 import SnsHeader from './sns/SnsHeader';
 import SnsMain from './sns/SnsMain';
-import ReportPostModal from '../modal/ReportModal';
+import ReportPostModal from '../modal/ReportPostModal';
 
 interface IProps {
   data?: ISnsDetail | null;
