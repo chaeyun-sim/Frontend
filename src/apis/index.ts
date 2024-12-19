@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getItem, setItem } from '@/utils/localStorage';
+import { useAuth } from '@/stores/useAuth';
 
 import { getRefresh } from './auth';
 
@@ -12,13 +12,15 @@ export const publicInstance = axios.create({
 export const authInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
   withCredentials: true,
+  headers: { Authorization: `Bearer ${useAuth.getState().token}` },
 });
 
 authInstance.interceptors.request.use(
   (config) => {
-    const token = getItem('@token');
-
-    if (token) config.headers.Authorization = `Bearer ${token}`;
+    const token = useAuth.getState().token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
   },
@@ -29,19 +31,24 @@ authInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const origin = error.config;
-    const token = String(getItem('@token'));
 
     if (error.response?.status === 401 && origin.url !== '/members/reissue') {
-      if (token) {
+      if (useAuth.getState().token) {
         // 401 에러 & 토큰 있음 -> 토큰 refresh 새로 받기
         try {
-          const originRefreshToken = String(getItem('@refresh'));
-          const response = await getRefresh(originRefreshToken);
+          const { refreshToken: originRefreshToken } = useAuth.getState();
+
+          const response = await getRefresh(originRefreshToken!);
           const { accessToken, refreshToken } = response.data;
+
+          useAuth.getState().setAuth({
+            ...useAuth.getState(),
+            token: accessToken,
+            refreshToken: refreshToken,
+          });
+
           origin.headers.Authorization = `Bearer ${accessToken}`;
           authInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-          setItem('@token', accessToken);
-          setItem('@refresh', refreshToken);
           return authInstance(origin);
         } catch (error) {
           console.error(error);
