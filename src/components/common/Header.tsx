@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-
-import { useToggle } from '@/hooks/useToggle';
+import React, { useEffect } from 'react';
 
 import { useModal } from '@/hooks/useModal';
+import { useToggle } from '@/hooks/useToggle';
 import { useAuth } from '@/stores/useAuth';
 import { useUserStore } from '@/stores/useUserStore';
 
