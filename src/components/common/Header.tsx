@@ -22,8 +22,13 @@ const Header = () => {
   const closeModal = () => setIsLoginModalOpen(false);
 
   useEffect(() => {
-    if (isOnRoleSwitch) setUserRole('STREAMER');
-    else setUserRole('MEMBER');
+    if (!isLoggedIn) return;
+
+    if (isOnRoleSwitch) {
+      setUserRole('STREAMER');
+    } else {
+      setUserRole('MEMBER');
+    }
   }, [isOnRoleSwitch]);
 
   return (
@@ -42,7 +47,7 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={`/sns/${role === 'MEMBER' ? 'normal' : 'broadcast'}`}>
+            <Link href={`/sns/${role === 'STREAMER' ? 'broadcast' : 'normal'}`}>
               SNS 이동
             </Link>
             {isLoggedIn && (
