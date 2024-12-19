@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import LatestSnsList from '@/components/sns/LatestSnsList';
@@ -10,20 +9,17 @@ import {
   useGetSnsList,
 } from '@/hooks/queries/sns';
 
-import { css, cx } from '../../../../styled-system/css';
+import { css, cx } from '../../../styled-system/css';
 
 const SnsNormalPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const snsId = Number(id);
-
+  const [snsId, setSnsId] = useState(0);
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: lastestSnsList } = useGetLatestSnsList();
-  const { data: snsList } = useGetSnsList();
-  const { data: snsDetail } = useGetSnsDetail({
-    snsId: snsId || snsList?.[0]?.postId,
+  const { data: snsList } = useGetSnsList({ setSnsId });
+  const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
+    snsId,
     snsList,
     setPrevSnsId,
     setNextSnsId,
@@ -36,20 +32,22 @@ const SnsNormalPage = () => {
         snsPageStyles.normal_page_container
       )}
     >
-      <div className={snsPageStyles.width_620}>
+      {/* <div className={snsPageStyles.width_620}>
         <LatestSnsList list={lastestSnsList} />
-      </div>
+      </div> */}
       <div className={snsPageStyles.main_container}>
         <div className={snsPageStyles.width_620}>
           <Sns
             data={snsDetail}
+            snsId={snsId}
+            setSnsId={setSnsId}
             prevSnsId={prevSnsId}
             nextSnsId={nextSnsId}
-            currentSnsId={snsId}
+            refetchGetSnsDetail={refetchGetSnsDetail}
           />
         </div>
         <div className={snsPageStyles.aside_container}>
-          <SnsList list={snsList} currentSnsId={snsId} />
+          <SnsList list={snsList} snsId={snsId} setSnsId={setSnsId} />
         </div>
       </div>
     </div>

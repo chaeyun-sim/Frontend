@@ -1,24 +1,21 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import DailyMessageInput from '@/components/sns/DailyMessageInput';
 import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
-import { useGetSnsDetail, useGetSnsList } from '@/hooks/queries/sns';
+import { useGetSnsDetail } from '@/hooks/queries/sns';
+import { useGetStreamerSnsList } from '@/hooks/queries/streamer';
 
-import { snsPageStyles } from '../normal/[id]';
+import { snsPageStyles } from './normal';
 
 const SnsBroadcastPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const snsId = Number(id);
-
+  const [snsId, setSnsId] = useState(0);
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
-  const { data: snsList } = useGetSnsList();
-  const { data: snsDetail } = useGetSnsDetail({
-    snsId: snsId || snsList?.[0]?.postId,
+  const { data: snsList } = useGetStreamerSnsList({ setSnsId });
+  const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
+    snsId,
     snsList,
     setPrevSnsId,
     setNextSnsId,
@@ -31,12 +28,14 @@ const SnsBroadcastPage = () => {
           data={snsDetail}
           prevSnsId={prevSnsId}
           nextSnsId={nextSnsId}
-          currentSnsId={snsId}
+          snsId={snsId}
+          setSnsId={setSnsId}
+          refetchGetSnsDetail={refetchGetSnsDetail}
         />
       </div>
       <div className={snsPageStyles.aside_container}>
         <DailyMessageInput />
-        <SnsList list={snsList} currentSnsId={snsId} />
+        <SnsList list={snsList} snsId={snsId} setSnsId={setSnsId} />
       </div>
     </div>
   );

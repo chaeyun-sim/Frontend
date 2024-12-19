@@ -8,31 +8,43 @@ import SnsMain from './sns/SnsMain';
 
 interface IProps {
   data?: ISnsDetail | null;
+  snsId: number;
+  setSnsId: (value: number) => void;
   prevSnsId: number;
   nextSnsId: number;
-  currentSnsId: number;
+  refetchGetSnsDetail: () => void;
 }
 
-const Sns = ({ data, prevSnsId, nextSnsId, currentSnsId }: IProps) => {
+const Sns = ({
+  data,
+  prevSnsId,
+  nextSnsId,
+  snsId,
+  setSnsId,
+  refetchGetSnsDetail,
+}: IProps) => {
   const { isOpen: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
     useToggle(false);
 
   return (
     <div className={snsStyles.container}>
       {isOpenCommentModal && (
-        <CommentWriteModal
-          onClose={handleToggleCommentModal}
-          currentSnsId={currentSnsId}
-        />
+        <CommentWriteModal onClose={handleToggleCommentModal} snsId={snsId} />
       )}
       <SnsHeader
         profileUrl={data?.profileUrl || ''}
         nickname={data?.nickname || ''}
-        isFollowed={false}
+        memberId={data?.writerId || 0}
+        isFollow={data?.isFollowed || false}
         handleOpenCommentModal={handleToggleCommentModal}
+        refetchGetSnsDetail={refetchGetSnsDetail}
       />
       <SnsMain title={data?.title || ''} content={data?.content || ''} />
-      <SnsController prevSnsId={prevSnsId} nextSnsId={nextSnsId} />
+      <SnsController
+        prevSnsId={prevSnsId}
+        nextSnsId={nextSnsId}
+        setSnsId={setSnsId}
+      />
     </div>
   );
 };
