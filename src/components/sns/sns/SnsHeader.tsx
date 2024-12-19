@@ -12,7 +12,7 @@ interface IProps {
   memberId: number;
   isFollow: boolean;
   handleOpenCommentModal: () => void;
-  refetchGetSnsDetail: () => void;
+  getSnsDetail: () => void;
 }
 
 const SnsHeader = ({
@@ -21,12 +21,12 @@ const SnsHeader = ({
   memberId,
   isFollow,
   handleOpenCommentModal,
-  refetchGetSnsDetail,
+  getSnsDetail,
 }: IProps) => {
   const { mutate: postFollow } = usePostFollow({
     successCallback: ({ code }) => {
       if (code === 'OK') {
-        refetchGetSnsDetail();
+        getSnsDetail();
       }
     },
   });
