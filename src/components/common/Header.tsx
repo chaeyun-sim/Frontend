@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
+import { useModal } from '@/hooks/useModal';
 import { useToggle } from '@/hooks/useToggle';
 import { useAuth } from '@/stores/useAuth';
 import { useUserStore } from '@/stores/useUserStore';
@@ -16,12 +17,17 @@ const Header = () => {
   const { isLoggedIn, profileImage } = useAuth();
   const { role } = useUserStore();
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { isOpen: isOpenProfileMenu, handleToggle: handleToggleProfileMenu } =
+  const { value: isOpenProfileMenu, handleToggle: handleToggleProfileMenu } =
     useToggle(false);
+  const { isOpen: isLoginModalOpen, openModal, closeModal } = useModal();
 
-  const openModal = () => setIsLoginModalOpen(true);
-  const closeModal = () => setIsLoginModalOpen(false);
+  const params = new URLSearchParams();
+
+  useEffect(() => {
+    if (params.get('from') === 'signup-complete') {
+      openModal('');
+    }
+  }, [params]);
 
   return (
     <>
@@ -39,7 +45,7 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={`/sns/${role === 'MEMBER' ? 'normal' : 'broadcast'}`}>
+            <Link href={`/sns/${role === 'STREAMER' ? 'broadcast' : 'normal'}`}>
               SNS 이동
             </Link>
             {isLoggedIn ? (
@@ -59,7 +65,7 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <button onClick={openModal}>로그인</button>
+              <button onClick={() => openModal('')}>로그인</button>
             )}
           </div>
         </div>

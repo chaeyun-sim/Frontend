@@ -12,7 +12,6 @@ export const publicInstance = axios.create({
 export const authInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
   withCredentials: true,
-  headers: { Authorization: `Bearer ${useAuth.getState().token}` },
 });
 
 authInstance.interceptors.request.use(

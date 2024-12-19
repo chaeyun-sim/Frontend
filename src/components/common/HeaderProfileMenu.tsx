@@ -15,9 +15,9 @@ interface IProps {
 const HeaderProfileMenu = ({ handleToggle }: IProps) => {
   const router = useRouter();
 
-  const { logout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const { role, setUserRole } = useUserStore();
-  const { isOpen: isOnRoleSwitch, handleToggle: handleToggleRoleSwitch } =
+  const { value: isOnRoleSwitch, handleToggle: handleToggleRoleSwitch } =
     useToggle(role === 'STREAMER');
 
   const handleRedirectMypage = () => {
@@ -26,8 +26,13 @@ const HeaderProfileMenu = ({ handleToggle }: IProps) => {
   };
 
   useEffect(() => {
-    if (isOnRoleSwitch) setUserRole('STREAMER');
-    else setUserRole('MEMBER');
+    if (!isLoggedIn) return;
+
+    if (isOnRoleSwitch) {
+      setUserRole('STREAMER');
+    } else {
+      setUserRole('MEMBER');
+    }
   }, [isOnRoleSwitch]);
 
   return (

@@ -14,8 +14,8 @@ export interface ICreatePost {
   postType: string;
   title: string;
   content: string;
-  publicMembers: string[];
-  privateMembers: string[];
+  publicMembers: number[];
+  privateMembers: number[];
 }
 
 export const getSnsList = async () => {
@@ -51,4 +51,18 @@ export const postReportPost = async (data: IPostReportPostReq) => {
 export const postReportComment = async (commentId: number) => {
   const response = await authInstance.post('/sns/reportComment', { commentId });
   return response.data;
+};
+
+export const uploadPostMedia = async (file: FormData) => {
+  const response = await authInstance.post('/sns/uploadPostMedia', file, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
+
+export const searchMember = async (nickname: string) => {
+  const response = await authInstance.get(`/sns/searchMember/${nickname}`);
+  return response.data.data;
 };

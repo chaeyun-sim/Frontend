@@ -24,7 +24,7 @@ const Sns = ({
   setSnsId,
   getSnsDetail,
 }: IProps) => {
-  const { isOpen: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
+  const { value: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
     useToggle(false);
   const { isOpen: isOpenReportModal, handleToggle: handleToggleReportModal } =
     useToggle(false);

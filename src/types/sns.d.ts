@@ -46,3 +46,8 @@ interface ILastestSnsItem {
   dailyMessage: string;
   postIdList: number[];
 }
+
+interface Member {
+  memberId: number;
+  nickname: string;
+}
