@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { useAuth } from '@/stores/useAuth';
-import { getItem } from '@/utils/localStorage';
 
 import { getRefresh } from './auth';
 
@@ -10,7 +9,7 @@ export const publicInstance = axios.create({
   withCredentials: true,
 });
 
-const token = String(getItem('@token'));
+const { token } = useAuth();
 
 export const authInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API + '/api/v1',
@@ -22,7 +21,6 @@ authInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const origin = error.config;
-    const token = String(getItem('@token'));
 
     if (error.response?.status === 401 && origin.url !== '/members/reissue') {
       if (token) {
