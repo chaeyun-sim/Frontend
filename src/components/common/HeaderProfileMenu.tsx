@@ -59,6 +59,8 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     borderRadius: 8,
+    border: '1px solid',
+    borderColor: 'gray.100',
     backgroundColor: 'white',
   }),
   item: css({
