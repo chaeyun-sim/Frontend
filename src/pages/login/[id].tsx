@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { useSocialLogin } from '@/hooks/queries/auth';
 import { useAuth } from '@/stores/useAuth';
 import { useUserStore } from '@/stores/useUserStore';
-import { setItem } from '@/utils/localStorage';
 
 import { css } from '../../../styled-system/css';
 import { center } from '../../../styled-system/patterns';
@@ -21,10 +20,8 @@ const Login = () => {
   const { mutate, isError, error } = useSocialLogin({
     successCallback: (data) => {
       if (data?.code === 'OK') {
-        setItem('@token', data.data.accessToken);
-        setItem('@refresh', data.data.refreshToken);
         setAuth({
-          // token: data.data.accessToken,
+          token: data.data.accessToken,
           ...data.data,
         });
         setUserRole(data.data.role as TRole);
