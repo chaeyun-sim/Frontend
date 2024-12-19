@@ -1,6 +1,7 @@
 import {
   useGetComments,
   useGetFollowers,
+  useGetFollows,
   useGetPosts,
   useIsMyMemberId,
   useProfileInfo,
@@ -18,13 +19,15 @@ export const useMyPage = ({ memberId }: IProps) => {
   const { data: posts } = useGetPosts(memberId, isMyPage);
   const { data: comments } = useGetComments(memberId, isMyPage);
   const { data: followers } = useGetFollowers(memberId, isMyPage);
+  const { data: follows } = useGetFollows(memberId, isMyPage);
 
   return {
-    isMyPage: true,
+    isMyPage,
     profileSummary,
     profileInfo,
     posts,
     comments,
     followers,
+    follows,
   };
 };

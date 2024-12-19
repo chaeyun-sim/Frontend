@@ -4,6 +4,7 @@ import {
   checkIdMatch,
   getComments,
   getFollowers,
+  getFollows,
   getPostList,
   getProfileInfo,
   getProfileSummary,
@@ -70,6 +71,14 @@ export const useGetFollowers = (memberId: string, isValid: boolean) => {
   });
 };
 
+export const useGetFollows = (memberId: string, isValid: boolean) => {
+  return useQuery({
+    queryKey: ['ge-follows, memberId'],
+    queryFn: () => getFollows(memberId),
+    enabled: !!isValid,
+  });
+};
+
 export interface PostInfo {
   postId: number;
   isPinned: boolean;
@@ -81,7 +90,7 @@ export interface PostInfo {
 }
 
 export const useGetPosts = (memberId: string, isValid: boolean) => {
-  return useQuery<{ postInfos: PostInfo[] }>({
+  return useQuery({
     queryKey: ['get-posts', memberId],
     queryFn: () => getPostList(memberId),
     enabled: !!isValid,
