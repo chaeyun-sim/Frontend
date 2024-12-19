@@ -17,7 +17,7 @@ import useToast from '@/hooks/useToast';
 import { useAuth } from '@/stores/useAuth';
 import { useSignupStore } from '@/stores/useSignupStore';
 import { useUserStore } from '@/stores/useUserStore';
-import { getItem, removeItem, setItem } from '@/utils/localStorage';
+import { getItem, removeItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
 import { css } from '../../../../styled-system/css';
@@ -73,11 +73,10 @@ const SignupInfo = () => {
       if (code === 'OK') {
         resetSignupData();
         removeItem('@oauthToken');
-        setItem('@token', data.accessToken);
-        setItem('@refresh', data.refreshToken);
-        setAuth({
-          // token: data.data.accessToken,
-          ...data,
+        useAuth.getState().setAuth({
+          ...useAuth.getState(),
+          token: data.accessToken,
+          refreshToken: data.refreshToken,
         });
         setUserRole(data.role as TRole);
         router.push('/signup/complete');
