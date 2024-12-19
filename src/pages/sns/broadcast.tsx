@@ -3,7 +3,8 @@ import { useState } from 'react';
 import DailyMessageInput from '@/components/sns/DailyMessageInput';
 import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
-import { useGetSnsDetail, useGetSnsList } from '@/hooks/queries/sns';
+import { useGetSnsDetail } from '@/hooks/queries/sns';
+import { useGetStreamerSnsList } from '@/hooks/queries/streamer';
 
 import { snsPageStyles } from './normal';
 
@@ -11,7 +12,7 @@ const SnsBroadcastPage = () => {
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
-  const { data: snsList } = useGetSnsList();
+  const { data: snsList } = useGetStreamerSnsList();
 
   const snsId = snsList?.[0]?.postId || 0;
   const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
