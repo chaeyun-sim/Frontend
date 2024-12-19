@@ -1,5 +1,10 @@
 import { authInstance } from '.';
 
+interface IPostCommentReq {
+  postId: number;
+  content: string;
+}
+
 export interface ICreatePost {
   postType: string;
   title: string;

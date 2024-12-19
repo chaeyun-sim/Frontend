@@ -1,5 +1,9 @@
 import { authInstance } from '.';
 
+interface IPostDailyMessageReq {
+  message: string;
+}
+
 export const getStreamerSnsList = async () => {
   const response = await authInstance.get('/streamer/getPostList');
   return response.data;

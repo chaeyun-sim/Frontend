@@ -1,5 +1,10 @@
 import { authInstance } from '.';
 
+interface IPostFollowReq {
+  memberId: number;
+  isFollow: boolean;
+}
+
 export const checkIdMatch = async (memberId: string) => {
   const response = await authInstance.get(`/members/isMyMemberId/${memberId}`);
   return response.data.data;
