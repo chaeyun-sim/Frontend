@@ -14,12 +14,13 @@ interface IProps {
 
 export const useMyPage = ({ memberId }: IProps) => {
   const { data: isMyPage } = useIsMyMemberId(memberId);
-  const { data: profileSummary } = useProfileSummary(memberId, isMyPage);
-  const { data: profileInfo } = useProfileInfo(memberId, isMyPage);
-  const { data: posts } = useGetPosts(memberId, isMyPage);
-  const { data: comments } = useGetComments(memberId, isMyPage);
-  const { data: followers } = useGetFollowers(memberId, isMyPage);
-  const { data: follows } = useGetFollows(memberId, isMyPage);
+  const { data: profileSummary } = useProfileSummary(memberId);
+  const { data: profileInfo } = useProfileInfo(memberId);
+  const { data: posts } = useGetPosts(memberId);
+  const { data: comments } = useGetComments(memberId);
+  const { data: followers } = useGetFollowers(memberId);
+  const { data: follows } = useGetFollows(memberId);
+  console.log(posts);
 
   return {
     isMyPage,
@@ -27,7 +28,7 @@ export const useMyPage = ({ memberId }: IProps) => {
     profileInfo,
     posts,
     comments,
-    followers,
+    followers: followers?.followers,
     follows,
   };
 };
