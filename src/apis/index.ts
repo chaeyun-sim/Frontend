@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { getItem, setItem } from '@/utils/localStorage';
+import { useAuth } from '@/stores/useAuth';
+import { getItem } from '@/utils/localStorage';
 
 import { getRefresh } from './auth';
 
@@ -27,13 +28,19 @@ authInstance.interceptors.response.use(
       if (token) {
         // 401 에러 & 토큰 있음 -> 토큰 refresh 새로 받기
         try {
-          const originRefreshToken = String(getItem('@refresh'));
-          const response = await getRefresh(originRefreshToken);
+          const { refreshToken: originRefreshToken } = useAuth.getState();
+
+          const response = await getRefresh(originRefreshToken!);
           const { accessToken, refreshToken } = response.data;
+
+          useAuth.getState().setAuth({
+            ...useAuth.getState(),
+            token: accessToken,
+            refreshToken: refreshToken,
+          });
+
           origin.headers.Authorization = `Bearer ${accessToken}`;
           authInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-          setItem('@token', accessToken);
-          setItem('@refresh', refreshToken);
           return authInstance(origin);
         } catch (error) {
           console.error(error);
