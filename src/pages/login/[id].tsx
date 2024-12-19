@@ -19,7 +19,7 @@ const Login = () => {
     successCallback: (data) => {
       if (data?.code === 'OK') {
         setAuth({
-          token: data.data.accessToken,
+          // token: data.data.accessToken,
           ...data.data,
         });
         navigation.push('/');
