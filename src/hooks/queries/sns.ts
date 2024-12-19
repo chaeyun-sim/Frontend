@@ -8,6 +8,10 @@ import {
   createPost,
 } from '@/apis/sns';
 
+export interface IGetSnsListProps {
+  setSnsId: (value: number) => void;
+}
+
 interface IGetSnsDetailProps {
   snsId?: number;
   snsList?: ISnsItem[] | null;
@@ -19,12 +23,13 @@ interface IPostCommentProps {
   onClose: () => void;
 }
 
-export const useGetSnsList = () => {
+export const useGetSnsList = ({ setSnsId }: IGetSnsListProps) => {
   return useQuery({
     queryKey: ['snsList'],
     queryFn: async () => {
       const { code, data }: IRes<ISnsItem[]> = await getSnsList();
       if (code === 'OK') {
+        setSnsId(data[0].postId);
         return data;
       }
       return null;
@@ -72,7 +77,7 @@ export const useGetLatestSnsList = () => {
 export const usePostComment = ({ onClose }: IPostCommentProps) => {
   return useMutation({
     mutationFn: postComment,
-    onSuccess: ({ code }: IRes<any>) => {
+    onSuccess: ({ code }: IRes<null>) => {
       if (code === 'OK') {
         onClose();
       }

@@ -31,7 +31,7 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={'/sns/normal/0'}>SNS 이동</Link>
+            <Link href={'/sns/normal'}>SNS 이동</Link>
             <button onClick={isLoggedIn ? logout : openModal}>
               {isLoggedIn ? '로그아웃' : '로그인'}
             </button>

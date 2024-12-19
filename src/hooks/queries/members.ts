@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import {
   checkIdMatch,
@@ -7,6 +7,7 @@ import {
   getPostList,
   getProfileInfo,
   getProfileSummary,
+  postFollow,
 } from '@/apis/member';
 
 export interface Platform {
@@ -99,5 +100,16 @@ export const useGetComments = (memberId: string, isValid: boolean) => {
     queryKey: ['get-comments', memberId],
     queryFn: () => getComments(memberId),
     enabled: !!isValid,
+  });
+};
+
+interface IPostFollowProps {
+  successCallback: (data: IRes<null>) => void;
+}
+
+export const usePostFollow = ({ successCallback }: IPostFollowProps) => {
+  return useMutation({
+    mutationFn: postFollow,
+    onSuccess: successCallback,
   });
 };

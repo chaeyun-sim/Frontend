@@ -11,7 +11,7 @@ const LatestSnsList = ({ list }: IProps) => {
       {/* <div className={cx(styles.overlay, styles.left_overlay)} /> */}
       <ul className={styles.list}>
         {list?.map((v) => (
-          <li key={v?.streamerId || 0}>
+          <li key={v?.memberId || 0}>
             <Profile
               profile={v?.profileUrl || ''}
               dailyMessage={v?.dailyMessage}

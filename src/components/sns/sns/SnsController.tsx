@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import Icon from '@/components/common/Icon';
 
 import { css } from '../../../../styled-system/css';
@@ -7,22 +5,23 @@ import { css } from '../../../../styled-system/css';
 interface IProps {
   prevSnsId: number;
   nextSnsId: number;
+  setSnsId: (value: number) => void;
 }
 
-const SnsController = ({ prevSnsId, nextSnsId }: IProps) => {
+const SnsController = ({ prevSnsId, nextSnsId, setSnsId }: IProps) => {
   return (
     <div className={styles.controller}>
       {prevSnsId ? (
-        <Link href={`${prevSnsId}`}>
+        <button onClick={() => setSnsId(prevSnsId)}>
           <Icon name="left" />
-        </Link>
+        </button>
       ) : (
         <div />
       )}
       {nextSnsId ? (
-        <Link href={`${nextSnsId}`}>
+        <button onClick={() => setSnsId(nextSnsId)}>
           <Icon name="right" />
-        </Link>
+        </button>
       ) : (
         <div />
       )}
