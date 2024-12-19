@@ -32,7 +32,7 @@ const SnsHeader = ({
   });
 
   const handleToggleFollow = () => {
-    postFollow({ memberId, isFollow: !!isFollow });
+    postFollow({ memberId, isFollow: !isFollow });
   };
 
   return (
