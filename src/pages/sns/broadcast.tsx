@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import DailyMessageInput from '@/components/sns/DailyMessageInput';
@@ -6,19 +5,16 @@ import Sns from '@/components/sns/Sns';
 import SnsList from '@/components/sns/SnsList';
 import { useGetSnsDetail, useGetSnsList } from '@/hooks/queries/sns';
 
-import { snsPageStyles } from '../normal/[id]';
+import { snsPageStyles } from './normal';
 
 const SnsBroadcastPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: snsList } = useGetSnsList();
 
-  const snsId = Number(id) || snsList?.[0]?.postId || 0;
-  const { data: snsDetail } = useGetSnsDetail({
+  const snsId = snsList?.[0]?.postId || 0;
+  const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
     setPrevSnsId,
@@ -33,6 +29,7 @@ const SnsBroadcastPage = () => {
           prevSnsId={prevSnsId}
           nextSnsId={nextSnsId}
           currentSnsId={snsId}
+          refetchGetSnsDetail={refetchGetSnsDetail}
         />
       </div>
       <div className={snsPageStyles.aside_container}>

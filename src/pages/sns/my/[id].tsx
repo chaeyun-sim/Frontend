@@ -5,7 +5,7 @@ import MySns from '@/components/sns/MySns';
 import Viewers from '@/components/sns/Viewers';
 import { useGetSnsDetail } from '@/hooks/queries/sns';
 
-import { snsPageStyles } from '../normal/[id]';
+import { snsPageStyles } from '../normal';
 
 const SnsMyPage = () => {
   const router = useRouter();

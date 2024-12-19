@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import LatestSnsList from '@/components/sns/LatestSnsList';
@@ -10,19 +9,16 @@ import {
   useGetSnsList,
 } from '@/hooks/queries/sns';
 
-import { css, cx } from '../../../../styled-system/css';
+import { css, cx } from '../../../styled-system/css';
 
 const SnsNormalPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
   const [prevSnsId, setPrevSnsId] = useState(0);
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: lastestSnsList } = useGetLatestSnsList();
   const { data: snsList } = useGetSnsList();
 
-  const snsId = Number(id) || snsList?.[0]?.postId || 0;
+  const snsId = snsList?.[0]?.postId || 0;
   const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
