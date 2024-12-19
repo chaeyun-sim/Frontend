@@ -73,10 +73,9 @@ const SignupInfo = () => {
       if (code === 'OK') {
         resetSignupData();
         removeItem('@oauthToken');
-        useAuth.getState().setAuth({
-          ...useAuth.getState(),
+        setAuth({
           token: data.accessToken,
-          refreshToken: data.refreshToken,
+          ...data,
         });
         setUserRole(data.role as TRole);
         router.push('/signup/complete');
