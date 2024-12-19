@@ -24,11 +24,7 @@ const SnsHeader = ({
   getSnsDetail,
 }: IProps) => {
   const { mutate: postFollow } = usePostFollow({
-    successCallback: ({ code }) => {
-      if (code === 'OK') {
-        getSnsDetail();
-      }
-    },
+    getSnsDetail,
   });
 
   const handleToggleFollow = () => {

@@ -25,7 +25,7 @@ export const useGetStreamerSnsList = ({ setSnsId }: IGetSnsListProps) => {
 export const usePostDailyMessage = ({ setMessage }: IPostDailyMessageProps) => {
   return useMutation({
     mutationFn: postDailyMessage,
-    onSuccess: ({ code }: IRes<any>) => {
+    onSuccess: ({ code }: IRes<null>) => {
       if (code === 'OK') {
         setMessage('');
       }
