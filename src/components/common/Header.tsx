@@ -42,7 +42,9 @@ const Header = () => {
             <Icon name="logo" />
           </Link>
           <div className={styles.menu}>
-            <Link href={'/sns/normal'}>SNS 이동</Link>
+            <Link href={`/sns/${role === 'MEMBER' ? 'normal' : 'broadcast'}`}>
+              SNS 이동
+            </Link>
             {isLoggedIn && (
               <Switch
                 label="방송모드"
