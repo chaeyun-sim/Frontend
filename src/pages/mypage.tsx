@@ -8,6 +8,7 @@ import Content from '@/components/mypage/Content';
 import InfoBox from '@/components/mypage/InfoBox';
 import { useModal } from '@/hooks/useModal';
 import { useMyPage } from '@/hooks/useMyPage';
+import { useAuth } from '@/stores/useAuth';
 
 import { css } from '../../styled-system/css';
 import { center, flex, vstack } from '../../styled-system/patterns';
@@ -18,12 +19,10 @@ type FollowerModalType = 'following' | 'follower' | null;
 type ModalTypes = 'followers' | 'accountUpdate' | 'withdrawal';
 
 const MyPage = () => {
-  const MEMBER_ID = '1';
+  const memberId = String(useAuth.getState().memberId);
 
   const { activeModal, openModal, closeModal } = useModal<ModalTypes>();
-  const { isMyPage } = useMyPage({
-    memberId: MEMBER_ID,
-  });
+  const { isMyPage } = useMyPage({ memberId });
   const [followerModalType, setFollowerModalType] =
     useState<FollowerModalType>(null);
 
@@ -48,15 +47,15 @@ const MyPage = () => {
         </div>
 
         <div className={styles.info}>
-          <InfoBox memberId={MEMBER_ID} />
+          <InfoBox memberId={memberId} />
           <ActivityBox
             onSetFollowerModalType={setFollowerModalType}
             openFollowersModal={() => openModal('followers')}
             openAccountUpdate={() => openModal('accountUpdate')}
-            memberId={MEMBER_ID}
+            memberId={memberId}
           />
         </div>
-        <Content memberId={MEMBER_ID} />
+        <Content memberId={memberId} />
         {isMyPage && (
           <div className={styles.withdrawal}>
             <button onClick={() => openModal('withdrawal')}>회원 탈퇴</button>
