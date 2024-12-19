@@ -14,7 +14,9 @@ import {
   useSignup,
 } from '@/hooks/queries/auth';
 import useToast from '@/hooks/useToast';
+import { useAuth } from '@/stores/useAuth';
 import { useSignupStore } from '@/stores/useSignupStore';
+import { useUserStore } from '@/stores/useUserStore';
 import { getItem, removeItem, setItem } from '@/utils/localStorage';
 import { validateNickname } from '@/utils/validation';
 
@@ -37,6 +39,8 @@ const SignupInfo = () => {
 
   const { usageAgree, personalAgree, withdrawalAgree, resetSignupData } =
     useSignupStore();
+  const { setAuth } = useAuth();
+  const { setUserRole } = useUserStore();
 
   const { toast, handleOpenToast, handleCloseToast } = useToast();
 
@@ -71,6 +75,11 @@ const SignupInfo = () => {
         removeItem('@oauthToken');
         setItem('@token', data.accessToken);
         setItem('@refresh', data.refreshToken);
+        setAuth({
+          // token: data.data.accessToken,
+          ...data,
+        });
+        setUserRole(data.role as TRole);
         router.push('/signup/complete');
       }
     },
