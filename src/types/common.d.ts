@@ -12,3 +12,5 @@ interface IToken {
   accessToken: string;
   refreshToken: string;
 }
+
+type TRole = 'MEMBER' | 'STREAMER';

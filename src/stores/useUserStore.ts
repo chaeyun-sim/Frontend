@@ -1,21 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type TRole = string;
-
 interface IStore {
-  role: string;
+  role: TRole;
   setUserRole: (role: TRole) => void;
 }
-
-const initialState = {
-  role: '',
-};
 
 export const useUserStore = create<IStore>()(
   persist(
     (set) => ({
-      ...initialState,
+      role: 'MEMBER',
       setUserRole: (role) => set((state) => ({ ...state, role })),
     }),
     { name: 'user' }

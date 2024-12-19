@@ -24,7 +24,7 @@ const Login = () => {
           // token: data.data.accessToken,
           ...data.data,
         });
-        setUserRole(data.data.role);
+        setUserRole(data.data.role as TRole);
         navigation.push('/');
       }
     },
