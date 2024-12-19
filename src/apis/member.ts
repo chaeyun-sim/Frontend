@@ -6,22 +6,27 @@ export const checkIdMatch = async (memberId: string) => {
 };
 
 export const getProfileSummary = async (memberId: string) => {
-  const response = await authInstance.get(`/summary/${memberId}`);
+  const response = await authInstance.get(`/members/summary/${memberId}`);
   return response.data;
 };
 
 export const getProfileInfo = async (memberId: string) => {
-  const response = await authInstance.get(`/profile/${memberId}`);
+  const response = await authInstance.get(`/members/profile/${memberId}`);
   return response.data;
 };
 
 export const getPostList = async (memberId: string) => {
-  const response = await authInstance.get(`/posts/${memberId}`);
+  const response = await authInstance.get(`/members/posts/${memberId}`);
   return response.data;
 };
 
 export const getFollowers = async (memberId: string) => {
   const response = await authInstance.get(`/members/followers/${memberId}`);
+  return response.data;
+};
+
+export const getFollows = async (memberId: string) => {
+  const response = await authInstance.get(`/members/follows/${memberId}`);
   return response.data;
 };
 
