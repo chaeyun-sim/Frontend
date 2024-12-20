@@ -51,3 +51,32 @@ interface Member {
   memberId: number;
   nickname: string;
 }
+
+interface IMySnsInfo {
+  postId: number;
+  postMemberId: number;
+  postMemberProfile: string;
+  postMemberNickname: string;
+  postTitle: string;
+  postContent: string;
+}
+
+interface IReadStreamerInfo {
+  streamerId: number;
+  streamerImage: string;
+}
+
+interface ICommentInfo {
+  commentId: number;
+  commentMemberId: number;
+  commentMemberProfile: string;
+  commentMemberNickname: string;
+  commentContent: string;
+  commentReply: string;
+}
+
+interface IMySnsDetail {
+  postInfo: IMySnsInfo;
+  readStreamersInfoList: IReadStreamerInfo[];
+  commentInfoList: ICommentInfo[];
+}

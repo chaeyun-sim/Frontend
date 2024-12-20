@@ -11,6 +11,7 @@ import {
   postReportComment,
   searchMember,
   deleteSns,
+  getMySnsDetail,
 } from '@/apis/sns';
 import { ModalProps } from '@/components/modal/modal.interface';
 
@@ -55,6 +56,21 @@ export const useGetSnsDetail = ({
           setPrevSnsId(snsList[currentSnsIdx - 1]?.postId);
           setNextSnsId(snsList[currentSnsIdx + 1]?.postId);
         }
+        return data;
+      }
+      return null;
+    },
+    enabled: !!snsId,
+  });
+};
+
+export const useGetMySnsDetail = ({ snsId }: { snsId: number }) => {
+  return useQuery({
+    queryKey: ['mySnsDetail', snsId],
+    queryFn: async () => {
+      const { code, data }: IRes<IMySnsDetail | null> =
+        await getMySnsDetail(snsId);
+      if (code === 'OK') {
         return data;
       }
       return null;

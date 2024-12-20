@@ -28,6 +28,11 @@ export const getSnsDetail = async (postId?: number) => {
   return response.data;
 };
 
+export const getMySnsDetail = async (postId?: number) => {
+  const response = await authInstance.get(`/posts/mypost/${postId}`);
+  return response.data;
+};
+
 export const getLatestSnsList = async () => {
   const response = await authInstance.get('/posts/getLatestPosts');
   return response.data;

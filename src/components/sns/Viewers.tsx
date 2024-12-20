@@ -5,7 +5,7 @@ import ProfileList from './ProfileList';
 import { css } from '../../../styled-system/css';
 
 interface IProps {
-  list?: IProfile[] | null;
+  list?: IReadStreamerInfo[] | null;
 }
 
 const Viewers = ({ list }: IProps) => {
@@ -16,8 +16,8 @@ const Viewers = ({ list }: IProps) => {
       <p className={styles.title}>내 게시글을 본 방송인</p>
       <ul className={styles.list}>
         {list?.slice(0, 2).map((v) => (
-          <li key={v.broadcasterId}>
-            <Profile profile={v.profileUrl} />
+          <li key={v.streamerId}>
+            <Profile profile={v.streamerImage} />
           </li>
         ))}
         {list && list?.length > 2 && (
@@ -27,7 +27,7 @@ const Viewers = ({ list }: IProps) => {
             </div>
             {isMore && (
               <div className={styles.profile_list_container}>
-                <ProfileList list={[]} onClose={handleToggleMore} />
+                <ProfileList list={list} onClose={handleToggleMore} />
               </div>
             )}
           </li>

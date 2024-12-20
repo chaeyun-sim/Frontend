@@ -4,7 +4,7 @@ import Icon from '../common/Icon';
 import { ModalProps } from '../modal/modal.interface';
 
 interface IProps extends ModalProps {
-  list?: IProfile[] | null;
+  list?: IReadStreamerInfo[] | null;
 }
 
 const ProfileList = ({ list, onClose }: IProps) => {
@@ -17,8 +17,8 @@ const ProfileList = ({ list, onClose }: IProps) => {
       </div>
       <ul className={styles.list}>
         {list?.map((v) => (
-          <li key={v.broadcasterId}>
-            <ProfileItem profile={v.profileUrl} nickname={v.nickname} />
+          <li key={v.streamerId}>
+            <ProfileItem profile={v.streamerImage} nickname={'v.nickname'} />
           </li>
         ))}
       </ul>

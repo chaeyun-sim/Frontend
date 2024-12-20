@@ -6,7 +6,7 @@ import { snsStyles } from './Sns';
 import DeletePostModal from '../modal/DeletePostModal';
 
 interface IProps {
-  data?: ISnsDetail | null;
+  data?: IMySnsInfo | null;
 }
 
 const MySns = ({ data }: IProps) => {
@@ -22,11 +22,14 @@ const MySns = ({ data }: IProps) => {
         />
       )}
       <SnsHeader
-        profileUrl={data?.profileUrl || ''}
-        nickname={data?.nickname || ''}
+        profileUrl={data?.postMemberProfile || ''}
+        nickname={data?.postMemberNickname || ''}
         handleOpenDeleteModal={handleToggleDeleteModal}
       />
-      <SnsMain title={data?.title || ''} content={data?.content || ''} />
+      <SnsMain
+        title={data?.postTitle || ''}
+        content={data?.postContent || ''}
+      />
     </div>
   );
 };
