@@ -7,6 +7,8 @@ import {
   getSnsList,
   postComment,
   createPost,
+  postReportPost,
+  postReportComment,
   searchMember,
 } from '@/apis/sns';
 
@@ -105,5 +107,29 @@ export const useSearchMember = (nickname: string) => {
   return useQuery<Member[]>({
     queryKey: ['search-member', nickname],
     queryFn: () => searchMember(nickname),
+  });
+};
+
+export const usePostReportPost = ({ onClose }: IPostCommentProps) => {
+  return useMutation({
+    mutationFn: postReportPost,
+    onSuccess: ({ code }: IRes<null>) => {
+      if (code === 'OK') {
+        onClose();
+      }
+      return null;
+    },
+  });
+};
+
+export const usePostReportComment = ({ onClose }: IPostCommentProps) => {
+  return useMutation({
+    mutationFn: postReportComment,
+    onSuccess: ({ code }: IRes<null>) => {
+      if (code === 'OK') {
+        onClose();
+      }
+      return null;
+    },
   });
 };
