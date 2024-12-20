@@ -65,8 +65,8 @@ const ActivityBox = ({
             <div className={flex({ gap: '2px' })}>
               {profileSummary?.platforms
                 ?.slice(0, 5)
-                .map((platform, index) => (
-                  <Platform key={platform.platform + index} {...platform} />
+                .map((platform) => (
+                  <Platform key={platform.id} {...platform} />
                 ))}
               {(profileSummary?.platforms?.length ?? 0) > 5 ? (
                 <div className={styles.platform_box}>
@@ -98,11 +98,11 @@ const ActivityBox = ({
           <>
             <span>플랫폼</span>
             {profileSummary.platforms ? (
-              <div>
+              <div className={flex({ gap: '2px' })}>
                 {profileSummary?.platforms
                   ?.slice(0, 5)
                   .map((platform) => (
-                    <Platform key={platform.platform} {...platform} />
+                    <Platform key={platform.id} {...platform} />
                   ))}
                 {(profileSummary?.platforms?.length ?? 0) > 5 && (
                   <div className={styles.platform_box}>

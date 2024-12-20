@@ -22,8 +22,9 @@ import {
 } from '@/apis/member';
 
 export interface Platform {
-  platform: string;
+  id: number;
   imageUrl: string;
+  name: string;
   profileUrl: string;
 }
 
@@ -176,7 +177,7 @@ export interface UpdateRequest {
 
 export const useUpdateProfileInfo = (memberId: string) => {
   return useMutation({
-    mutationFn: ({ file, body }: UpdateRequest) => updateMemberInfo(file, body),
+    mutationFn: ({ data }: { data: FormData }) => updateMemberInfo({ data }),
     onSuccess: ({ code }) => {
       if (code === 'OK') {
         const queryClient = new QueryClient();
@@ -225,7 +226,7 @@ export const useToggleFollow = (memberId: string) => {
 };
 
 export const useGetTagDropdown = (keyword: string) => {
-  return useQuery({
+  return useQuery<{ data: { tagList: string[] } }>({
     queryKey: ['get-tags', keyword],
     queryFn: () => getTags(keyword),
   });
