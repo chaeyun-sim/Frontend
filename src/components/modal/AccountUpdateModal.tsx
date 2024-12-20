@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { useMyPage } from '@/hooks/useMyPage';
+import { useAuth } from '@/stores/useAuth';
 
 import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
@@ -7,6 +10,19 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 
 const AccountUpdateModal = ({ onClose }: ModalProps) => {
+  const { memberId } = useAuth();
+  const { requestUpdate } = useMyPage({ memberId: String(memberId) });
+  const [platformUrl, setPlatformUrl] = useState('');
+
+  const updateHandler = () => {
+    requestUpdate(
+      { platformUrl },
+      {
+        onSuccess: onClose,
+      }
+    );
+  };
+
   return (
     <Modal className={css({ width: '480px' })} onClose={onClose}>
       <div>
@@ -36,8 +52,9 @@ const AccountUpdateModal = ({ onClose }: ModalProps) => {
           </div>
         </div>
         <div className={css({ padding: '20px' })}>
-          <div
+          <textarea
             className={css({
+              width: '100%',
               padding: '8px',
               borderRadius: '4px',
               borderColor: 'gray.300',
@@ -45,10 +62,14 @@ const AccountUpdateModal = ({ onClose }: ModalProps) => {
               textStyle: 'button2',
               color: 'gray.700',
               wordBreak: 'break-all',
+              outline: 'none',
+              resize: 'none',
             })}
-          >
-            https://www.figma.com/design/OrshYtN8dGIWucxseBLY1X/ProjectBBB?node-id=685-6588&t=B8blJBA3lCu1xlzt-1
-          </div>
+            onChange={(e) => setPlatformUrl(e.target.value)}
+            value={platformUrl}
+          />
+          {/* https://www.figma.com/design/OrshYtN8dGIWucxseBLY1X/ProjectBBB?node-id=685-6588&t=B8blJBA3lCu1xlzt-1 */}
+          {/* </div> */}
         </div>
         <div
           className={flex({ padding: '20px', justifyContent: 'space-between' })}
@@ -63,6 +84,7 @@ const AccountUpdateModal = ({ onClose }: ModalProps) => {
             variant="contained"
             text="확인"
             className={css({ width: '216px' })}
+            onClick={updateHandler}
           />
         </div>
       </div>

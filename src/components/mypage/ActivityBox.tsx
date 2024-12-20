@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-
 import Button from '@/components/common/Button';
 import AddPlatform from '@/components/mypage/AddPlatform';
 import Platform from '@/components/Platform';
 import { Platform as IPlatform } from '@/hooks/queries/members';
 import { useModal } from '@/hooks/useModal';
 import { useMyPage } from '@/hooks/useMyPage';
-import { useAuth } from '@/stores/useAuth';
+import { useCheckMyPage } from '@/stores/useCheckMyPage';
 import { useEditMyPage } from '@/stores/useEditMyPage';
 
 import StatBox from './StatBox';
@@ -25,17 +23,13 @@ const ActivityBox = ({
   openFollowersModal,
   openAccountUpdate,
 }: IProps) => {
-  const role = 'MEMBER';
-  const { memberId } = useAuth();
-
   const platformList: IPlatform[] = [];
-  const { isMyPage, profileSummary } = useMyPage({
+  const { isMyPage, memberId } = useCheckMyPage();
+  const { profileSummary } = useMyPage({
     memberId: String(memberId),
   });
   const { isEditing } = useEditMyPage();
   const { isOpen, openModal, closeModal } = useModal();
-
-  const [publicPlatformList, setPublicPlatformList] = useState<IPlatform[]>([]);
 
   const handleModalType = (type: 'following' | 'follower' | null) => {
     onSetFollowerModalType(type);
@@ -48,15 +42,15 @@ const ActivityBox = ({
         <StatBox
           amount={profileSummary?.followerCount as number}
           label={'팔로워'}
-          onClick={() =>
-            profileSummary?.isStreamer ? handleModalType('follower') : null
-          }
+          onClick={() => handleModalType('follower')}
+          isClickable
         />
-        {profileSummary?.isStreamer && (
+        {isMyPage && (
           <StatBox
             amount={profileSummary?.followingCount as number}
             label={'팔로잉'}
             onClick={() => handleModalType('following')}
+            isClickable
           />
         )}
         <StatBox
@@ -65,66 +59,68 @@ const ActivityBox = ({
         />
       </div>
       <div className={styles.activity_bottom}>
-        {isMyPage ? (
-          <>
-            {isEditing && (
-              <>
-                <span>플랫폼</span>
-                <div className={flex({ gap: '2px' })}>
-                  {profileSummary?.platforms
-                    ?.slice(0, 5)
-                    .map((platform, index) => (
-                      <Platform key={platform.platform + index} {...platform} />
-                    ))}
-                  {(profileSummary?.platforms?.length ?? 0) > 5 ? (
-                    <div className={styles.platform_box}>
-                      + {platformList.length - 5}
-                    </div>
-                  ) : (
-                    <AddPlatform onClick={() => openModal('')} />
-                  )}
-                  {isOpen && (
-                    <AddPlatformModal
-                      onClose={closeModal}
-                      publicPlatformList={publicPlatformList}
-                      onSetPublicPlatformList={setPublicPlatformList}
-                    />
-                  )}
-                </div>
-              </>
-            )}
-            {!isEditing && !profileSummary?.isStreamer && (
-              <Button
-                text={
-                  profileSummary?.isSubmittedToStreamer
-                    ? '신청중'
-                    : '방송 계정 전환'
-                }
-                onClick={() =>
-                  profileSummary?.isSubmittedToStreamer
-                    ? null
-                    : openAccountUpdate()
-                }
-                size="small"
-                className={css({ width: '100%', marginTop: '7px' })}
-              />
-            )}
-          </>
-        ) : (
+        {isMyPage && isEditing && (
           <>
             <span>플랫폼</span>
-            <div>
+            <div className={flex({ gap: '2px' })}>
               {profileSummary?.platforms
                 ?.slice(0, 5)
-                .map((platform) => (
-                  <Platform key={platform.platform} {...platform} />
+                .map((platform, index) => (
+                  <Platform key={platform.platform + index} {...platform} />
                 ))}
-              {(profileSummary?.platforms?.length ?? 0) > 5 && (
+              {(profileSummary?.platforms?.length ?? 0) > 5 ? (
                 <div className={styles.platform_box}>
-                  + {(profileSummary?.platforms?.length ?? 0) - 5}
+                  + {platformList.length - 5}
                 </div>
+              ) : (
+                <AddPlatform onClick={() => openModal('')} />
               )}
+              {isOpen && <AddPlatformModal onClose={closeModal} />}
             </div>
+          </>
+        )}
+        {isMyPage && !profileSummary?.isStreamer && (
+          <Button
+            text={
+              profileSummary?.isSubmittedToStreamer
+                ? '신청중'
+                : '방송 계정 전환'
+            }
+            onClick={() =>
+              profileSummary?.isSubmittedToStreamer ? null : openAccountUpdate()
+            }
+            size="small"
+            disabled={profileSummary?.isSubmittedToStreamer}
+            className={styles.promote_btn}
+          />
+        )}
+        {!isEditing && profileSummary?.isStreamer && (
+          <>
+            <span>플랫폼</span>
+            {profileSummary.platforms ? (
+              <div>
+                {profileSummary?.platforms
+                  ?.slice(0, 5)
+                  .map((platform) => (
+                    <Platform key={platform.platform} {...platform} />
+                  ))}
+                {(profileSummary?.platforms?.length ?? 0) > 5 && (
+                  <div className={styles.platform_box}>
+                    + {(profileSummary?.platforms?.length ?? 0) - 5}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div
+                className={flex({
+                  textStyle: 'caption2',
+                  height: '24px',
+                  alignItems: 'center',
+                })}
+              >
+                등록된 플랫폼이 없습니다.
+              </div>
+            )}
           </>
         )}
       </div>
@@ -198,4 +194,5 @@ const styles = {
     textStyle: 'button2',
     color: 'gray.300',
   }),
+  promote_btn: css({ width: '100%', marginTop: '7px' }),
 };

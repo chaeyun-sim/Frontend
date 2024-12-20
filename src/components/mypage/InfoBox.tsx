@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { KeyboardEvent, useEffect, useState } from 'react';
 
 import Icon from '@/components/common/Icon';
 import Input from '@/components/common/Input';
 import ProfileImage from '@/components/common/ProfileImage';
-import { ProfileInfo } from '@/hooks/queries/members';
+import { ProfileInfo, useGetTagDropdown } from '@/hooks/queries/members';
 import { useModal } from '@/hooks/useModal';
 import { useMyPage } from '@/hooks/useMyPage';
-import { useAuth } from '@/stores/useAuth';
+import { useCheckMyPage } from '@/stores/useCheckMyPage';
 import { useEditMyPage } from '@/stores/useEditMyPage';
 
 import { css, cx } from '../../../styled-system/css';
@@ -16,9 +16,11 @@ import Button from '../common/Button';
 import Dropdown from '../common/Dropdown';
 
 const InfoBox = () => {
-  const { memberId } = useAuth();
+  const { isMyPage, memberId } = useCheckMyPage();
+  const { profileInfo, updateProfile, toggleFollow } = useMyPage({
+    memberId: String(memberId),
+  });
 
-  const { isMyPage, profileInfo } = useMyPage({ memberId: String(memberId) });
   const { isEditing, setIsEditing } = useEditMyPage();
   const { isOpen, openModal, closeModal } = useModal();
 
@@ -26,9 +28,37 @@ const InfoBox = () => {
   const [inputWidth, setInputWidth] = useState(1);
   const [newTag, setNewTag] = useState('');
 
-  const handleUpdateProfile = () => setIsEditing(false);
+  const { data: tagsToSearch, refetch } = useGetTagDropdown(newTag);
 
-  const data = isEditing ? inputs : profileInfo;
+  useEffect(() => {
+    if (profileInfo?.nickname) {
+      setInputs({
+        nickname: profileInfo.nickname,
+        imageUrl: profileInfo.imageUrl,
+        tags: profileInfo.tags ?? [],
+        isFollowing: profileInfo.isFollowing,
+        selfIntroduction: profileInfo.selfIntroduction,
+      });
+    }
+  }, [profileInfo]);
+
+  useEffect(() => {
+    refetch();
+  }, [newTag]);
+
+  const handleUpdateProfile = () => {
+    updateProfile({
+      data: {
+        file: inputs.imageUrl,
+        body: {
+          nickname: inputs.nickname,
+          selfIntroduction: inputs.selfIntroduction,
+          tagList: inputs.tags,
+        },
+      },
+      successHandler: () => setIsEditing(false),
+    });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTag(e.target.value);
@@ -67,17 +97,35 @@ const InfoBox = () => {
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && newTag.trim() && !e.nativeEvent.isComposing) {
+      e.preventDefault();
+      setInputs({
+        ...inputs,
+        tags: [...inputs.tags, newTag.trim()],
+      });
+      setNewTag('');
+    }
+  };
+
+  const handleFollow = () => {
+    toggleFollow({
+      isFollow: !inputs?.isFollowing,
+    });
+  };
+
   return (
     <div className={styles.info_box}>
       {isEditing ? (
         <ProfileImage
           setFile={(file) => setInputs({ ...inputs, imageUrl: String(file) })}
+          initialValue={inputs?.imageUrl}
         />
       ) : (
         <div className={cx(styles.profile_wrap, center())}>
-          {data?.imageUrl ? (
+          {inputs?.imageUrl ? (
             <Image
-              src={data?.imageUrl as string}
+              src={inputs?.imageUrl as string}
               alt=""
               width={120}
               height={120}
@@ -94,7 +142,7 @@ const InfoBox = () => {
           {isEditing ? (
             <div style={{ height: '37px', marginBottom: '8px' }}>
               <Input
-                value={inputs.nickname}
+                value={inputs?.nickname}
                 onSetValue={(name) => {
                   setInputs({ ...inputs, nickname: name });
                 }}
@@ -102,13 +150,14 @@ const InfoBox = () => {
               />
             </div>
           ) : (
-            <span>{data?.nickname}</span>
+            <span>{inputs?.nickname}</span>
           )}
           {!isMyPage && (
             <Button
               className={styles.follow_btn}
-              variant={data?.isFollowing ? 'outlined' : 'contained'}
-              text={data?.isFollowing ? '팔로우 취소' : '팔로우'}
+              variant={inputs?.isFollowing ? 'outlined' : 'contained'}
+              text={inputs?.isFollowing ? '팔로우 취소' : '팔로우'}
+              onClick={handleFollow}
             />
           )}
         </div>
@@ -116,7 +165,7 @@ const InfoBox = () => {
           {isEditing ? (
             <textarea
               className={cx(styles.description, styles.textarea)}
-              value={inputs.selfIntroduction}
+              value={inputs?.selfIntroduction ?? ''}
               onChange={(e) =>
                 setInputs({ ...inputs, selfIntroduction: e.target.value })
               }
@@ -125,11 +174,11 @@ const InfoBox = () => {
             <span
               className={cx(
                 styles.description,
-                !data?.selfIntroduction &&
+                !inputs?.selfIntroduction &&
                   css({ fontSize: '15px', color: 'gray.400' })
               )}
             >
-              {data?.selfIntroduction || '소개글을 작성해주세요.'}
+              {inputs?.selfIntroduction || '소개글을 작성해주세요.'}
             </span>
           )}
         </div>
@@ -139,7 +188,7 @@ const InfoBox = () => {
             css({ marginTop: isEditing ? '0.5px' : '12px' })
           )}
         >
-          {data?.tags.map((tag) => (
+          {inputs?.tags?.map((tag) => (
             <button
               className={cx(
                 styles.tag,
@@ -164,12 +213,13 @@ const InfoBox = () => {
                   value={newTag}
                   onChange={handleInputChange}
                   onFocus={handleInputFocus}
+                  onKeyDown={handleKeyDown}
                 />
               </div>
               {isOpen && (
                 <Dropdown
                   className={styles.dropdown}
-                  tags={['tag1', 'tag2', 'tag3', 'tag4']}
+                  tags={tagsToSearch}
                   keyword={newTag}
                   setValue={(value) => {
                     setNewTag(value);

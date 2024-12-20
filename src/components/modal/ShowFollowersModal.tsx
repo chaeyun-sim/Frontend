@@ -1,4 +1,9 @@
+import { useRouter } from 'next/navigation';
 import React from 'react';
+
+import { Follower } from '@/hooks/queries/members';
+import { useMyPage } from '@/hooks/useMyPage';
+import { useAuth } from '@/stores/useAuth';
 
 import { ModalProps } from './modal.interface';
 import { css } from '../../../styled-system/css';
@@ -11,6 +16,12 @@ interface IProps extends ModalProps {
 }
 
 const ShowFollowersModal = ({ onClose, type }: IProps) => {
+  const router = useRouter();
+  const { memberId } = useAuth();
+  const { followers, follows } = useMyPage({ memberId: String(memberId) });
+
+  const data = type === 'follower' ? followers : follows;
+
   return (
     <Modal
       onClose={onClose}
@@ -22,8 +33,16 @@ const ShowFollowersModal = ({ onClose, type }: IProps) => {
         </div>
         <div className={styles.modal_content}>
           <div className={styles.inner_content}>
-            {['이민정', '김민정', '최민정', '연민정'].map((name) => (
-              <PersonBox key={name} data={name} keyword="" onClick={() => {}} />
+            {data?.map((item: Follower) => (
+              <PersonBox
+                key={item.memberId}
+                data={{
+                  ...item,
+                  memberId: String(item.memberId),
+                }}
+                keyword=""
+                onClickNavigate={() => router.push(`/mypage/${item.memberId}`)}
+              />
             ))}
           </div>
         </div>

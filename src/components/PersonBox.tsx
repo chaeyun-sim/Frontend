@@ -6,12 +6,23 @@ import { css } from '../../styled-system/css';
 
 interface IProps {
   onClick?: (value: string) => void;
-  data: string;
+  data: {
+    memberId: string;
+    profile: string;
+    nickname: string;
+  };
   keyword: string;
   hasAdd?: boolean;
+  onClickNavigate: () => void;
 }
 
-const PersonBox = ({ data, keyword, onClick, hasAdd }: IProps) => {
+const PersonBox = ({
+  data,
+  keyword,
+  onClickNavigate,
+  onClick,
+  hasAdd,
+}: IProps) => {
   const highlightText = (text: string) => {
     if (!keyword.trim()) return text;
 
@@ -34,10 +45,10 @@ const PersonBox = ({ data, keyword, onClick, hasAdd }: IProps) => {
   };
 
   return (
-    <div className={styles.item}>
+    <button className={styles.item} onClick={onClickNavigate}>
       <div className={styles.image}>
         <Image
-          src={''}
+          src={data?.profile}
           alt="profile"
           width={36}
           height={36}
@@ -45,16 +56,19 @@ const PersonBox = ({ data, keyword, onClick, hasAdd }: IProps) => {
         />
       </div>
       {keyword === '' ? (
-        <span className={styles.name}>{data}</span>
+        <span className={styles.name}>{data?.nickname}</span>
       ) : (
-        <span className={styles.name}>{highlightText(data)}</span>
+        <span className={styles.name}>{highlightText(data?.nickname)}</span>
       )}
       {hasAdd && (
-        <button className={styles.add_btn} onClick={() => onClick!(data)}>
+        <button
+          className={styles.add_btn}
+          onClick={() => onClick!(data?.memberId)}
+        >
           <Icon name="add2" />
         </button>
       )}
-    </div>
+    </button>
   );
 };
 

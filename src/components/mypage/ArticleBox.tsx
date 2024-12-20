@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 import { PostInfo } from '@/hooks/queries/members';
@@ -7,18 +8,24 @@ import { flex } from '../../../styled-system/patterns';
 import Icon from '../common/Icon';
 
 const ArticleBox = ({ ...props }: PostInfo) => {
-  const getIconName = () => {
+  const getMediaIcon = () => {
     if (props.hasImage && props.hasVideo) {
       return 'img-and-vid';
     } else if (props.hasImage) {
       return 'img';
     } else if (props.hasVideo) {
       return 'video';
+    } else {
+      return '';
     }
   };
 
+  const handleControlDate = () => {
+    return props.createdDate.split('T')[0].replaceAll('-', '.');
+  };
+
   return (
-    <div className={styles.wrapper}>
+    <Link href={`/sns/my/${props.postId}`} className={styles.wrapper}>
       <div className={styles.text}>
         <span className={css({ flex: 1 })}>{props.title}</span>
         {props.isPinned && (
@@ -33,10 +40,10 @@ const ArticleBox = ({ ...props }: PostInfo) => {
         )}
       </div>
       <div className={styles.info_box}>
-        <span className={styles.date}>{props.createdDate}</span>
-        <Icon name={getIconName() as string} />
+        <span className={styles.date}>{handleControlDate()}</span>
+        {getMediaIcon() && <Icon name={getMediaIcon() as string} />}
       </div>
-    </div>
+    </Link>
   );
 };
 
