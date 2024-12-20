@@ -39,3 +39,46 @@ export const postFollow = async (data: IPostFollowReq) => {
   const response = await authInstance.post('/members/toggleFollow', data);
   return response.data.data;
 };
+
+export const promoteStreamer = async (platformUrl: string) => {
+  const response = await authInstance.post(`/members/promoteStreamer`, {
+    platformUrl,
+  });
+  return response.data;
+};
+
+export interface ProfileUpdateRequest {
+  nickname: string;
+  selfIntroduction: string;
+  tagList: string[];
+}
+
+export const updateMemberInfo = async (
+  file: string,
+  body: ProfileUpdateRequest
+) => {
+  const response = await authInstance.put(`/members`, {
+    file,
+    ...body,
+  });
+  return response.data;
+};
+
+export const toggleFollow = async ({
+  memberId,
+  isFollow,
+}: {
+  memberId: number;
+  isFollow: boolean;
+}) => {
+  const response = await authInstance.post(`/members/toggleFollow`, {
+    memberId,
+    isFollow,
+  });
+  return response.data;
+};
+
+export const getTags = async (keyword: string) => {
+  const response = await authInstance.get(`/tags?tagWord=${keyword}`);
+  return response.data;
+};
