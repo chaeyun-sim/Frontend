@@ -24,38 +24,11 @@ const Dropdown = ({
   const [focusedItem, setFocusedItem] = useState('');
   const [data, setData] = useState<string[]>([]);
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const currentIndex = tags?.indexOf(focusedItem);
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (currentIndex < tags?.length - 1) {
-        setFocusedItem(tags?.[currentIndex + 1]);
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (currentIndex > 0) {
-        setFocusedItem(tags?.[currentIndex - 1]);
-      }
-    } else if (e.key === 'Enter') {
-      if (!focusedItem) return;
-      setValue(focusedItem);
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [focusedItem]);
-
   useEffect(() => {
     if (keyword) {
-      setData(tags.filter((tag) => tag.startsWith(keyword)));
-    } else {
       setData(tags);
     }
-  }, [keyword]);
+  }, [keyword, tags]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
