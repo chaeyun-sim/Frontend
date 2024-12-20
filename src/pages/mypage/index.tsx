@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 import AccountUpdateModal from '@/components/modal/AccountUpdateModal';
 import ShowFollowersModal from '@/components/modal/ShowFollowersModal';
@@ -7,11 +8,11 @@ import ActivityBox from '@/components/mypage/ActivityBox';
 import Content from '@/components/mypage/Content';
 import InfoBox from '@/components/mypage/InfoBox';
 import { useModal } from '@/hooks/useModal';
-import { useMyPage } from '@/hooks/useMyPage';
 import { useAuth } from '@/stores/useAuth';
+import { useCheckMyPage } from '@/stores/useCheckMyPage';
 
-import { css } from '../../styled-system/css';
-import { center, flex, vstack } from '../../styled-system/patterns';
+import { css } from '../../../styled-system/css';
+import { center, flex, vstack } from '../../../styled-system/patterns';
 
 export type ArticleType = 'image' | 'video' | 'mixed' | undefined;
 
@@ -19,17 +20,29 @@ type FollowerModalType = 'following' | 'follower' | null;
 type ModalTypes = 'followers' | 'accountUpdate' | 'withdrawal';
 
 const MyPage = () => {
-  const memberId = String(useAuth.getState().memberId);
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { isMyPage, setIsMyPage, setMemberId } = useCheckMyPage();
 
   const { activeModal, openModal, closeModal } = useModal<ModalTypes>();
-  const { isMyPage } = useMyPage({ memberId });
   const [followerModalType, setFollowerModalType] =
     useState<FollowerModalType>(null);
+
+  useEffect(() => {
+    if (id) {
+      setIsMyPage(false);
+      setMemberId(String(id));
+    } else {
+      setIsMyPage(true);
+      setMemberId(String(useAuth.getState().memberId));
+    }
+  }, [id]);
 
   return (
     <>
       {activeModal === 'followers' && (
-        <ShowFollowersModal onClose={close} type={followerModalType} />
+        <ShowFollowersModal onClose={closeModal} type={followerModalType} />
       )}
       {activeModal === 'accountUpdate' && (
         <AccountUpdateModal onClose={closeModal} />
