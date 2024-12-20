@@ -25,7 +25,7 @@ const Login = () => {
           ...data.data,
         });
         setUserRole(data.data.role as TRole);
-        navigation.push('/');
+        navigation.back();
       }
     },
   });
