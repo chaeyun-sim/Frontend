@@ -1,6 +1,6 @@
 import { usePostReportPost } from '@/hooks/queries/sns';
 
-import InputModalLayout from './InputModalLayout';
+import InputModalLayout from './layout/InputModalLayout';
 import { ModalProps } from './modal.interface';
 
 interface IProps extends ModalProps {

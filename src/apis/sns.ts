@@ -66,3 +66,8 @@ export const searchMember = async (nickname: string) => {
   const response = await authInstance.get(`/sns/searchMember/${nickname}`);
   return response.data.data;
 };
+
+export const deleteSns = async (postId: number) => {
+  const response = await authInstance.delete(`/posts/${postId}`);
+  return response.data;
+};

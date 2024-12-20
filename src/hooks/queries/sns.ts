@@ -10,7 +10,9 @@ import {
   postReportPost,
   postReportComment,
   searchMember,
+  deleteSns,
 } from '@/apis/sns';
+import { ModalProps } from '@/components/modal/modal.interface';
 
 export interface IGetSnsListProps {
   setSnsId: (value: number) => void;
@@ -21,10 +23,6 @@ interface IGetSnsDetailProps {
   snsList?: ISnsItem[] | null;
   setPrevSnsId?: (value: number) => void;
   setNextSnsId?: (value: number) => void;
-}
-
-interface IPostCommentProps {
-  onClose: () => void;
 }
 
 export const useGetSnsList = ({ setSnsId }: IGetSnsListProps) => {
@@ -78,7 +76,7 @@ export const useGetLatestSnsList = () => {
   });
 };
 
-export const usePostComment = ({ onClose }: IPostCommentProps) => {
+export const usePostComment = ({ onClose }: ModalProps) => {
   return useMutation({
     mutationFn: postComment,
     onSuccess: ({ code }) => {
@@ -110,7 +108,7 @@ export const useSearchMember = (nickname: string) => {
   });
 };
 
-export const usePostReportPost = ({ onClose }: IPostCommentProps) => {
+export const usePostReportPost = ({ onClose }: ModalProps) => {
   return useMutation({
     mutationFn: postReportPost,
     onSuccess: ({ code }: IRes<null>) => {
@@ -122,12 +120,24 @@ export const usePostReportPost = ({ onClose }: IPostCommentProps) => {
   });
 };
 
-export const usePostReportComment = ({ onClose }: IPostCommentProps) => {
+export const usePostReportComment = ({ onClose }: ModalProps) => {
   return useMutation({
     mutationFn: postReportComment,
     onSuccess: ({ code }: IRes<null>) => {
       if (code === 'OK') {
         onClose();
+      }
+      return null;
+    },
+  });
+};
+
+export const useDeleteSns = ({ onClose }: ModalProps) => {
+  return useMutation({
+    mutationFn: deleteSns,
+    onSuccess: ({ code }) => {
+      if (code === 'OK') {
+        location.replace('/mypage');
       }
       return null;
     },

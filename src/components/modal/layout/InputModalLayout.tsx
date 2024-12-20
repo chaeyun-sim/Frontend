@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { css } from '../../../styled-system/css';
-import Button from '../common/Button';
-import Modal from '../common/Modal';
-import Textarea from '../common/Textarea';
+import { css } from '../../../../styled-system/css';
+import Button from '../../common/Button';
+import Modal from '../../common/Modal';
+import Textarea from '../../common/Textarea';
 
 interface IProps {
   title: string;

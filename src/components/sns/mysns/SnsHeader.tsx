@@ -7,9 +7,10 @@ import { snsHeaderStyles } from '../sns/SnsHeader';
 interface IProps {
   profileUrl: string;
   nickname: string;
+  handleOpenDeleteModal: () => void;
 }
 
-const SnsHeader = ({ profileUrl, nickname }: IProps) => {
+const SnsHeader = ({ profileUrl, nickname, handleOpenDeleteModal }: IProps) => {
   return (
     <div className={snsHeaderStyles.header}>
       <div className={snsHeaderStyles.header_button_container}>
@@ -24,7 +25,12 @@ const SnsHeader = ({ profileUrl, nickname }: IProps) => {
         <div className={snsHeaderStyles.name}>{nickname}</div>
       </div>
       <div className={snsHeaderStyles.header_button_container}>
-        <Button text="삭제" variant="outlined" size="small" />
+        <Button
+          text="삭제"
+          variant="outlined"
+          size="small"
+          onClick={handleOpenDeleteModal}
+        />
         <Button text="수정" size="small" />
       </div>
     </div>
