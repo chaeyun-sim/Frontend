@@ -3,11 +3,11 @@ import Modal from '@/components/common/Modal';
 import { css } from '../../../../styled-system/css';
 import Button from '../../common/Button';
 import Icon from '../../common/Icon';
+import { ModalProps } from '../modal.interface';
 
-interface IProps {
+interface IProps extends ModalProps {
   title: string;
   icon: string;
-  onClose: () => void;
   onConfirm: () => void;
 }
 

@@ -4,10 +4,10 @@ import { css } from '../../../../styled-system/css';
 import Button from '../../common/Button';
 import Modal from '../../common/Modal';
 import Textarea from '../../common/Textarea';
+import { ModalProps } from '../modal.interface';
 
-interface IProps {
+interface IProps extends ModalProps {
   title: string;
-  onClose: () => void;
   handleSubmit: (content: string) => void;
 }
 

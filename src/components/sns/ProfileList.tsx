@@ -1,10 +1,10 @@
 import ProfileItem from './ProfileItem';
 import { css } from '../../../styled-system/css';
 import Icon from '../common/Icon';
+import { ModalProps } from '../modal/modal.interface';
 
-interface IProps {
+interface IProps extends ModalProps {
   list?: IProfile[] | null;
-  onClose: () => void;
 }
 
 const ProfileList = ({ list, onClose }: IProps) => {
