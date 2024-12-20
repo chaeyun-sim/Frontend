@@ -6,7 +6,7 @@ import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
   setFile: (value: File) => void;
-  initialValue: string;
+  initialValue?: string;
 }
 
 const ProfileImage = ({ setFile, initialValue }: IProps) => {
