@@ -7,6 +7,10 @@ import Button from '../common/Button';
 import Modal from '../common/Modal';
 
 const WithdrawalModal = ({ onClose }: ModalProps) => {
+  const handleWithdrawal = () => {
+    // TODO: 탈퇴 만들기
+  };
+
   return (
     <Modal className={css({ width: '480px' })} onClose={onClose}>
       <div>
@@ -30,24 +34,59 @@ const WithdrawalModal = ({ onClose }: ModalProps) => {
               color: 'gray.900',
             })}
           >
-            <p>1. 정보 보관 약관 </p>
-            <p>2. 기타 약관</p>
-            <p>3. 기타 약관</p>
+            <p>1. 서비스 이용 종료 </p>
+            <span
+              className={flex({
+                textStyle: 'caption2',
+                flexDir: 'column',
+                gap: '4px',
+                margin: '4px 0',
+              })}
+            >
+              <span>
+                (1) 회원 탈퇴 시 방방봐의 모든 서비스에 접근할 수 없습니다.
+              </span>
+              <span className={css({ textStyle: 'caption2' })}>
+                (2) 회원 탈퇴 시 계정 복구는 불가능합니다.
+              </span>
+            </span>
+            <p className={css({ marginTop: '14px' })}>2. 개인정보 보유 기간</p>
+            <span
+              className={flex({
+                textStyle: 'caption2',
+                flexDir: 'column',
+                gap: '4px',
+                margin: '6px 0 4px',
+              })}
+            >
+              <span>
+                (1) 탈퇴 시 개인정보는 즉시 삭제되지만, 법적 의무나 분쟁 해결을
+                위해 일정 기간 보관될 수 있습니다.
+              </span>
+              <span>
+                (2) 스트리머의 경우, 등록된 모든 정보가 즉시 삭제됩니다.
+              </span>
+            </span>
           </div>
         </div>
         <div
-          className={flex({ padding: '20px', justifyContent: 'space-between' })}
+          className={flex({
+            padding: '20px',
+            justifyContent: 'space-between',
+            gap: '8px',
+          })}
         >
           <Button
             variant="outlined"
             text="취소"
-            className={css({ width: '216px' })}
+            className={css({ flex: 1 })}
             onClick={onClose}
           />
           <Button
             variant="contained"
             text="탈퇴"
-            className={css({ width: '216px' })}
+            className={css({ flex: 1 })}
+            onClick={handleWithdrawal}
           />
         </div>
       </div>
