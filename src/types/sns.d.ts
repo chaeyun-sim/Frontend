@@ -33,11 +33,6 @@ interface ISnsDetail {
   isFollowed: boolean;
 }
 
-interface IPostCommentReq {
-  postId: number;
-  content: string;
-}
-
 interface IComment {
   id: number;
   profileUrl: string;
