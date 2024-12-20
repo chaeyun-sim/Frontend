@@ -1,5 +1,5 @@
 import Profile from './Profile';
-import { css, cx } from '../../../styled-system/css';
+import { css } from '../../../styled-system/css';
 
 interface IProps {
   list?: ILastestSnsItem[] | null;

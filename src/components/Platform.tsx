@@ -14,7 +14,7 @@ const Platform = ({ platform, imageUrl, profileUrl }: IProps) => {
   return (
     <Link href={profileUrl} className={platform}>
       <Image
-        src={imageUrl}
+        src={''}
         alt={platform}
         width={24}
         height={24}

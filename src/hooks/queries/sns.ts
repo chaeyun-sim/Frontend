@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import {
   getLatestSnsList,
@@ -6,6 +7,7 @@ import {
   getSnsList,
   postComment,
   createPost,
+  searchMember,
 } from '@/apis/sns';
 
 export interface IGetSnsListProps {
@@ -77,7 +79,7 @@ export const useGetLatestSnsList = () => {
 export const usePostComment = ({ onClose }: IPostCommentProps) => {
   return useMutation({
     mutationFn: postComment,
-    onSuccess: ({ code }: IRes<null>) => {
+    onSuccess: ({ code }) => {
       if (code === 'OK') {
         onClose();
       }
@@ -86,13 +88,22 @@ export const usePostComment = ({ onClose }: IPostCommentProps) => {
   });
 };
 
-export const useCreatePost = ({
-  successCallback,
-}: {
-  successCallback: (data: IRes<any>) => void;
-}) => {
+export const useCreatePost = () => {
+  const navigate = useRouter();
+
   return useMutation({
     mutationFn: createPost,
-    onSuccess: successCallback,
+    onSuccess: (data) => {
+      if (data.code === 'OK') {
+        navigate.push(`/sns/normal/${data.data.postId}`);
+      }
+    },
+  });
+};
+
+export const useSearchMember = (nickname: string) => {
+  return useQuery<Member[]>({
+    queryKey: ['search-member', nickname],
+    queryFn: () => searchMember(nickname),
   });
 };

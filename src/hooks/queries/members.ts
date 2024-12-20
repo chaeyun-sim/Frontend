@@ -107,12 +107,16 @@ export const useGetComments = (memberId: string) => {
 };
 
 interface IPostFollowProps {
-  successCallback: (data: IRes<null>) => void;
+  getSnsDetail: () => void;
 }
 
-export const usePostFollow = ({ successCallback }: IPostFollowProps) => {
+export const usePostFollow = ({ getSnsDetail }: IPostFollowProps) => {
   return useMutation({
     mutationFn: postFollow,
-    onSuccess: successCallback,
+    onSuccess: ({ code }: IRes<null>) => {
+      if (code === 'OK') {
+        getSnsDetail();
+      }
+    },
   });
 };

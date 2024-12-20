@@ -14,7 +14,7 @@ const SnsBroadcastPage = () => {
   const [nextSnsId, setNextSnsId] = useState(0);
 
   const { data: snsList } = useGetStreamerSnsList({ setSnsId });
-  const { data: snsDetail, refetch: refetchGetSnsDetail } = useGetSnsDetail({
+  const { data: snsDetail, refetch: getSnsDetail } = useGetSnsDetail({
     snsId,
     snsList,
     setPrevSnsId,
@@ -30,7 +30,7 @@ const SnsBroadcastPage = () => {
           nextSnsId={nextSnsId}
           snsId={snsId}
           setSnsId={setSnsId}
-          refetchGetSnsDetail={refetchGetSnsDetail}
+          getSnsDetail={getSnsDetail}
         />
       </div>
       <div className={snsPageStyles.aside_container}>
