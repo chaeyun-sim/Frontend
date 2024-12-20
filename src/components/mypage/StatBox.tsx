@@ -8,6 +8,7 @@ interface IProps {
   amount: number;
   label: string;
   isClickable?: boolean;
+  className?: string;
 }
 
 const StatBox = ({ onClick, amount, label, isClickable = false }: IProps) => {
