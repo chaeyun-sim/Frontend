@@ -58,13 +58,11 @@ export interface ProfileUpdateRequest {
   tagList: string[];
 }
 
-export const updateMemberInfo = async (
-  file: string,
-  body: ProfileUpdateRequest
-) => {
-  const response = await authInstance.put(`/members`, {
-    file,
-    ...body,
+export const updateMemberInfo = async ({ data }: { data: FormData }) => {
+  const response = await authInstance.put(`/members`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
   return response.data;
 };

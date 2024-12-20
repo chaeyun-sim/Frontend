@@ -1,5 +1,6 @@
+import { ProfileUpdateRequest } from '@/apis/member';
+
 import {
-  UpdateRequest,
   useGetComments,
   useGetFollowers,
   useGetFollows,
@@ -30,12 +31,15 @@ export const useMyPage = ({ memberId }: IProps) => {
     data,
     successHandler,
   }: {
-    data: UpdateRequest;
+    data: FormData;
     successHandler: () => void;
   }) => {
-    updateProfile(data, {
-      onSuccess: successHandler,
-    });
+    updateProfile(
+      { data },
+      {
+        onSuccess: successHandler,
+      }
+    );
   };
 
   return {

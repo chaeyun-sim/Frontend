@@ -24,40 +24,47 @@ const InfoBox = () => {
   const { isEditing, setIsEditing } = useEditMyPage();
   const { isOpen, openModal, closeModal } = useModal();
 
-  const [inputs, setInputs] = useState<ProfileInfo>(profileInfo!);
+  const [inputs, setInputs] = useState<
+    Omit<ProfileInfo, 'imageUrl'> & { imageUrl: string | File }
+  >(profileInfo!);
   const [inputWidth, setInputWidth] = useState(1);
   const [newTag, setNewTag] = useState('');
 
   const { data: tagsToSearch, refetch } = useGetTagDropdown(newTag);
 
   useEffect(() => {
+    refetch();
+  }, [newTag]);
+
+  useEffect(() => {
     if (profileInfo?.nickname) {
       setInputs({
-        nickname: profileInfo.nickname,
-        imageUrl: profileInfo.imageUrl,
+        ...profileInfo,
         tags: profileInfo.tags ?? [],
-        isFollowing: profileInfo.isFollowing,
-        selfIntroduction: profileInfo.selfIntroduction,
+        imageUrl: profileInfo.imageUrl,
       });
     }
   }, [profileInfo]);
 
-  useEffect(() => {
-    refetch();
-  }, [newTag]);
-
   const handleUpdateProfile = () => {
+    const request = {
+      nickname: inputs?.nickname,
+      selfIntroduction: inputs?.selfIntroduction,
+      tagList: inputs?.tags,
+    };
+
+    const formData = new FormData();
+    formData.append('file', inputs?.imageUrl);
+    formData.append('request', JSON.stringify(request));
+
     updateProfile({
-      data: {
-        file: inputs.imageUrl,
-        body: {
-          nickname: inputs.nickname,
-          selfIntroduction: inputs.selfIntroduction,
-          tagList: inputs.tags,
-        },
-      },
+      data: formData,
       successHandler: () => setIsEditing(false),
     });
+  };
+
+  const handleTagDelete = (value: string) => {
+    setInputs({ ...inputs, tags: inputs.tags.filter((tag) => tag !== value) });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,8 +125,8 @@ const InfoBox = () => {
     <div className={styles.info_box}>
       {isEditing ? (
         <ProfileImage
-          setFile={(file) => setInputs({ ...inputs, imageUrl: String(file) })}
-          initialValue={inputs?.imageUrl}
+          setFile={(file) => setInputs({ ...inputs, imageUrl: file })}
+          initialValue={profileInfo?.imageUrl as string}
         />
       ) : (
         <div className={cx(styles.profile_wrap, center())}>
@@ -195,6 +202,7 @@ const InfoBox = () => {
                 isEditing ? styles.edit_tag : styles.default_tag
               )}
               key={tag}
+              onClick={() => handleTagDelete(tag)}
             >
               {tag}
               {isEditing && (
@@ -219,7 +227,7 @@ const InfoBox = () => {
               {isOpen && (
                 <Dropdown
                   className={styles.dropdown}
-                  tags={tagsToSearch}
+                  tags={tagsToSearch?.data.tagList ?? []}
                   keyword={newTag}
                   setValue={(value) => {
                     setNewTag(value);
