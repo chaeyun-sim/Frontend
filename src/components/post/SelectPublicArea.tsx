@@ -29,7 +29,10 @@ const SelectPublicArea = ({ onSelectDisabled }: IProps) => {
     closeModal: closeDropdown,
   } = useModal();
   const { title, content } = usePostContent();
-  const { activeTab, handleTabChange } = useTab<'1' | '2'>(['1', '2'], '1');
+  const { activeTab, handleTabChange } = useTab<'1' | '2'>({
+    tabs: ['1', '2'],
+    initialValue: '1',
+  });
   const { value: isPublic, handleToggle: togglePublic } = useToggle();
 
   const { mutate: createPost } = useCreatePost();

@@ -6,12 +6,13 @@ import { css, cx } from '../../../styled-system/css';
 
 interface IProps {
   setFile: (value: File) => void;
+  initialValue: string;
 }
 
-const ProfileImage = ({ setFile }: IProps) => {
+const ProfileImage = ({ setFile, initialValue }: IProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isHovering, setIsHovering] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState(initialValue);
 
   useEffect(() => {
     return () => {
