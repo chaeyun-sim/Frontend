@@ -1,4 +1,9 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import {
   checkIdMatch,
@@ -8,7 +13,12 @@ import {
   getPostList,
   getProfileInfo,
   getProfileSummary,
+  getTags,
   postFollow,
+  ProfileUpdateRequest,
+  promoteStreamer,
+  toggleFollow,
+  updateMemberInfo,
 } from '@/apis/member';
 
 export interface Platform {
@@ -30,6 +40,7 @@ export const useProfileSummary = (memberId: string) => {
   return useQuery<ProfileSummary>({
     queryKey: ['member-summary', memberId],
     queryFn: () => getProfileSummary(memberId),
+    enabled: !!memberId,
   });
 };
 
@@ -45,6 +56,7 @@ export const useProfileInfo = (memberId: string) => {
   return useQuery<ProfileInfo>({
     queryKey: ['profile-info', memberId],
     queryFn: () => getProfileInfo(memberId),
+    enabled: !!memberId,
   });
 };
 
@@ -52,19 +64,21 @@ export const useIsMyMemberId = (memberId: string) => {
   return useQuery({
     queryKey: ['check-my-member-id', memberId],
     queryFn: () => checkIdMatch(memberId),
+    enabled: !!memberId,
   });
 };
 
-interface Follower {
+export interface Follower {
   memberId: number;
-  name: string;
-  imageUrl: string;
+  nickname: string;
+  profile: string;
 }
 
 export const useGetFollowers = (memberId: string) => {
   return useQuery<{ followers: Follower[] }>({
     queryKey: ['get-followers', memberId],
     queryFn: () => getFollowers(memberId),
+    enabled: !!memberId,
   });
 };
 
@@ -72,6 +86,7 @@ export const useGetFollows = (memberId: string) => {
   return useQuery({
     queryKey: ['ge-follows, memberId'],
     queryFn: () => getFollows(memberId),
+    enabled: !!memberId,
   });
 };
 
@@ -79,30 +94,48 @@ export interface PostInfo {
   postId: number;
   isPinned: boolean;
   title: string;
-  content: string;
   createdDate: string;
   hasImage: boolean;
   hasVideo: boolean;
 }
 
 export const useGetPosts = (memberId: string) => {
-  return useQuery<PostInfo[]>({
+  return useQuery<{ postInfos: PostInfo[] }>({
     queryKey: ['get-posts', memberId],
     queryFn: () => getPostList(memberId),
+    enabled: !!memberId,
   });
 };
 
-export interface CommentInfo {
+interface ReCommentInfo {
   commentId: number;
   content: string;
   replyCommentId: number;
   replyContent: string;
 }
 
+interface CommentInfo {
+  hasImage: boolean;
+  hasVideo: boolean;
+  memberId: number;
+  memberImageUrl: string;
+  memberName: string;
+  postId: number;
+  title: string;
+}
+
+export interface Comment {
+  commentInfo: ReCommentInfo;
+  postInfo: CommentInfo;
+}
+
 export const useGetComments = (memberId: string) => {
-  return useQuery<{ comments: CommentInfo[] }>({
+  return useQuery<{
+    comments: Comment[];
+  }>({
     queryKey: ['get-comments', memberId],
     queryFn: () => getComments(memberId),
+    enabled: !!memberId,
   });
 };
 
@@ -118,5 +151,82 @@ export const usePostFollow = ({ getSnsDetail }: IPostFollowProps) => {
         getSnsDetail();
       }
     },
+  });
+};
+
+export const usePromoteStreamer = (memberId: string) => {
+  return useMutation({
+    mutationFn: ({ platformUrl }: { platformUrl: string }) =>
+      promoteStreamer(platformUrl),
+    onSuccess: ({ code }) => {
+      if (code === 'OK') {
+        const queryClient = new QueryClient();
+        queryClient.invalidateQueries({
+          queryKey: ['member-summary', memberId],
+        });
+      }
+    },
+  });
+};
+
+export interface UpdateRequest {
+  file: string;
+  body: ProfileUpdateRequest;
+}
+
+export const useUpdateProfileInfo = (memberId: string) => {
+  return useMutation({
+    mutationFn: ({ file, body }: UpdateRequest) => updateMemberInfo(file, body),
+    onSuccess: ({ code }) => {
+      if (code === 'OK') {
+        const queryClient = new QueryClient();
+        queryClient.invalidateQueries({
+          queryKey: ['profile-info', memberId],
+        });
+      }
+    },
+    onError: (error) => console.log(error),
+  });
+};
+
+export const useToggleFollow = (memberId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ isFollow }: { isFollow: boolean }) =>
+      toggleFollow({ memberId: Number(memberId), isFollow }),
+    onMutate: async ({ isFollow }) => {
+      const previousProfileInfo = queryClient.getQueryData([
+        'profile-info',
+        memberId,
+      ]);
+
+      queryClient.setQueryData(
+        ['profile-info', memberId],
+        (old: ProfileInfo | undefined) => {
+          if (!old) return old;
+          return { ...old, isFollowing: isFollow };
+        }
+      );
+
+      return { previousProfileInfo };
+    },
+    onSuccess: ({ code }) => {
+      if (code === 'OK') {
+        queryClient.invalidateQueries({
+          queryKey: ['profile-info', memberId],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['member-summary', memberId],
+        });
+      }
+    },
+  });
+};
+
+export const useGetTagDropdown = (keyword: string) => {
+  return useQuery({
+    queryKey: ['get-tags', keyword],
+    queryFn: () => getTags(keyword),
   });
 };
