@@ -26,7 +26,7 @@ const Sns = ({
 }: IProps) => {
   const { value: isOpenCommentModal, handleToggle: handleToggleCommentModal } =
     useToggle(false);
-  const { isOpen: isOpenReportModal, handleToggle: handleToggleReportModal } =
+  const { value: isOpenReportModal, handleToggle: handleToggleReportModal } =
     useToggle(false);
 
   return (
