@@ -13,7 +13,7 @@ interface IProps {
   };
   keyword: string;
   hasAdd?: boolean;
-  onClickNavigate: () => void;
+  onClickNavigate?: () => void;
 }
 
 const PersonBox = ({

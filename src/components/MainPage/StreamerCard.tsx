@@ -12,7 +12,12 @@ interface IProps {
   name: string;
   todayComment: string;
   selfIntroduction: string;
-  platformList: { platform: string; imageUrl: string; profileUrl: string }[];
+  platformList: {
+    [x: string]: string | null | undefined;
+    platform: string;
+    imageUrl: string;
+    profileUrl: string;
+  }[];
 }
 
 const StreamerCard = ({
@@ -55,8 +60,13 @@ const StreamerCard = ({
         <p className={styles.name}>{name}</p>
         <p className={styles.desc}>{selfIntroduction}</p>
         <div className={styles.platforms_wrapper}>
-          {platformList.map((platform) => (
-            <Platform key={platform.platform} {...platform} />
+          {platformList.map((platform, i) => (
+            <Platform
+              key={platform.id}
+              {...platform}
+              id={i}
+              name={platform.platform}
+            />
           ))}
         </div>
       </div>

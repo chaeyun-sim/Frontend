@@ -46,7 +46,11 @@ const SelectPeopleDropdown = ({
           {members.map((member) => (
             <PersonBox
               key={member.memberId}
-              data={member.nickname}
+              data={{
+                memberId: String(member.memberId),
+                profile: '',
+                nickname: member.nickname,
+              }}
               keyword={keyword}
               hasAdd
               onClick={() => onClickItem(member.memberId)}

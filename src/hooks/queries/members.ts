@@ -53,6 +53,7 @@ export interface ProfileInfo {
   isFollowing: boolean;
   selfIntroduction: string;
   tags: string[];
+  coverImage?: File | string;
 }
 
 export const useProfileInfo = (memberId: string) => {

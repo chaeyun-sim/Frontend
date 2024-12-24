@@ -35,7 +35,7 @@ const MyPage = () => {
 
   const [followerModalType, setFollowerModalType] =
     useState<FollowerModalType>(null);
-  const [image, setImage] = useState<File>(profileInfo?.coverImage);
+  const [image, setImage] = useState<File>(profileInfo?.coverImage as File);
 
   useEffect(() => {
     if (id) {
