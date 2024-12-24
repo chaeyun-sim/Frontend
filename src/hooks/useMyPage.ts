@@ -1,6 +1,6 @@
-import { ProfileUpdateRequest } from '@/apis/member';
-
 import {
+  useAddWallpaper,
+  useDeleteWallpaper,
   useGetComments,
   useGetFollowers,
   useGetFollows,
@@ -23,9 +23,13 @@ export const useMyPage = ({ memberId }: IProps) => {
   const { data: comments } = useGetComments(memberId);
   const { data: followers } = useGetFollowers(memberId);
   const { data: follows } = useGetFollows(memberId);
+
   const { mutate: requestUpdate } = usePromoteStreamer(memberId);
   const { mutate: updateProfile } = useUpdateProfileInfo(memberId);
   const { mutate: toggleFollow } = useToggleFollow(memberId);
+
+  const { mutate: addWallpaper } = useAddWallpaper();
+  const { mutate: deleteWallpaper } = useDeleteWallpaper();
 
   const handleUpdateProfile = ({
     data,
@@ -52,5 +56,7 @@ export const useMyPage = ({ memberId }: IProps) => {
     requestUpdate,
     updateProfile: handleUpdateProfile,
     toggleFollow,
+    deleteWallpaper,
+    addWallpaper,
   };
 };

@@ -6,7 +6,9 @@ import {
 } from '@tanstack/react-query';
 
 import {
+  addWallpapaer,
   checkIdMatch,
+  deleteWallpaper,
   getComments,
   getFollowers,
   getFollows,
@@ -229,5 +231,17 @@ export const useGetTagDropdown = (keyword: string) => {
   return useQuery<{ data: { tagList: string[] } }>({
     queryKey: ['get-tags', keyword],
     queryFn: () => getTags(keyword),
+  });
+};
+
+export const useAddWallpaper = () => {
+  return useMutation({
+    mutationFn: ({ file }: { file: File }) => addWallpapaer(file),
+  });
+};
+
+export const useDeleteWallpaper = () => {
+  return useMutation({
+    mutationFn: deleteWallpaper,
   });
 };

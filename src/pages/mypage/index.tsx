@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 
+import Icon from '@/components/common/Icon';
 import AccountUpdateModal from '@/components/modal/AccountUpdateModal';
 import ShowFollowersModal from '@/components/modal/ShowFollowersModal';
 import WithdrawalModal from '@/components/modal/WithdrawalModal';
@@ -8,6 +9,7 @@ import ActivityBox from '@/components/mypage/ActivityBox';
 import Content from '@/components/mypage/Content';
 import InfoBox from '@/components/mypage/InfoBox';
 import { useModal } from '@/hooks/useModal';
+import { useMyPage } from '@/hooks/useMyPage';
 import { useAuth } from '@/stores/useAuth';
 import { useCheckMyPage } from '@/stores/useCheckMyPage';
 
@@ -23,11 +25,17 @@ const MyPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { isMyPage, setIsMyPage, setMemberId } = useCheckMyPage();
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const { isMyPage, setIsMyPage, setMemberId } = useCheckMyPage();
+  const { addWallpaper, deleteWallpaper, profileInfo } = useMyPage({
+    memberId: String(id),
+  });
   const { activeModal, openModal, closeModal } = useModal<ModalTypes>();
+
   const [followerModalType, setFollowerModalType] =
     useState<FollowerModalType>(null);
+  const [image, setImage] = useState<File>(profileInfo?.coverImage);
 
   useEffect(() => {
     if (id) {
@@ -38,6 +46,14 @@ const MyPage = () => {
       setMemberId(String(useAuth.getState().memberId));
     }
   }, [id]);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImage(file);
+      addWallpaper({ file });
+    }
+  };
 
   return (
     <>
@@ -50,10 +66,38 @@ const MyPage = () => {
       {activeModal === 'withdrawal' && <WithdrawalModal onClose={closeModal} />}
       <div className={styles.container}>
         <div className={styles.banner}>
-          <img
-            src={''}
-            alt=""
-            style={{ width: 'inherit', height: 'inherit', objectFit: 'cover' }}
+          {image ? (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="cover image"
+              style={{
+                width: 'inherit',
+                height: 'inherit',
+                objectFit: 'cover',
+              }}
+            />
+          ) : (
+            <div
+              className={css({
+                backgroundColor: 'main.light2',
+                height: '100%',
+              })}
+            />
+          )}
+          <button
+            className={styles.add_image}
+            onClick={() => inputRef?.current?.click()}
+            type="button"
+          >
+            <Icon
+              name={`camera-circle${profileInfo?.coverImage ? '' : '-dark'}`}
+            />
+          </button>
+          <input
+            type="file"
+            ref={inputRef}
+            onChange={handleImageChange}
+            hidden
           />
         </div>
 
@@ -91,7 +135,7 @@ const styles = {
     right: 0,
     top: 0,
     marginTop: '70px',
-    zIndex: -1,
+    zIndex: 0,
   }),
   info: flex({
     position: 'absoltue',
@@ -154,5 +198,15 @@ const styles = {
     textAlign: 'center',
     textStyle: 'button2',
     color: 'gray.300',
+  }),
+  add_image: css({
+    position: 'absolute',
+    bottom: '20px',
+    right: '20px',
+    cursor: 'pointer',
+    zIndex: 2,
+    background: 'none',
+    border: 'none',
+    padding: 0,
   }),
 };

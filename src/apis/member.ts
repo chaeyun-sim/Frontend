@@ -85,3 +85,13 @@ export const getTags = async (keyword: string) => {
   const response = await authInstance.get(`/tags?tagWord=${keyword}`);
   return response.data;
 };
+
+export const addWallpapaer = async (file: File) => {
+  const response = await authInstance.put(`/members/wallpaper`, file);
+  return response.data;
+};
+
+export const deleteWallpaper = async () => {
+  const response = await authInstance.delete(`/members/wallpaper`);
+  return response.data;
+};

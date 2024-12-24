@@ -2,7 +2,6 @@ import Image from 'next/image';
 
 import { useMyPage } from '@/hooks/useMyPage';
 import { useTab } from '@/hooks/useTab';
-import { useAuth } from '@/stores/useAuth';
 import { useCheckMyPage } from '@/stores/useCheckMyPage';
 
 import ArticleBox from './ArticleBox';
@@ -21,7 +20,7 @@ const Content = () => {
     memberId: String(memberId),
   });
   const { activeTab, isActive, handleTabChange } = useTab({
-    tabs: ['내가 쓴 댓글', '내 게시물'],
+    tabs: Object.values(TAB),
     initialValue: '내가 쓴 댓글',
   });
 
@@ -49,7 +48,7 @@ const Content = () => {
                   className={cx(
                     styles.article_title,
                     css({
-                      color: isActive(item) ? 'main.base' : '#d9d9d9',
+                      color: isActive(item) ? '#7C0DE4' : '#d9d9d9',
                     })
                   )}
                 >

@@ -160,6 +160,7 @@ const styles = {
     backgroundColor: 'white',
     boxShadow: 'shadow1',
     justifyContent: 'space-between',
+    zIndex: 1,
   }),
   tag: center({
     padding: '8px',
